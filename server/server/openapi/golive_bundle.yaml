@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info: { title: Go‑Live Hardening & Dry‑run (r11.5), version: "r11.5" }
+paths:
+  /admin/security/headers/demo:        { get:  { summary: Security headers demo (CSP/HSTS/PP) } }
+  /admin/compliance/docs:              { get:  { summary: Compliance texts (terms/privacy/ad disclosure) } }
+  /admin/retention/policy/list:        { get:  { summary: List retention TTL policies } }
+  /admin/retention/policy/upsert:      { post: { summary: Upsert retention TTL policies } }
+  /admin/prod/integration/dryrun:      { post: { summary: End‑to‑end payout integration dry‑run (send2) } }
+  /admin/prod/golive/checklist:        { get:  { summary: Consolidated Go‑Live checklist (gates/channels/TTL/security) } }
+

@@ -1,0 +1,15 @@
+{
+  "name": "p0-api-stub",
+  "version": "1.0.0",
+  "description": "P0 API 서버 스텁",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}
+

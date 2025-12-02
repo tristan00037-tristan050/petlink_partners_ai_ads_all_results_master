@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info: { title: Ledger UI + Recon Assist + Refund Incidents (r11.2), version: "r11.2" }
+paths:
+  /admin/ledger/ui:                 { get:  { summary: Ledger UI (HTML, filters: period, advertiser_id, kind) } }
+  /admin/ledger/evidence/view:      { get:  { summary: CI evidence preview (by txid) } }
+  /admin/ledger/recon/assist:       { get:  { summary: Auto match suggestions for recon diff (diff_id) } }
+  /admin/ledger/recon/apply-suggest:{ post: { summary: Apply suggestion (resolve diff) } }
+  /admin/ledger/refund/incidents:   { get:  { summary: List open refund incidents } }
+  /admin/ledger/refund/incidents/ack:{ post: { summary: ACK incident (id, note?) } }
+  /admin/ledger/refund/incidents/watch/run: { post: { summary: Run SLA watcher immediately } }
+

@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info: { title: T‑Day Orchestrator & Evidence (r11.6), version: "r11.6" }
+paths:
+  /admin/prod/tday/status:   { get:  { summary: T‑Day status (gate/launch/policy) } }
+  /admin/prod/tday/prepare:  { post: { summary: Prepare (snapshot runbook, dryrun default) } }
+  /admin/prod/tday/launch:   { post: { summary: Launch (set commit/policy, dryrun default) } }
+  /admin/prod/tday/rollback: { post: { summary: Rollback one step (dryrun default) } }
+  /admin/prod/golive/evidence/build: { get: { summary: Build & download Go‑Live evidence bundle (tgz) } }
+

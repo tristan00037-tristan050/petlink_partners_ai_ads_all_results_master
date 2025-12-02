@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetLink Partners - API 테스트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .api-item {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 10px;
+        }
+
+        .api-item:last-child {
+            border-bottom: none;
+        }
+
+        .api-method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .method-get {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .method-post {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .method-put {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .api-url {
+            font-family: monospace;
+            font-size: 14px;
+            color: #667eea;
+            margin: 5px 0;
+        }
+
+        .api-desc {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        .response {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f9fafb;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="back-link">← 메인으로</a>
+            <h1>PetLink Partners - API 테스트</h1>
+            <p style="color: #666; font-size: 14px;">v2.2 API 엔드포인트 테스트</p>
+        </header>
+
+        <div class="section">
+            <div class="section-title">서비스 Health Check</div>
+            <div class="api-item">
+                <span class="api-method method-get">GET</span>
+                <div class="api-url">/healthz</div>
+                <div class="api-desc">각 마이크로서비스의 상태 확인</div>
+                <button class="btn" onclick="testHealth('http://localhost:3002/healthz', 'pet-management-ms')">Pet Management MS 테스트</button>
+                <button class="btn" onclick="testHealth('http://localhost:3004/healthz', 'subscription-service')">Subscription Service 테스트</button>
+                <button class="btn" onclick="testHealth('http://localhost:3005/healthz', 'franchise-service')">Franchise Service 테스트</button>
+                <div id="health-response" class="response" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">v2.2 API 엔드포인트</div>
+            <div class="api-item">
+                <span class="api-method method-post">POST</span>
+                <div class="api-url">http://localhost:8080/auth/signup?mode=franchise_hq</div>
+                <div class="api-desc">HQ 회원가입</div>
+            </div>
+            <div class="api-item">
+                <span class="api-method method-post">POST</span>
+                <div class="api-url">http://localhost:3005/franchise/invite-branch</div>
+                <div class="api-desc">지점 초대</div>
+            </div>
+            <div class="api-item">
+                <span class="api-method method-post">POST</span>
+                <div class="api-url">http://localhost:3004/stores/{id}/start-trial</div>
+                <div class="api-desc">무료 체험 시작 (₩50,000 크레딧)</div>
+            </div>
+            <div class="api-item">
+                <span class="api-method method-post">POST</span>
+                <div class="api-url">http://localhost:3004/stores/{id}/topup</div>
+                <div class="api-desc">Top-Up (₩100,000 단위)</div>
+            </div>
+            <div class="api-item">
+                <span class="api-method method-get">GET</span>
+                <div class="api-url">http://localhost:3004/stores/{id}/wallet</div>
+                <div class="api-desc">지갑 잔액 확인</div>
+            </div>
+            <div class="api-item">
+                <span class="api-method method-put">PUT</span>
+                <div class="api-url">http://localhost:3005/hq/policies</div>
+                <div class="api-desc">HQ 정책 설정 (반경, 문구 템플릿, 금칙어, 영업시간)</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">테스트 스크립트</div>
+            <div class="api-desc">
+                전체 API 테스트 시나리오는 다음 스크립트를 실행하세요:
+            </div>
+            <div style="background: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 6px; margin-top: 10px; font-family: monospace; font-size: 12px;">
+                cd staging_proof_v2.2r3<br>
+                bash curl/requests.sh
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function testHealth(url, serviceName) {
+            const responseDiv = document.getElementById('health-response');
+            responseDiv.style.display = 'block';
+            responseDiv.textContent = `${serviceName} 확인 중...`;
+
+            try {
+                const response = await fetch(url, { 
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-store'
+                });
+                const data = await response.json();
+                responseDiv.textContent = JSON.stringify(data, null, 2);
+                responseDiv.style.background = response.ok ? '#d1fae5' : '#fee2e2';
+            } catch (error) {
+                responseDiv.textContent = `오류: ${error.message}`;
+                responseDiv.style.background = '#fee2e2';
+            }
+        }
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,5 @@
+openapi: 3.0.3
+info: { title: Admin Alerts, version: "r6.3" }
+paths:
+  /admin/reports/dlq/alert-check:     { post: { summary: DLQ alert throttle check,     responses: { '200': { description: OK } } } }
+  /admin/reports/quality/alert-check: { post: { summary: Quality alert threshold check, responses: { '200': { description: OK } } } }

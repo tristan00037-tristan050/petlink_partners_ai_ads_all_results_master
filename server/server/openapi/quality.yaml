@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info: { title: AI Quality API, version: "g2" }
+paths:
+  /admin/reports/quality.json: { get: { summary: Quality metrics JSON, responses: { '200': { description: OK } } } }
+  /admin/reports/quality:     { get: { summary: Quality metrics HTML, responses: { '200': { description: OK } } } }
+  /admin/ads/billing/preflight:
+    get: { summary: Bootpay preflight (sandbox only), responses: { '200': { description: OK } } }

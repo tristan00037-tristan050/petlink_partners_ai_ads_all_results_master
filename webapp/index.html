@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>펫링크 파트너스 - 반려동물 광고 자동화</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="stylesheet" href="/web/shared/theme.css?v=3">
+    <link rel="stylesheet" href="/web/shared/ui.css?v=3">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 헤더 */
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .header-link {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .header-link:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .header-link.active {
+            background: #667eea;
+            color: #fff;
+        }
+
+        /* 메인 컨텐츠 */
+        #app {
+            min-height: calc(100vh - 80px);
+            padding: 40px 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 60px 20px;
+            color: #dc2626;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .header-nav {
+                flex-wrap: wrap;
+            }
+            .header-link {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo" onclick="router.navigate('home'); return false;">
+                <span>🐾</span>
+                <span>펫링크 파트너스</span>
+            </a>
+            <nav class="header-nav">
+                <button class="header-link" onclick="router.navigate('home')" data-route="home">홈</button>
+                <button class="header-link" onclick="router.navigate('store')" data-route="store">My Store</button>
+                <button class="header-link" onclick="router.navigate('plans')" data-route="plans">요금제</button>
+                <button class="header-link" onclick="router.navigate('campaigns')" data-route="campaigns">광고 관리</button>
+                <button class="header-link" onclick="router.navigate('auth')" data-route="auth">로그인</button>
+            </nav>
+        </div>
+    </header>
+
+    <div id="app">
+        <div class="loading">로딩 중...</div>
+    </div>
+
+    <script type="module">
+        import router from './src/router.js';
+        
+        // 전역 라우터 노출
+        window.router = router;
+        
+        // 초기 로드
+        const hash = window.location.hash.slice(1) || 'home';
+        router.navigate(hash);
+    </script>
+</body>
+</html>

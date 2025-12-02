@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><title>SSO Bridge</title>
+<script>
+(function(){
+  const target = (new URLSearchParams(location.search)).get("target") || (window.opener? "*" : "http://localhost:3000");
+  try{
+    const data = JSON.parse(decodeURIComponent((new URLSearchParams(location.search)).get("payload")||"{}"));
+    if (window.opener) window.opener.postMessage({ kind:"sso", surface:"app", ok:true, data }, "http://localhost:3000");
+    setTimeout(()=>window.close(), 100);
+  }catch(e){ document.body.textContent="bridge_error"; }
+})();
+</script>

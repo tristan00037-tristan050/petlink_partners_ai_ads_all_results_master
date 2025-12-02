@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>펫링크 파트너스 - 반려동물 광고 자동화</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* 헤더 - 개선된 버전 */
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        /* 모바일 햄버거 메뉴 */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .header-link {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .header-link:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .header-link.active {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .header-link-icon {
+            font-size: 18px;
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 28px;
+            opacity: 0.95;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .media-list {
+            margin: 24px 0;
+            padding: 16px 24px;
+            background: transparent;
+            border-radius: 12px;
+            text-align: left;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .media-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.95);
+            letter-spacing: 0.02em;
+            text-align: center;
+        }
+
+        .media-items {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .media-item {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.2s;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .media-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: #fff;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* 기능 섹션 */
+        .features {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #111;
+            font-weight: 700;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            border-color: #667eea;
+        }
+
+        .feature-icon {
+            font-size: 56px;
+            margin-bottom: 24px;
+        }
+
+        .feature-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .feature-desc {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* 푸터 */
+        footer {
+            background: #1f2937;
+            color: #fff;
+            padding: 50px 20px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: #fff;
+        }
+
+        .footer-copyright {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s;
+            }
+
+            .header-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .header-link {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .media-list {
+                padding: 12px 16px;
+                margin: 20px 0;
+                max-width: 95%;
+            }
+
+            .media-label {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+
+            .media-items {
+                gap: 5px;
+                justify-content: center;
+            }
+
+            .media-item {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+
+            .cta-button {
+                padding: 16px 32px;
+                font-size: 16px;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-card {
+                padding: 30px 20px;
+            }
+        }
+
+        /* 계약서 적립 모달 스타일 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 32px;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #111;
+        }
+
+        .info-section {
+            margin-bottom: 24px;
+        }
+
+        .info-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            padding: 10px 0;
+            padding-left: 28px;
+            position: relative;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .info-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 24px 0;
+        }
+
+        .highlight-box strong {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .modal-button {
+            width: 100%;
+            padding: 16px;
+            background: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 24px;
+        }
+
+        .modal-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .modal-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/landing.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>펫링크 파트너스</span>
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="메뉴">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="header-nav" id="headerNav">
+                <a href="/landing.html" class="header-link active">
+                    <span class="header-link-icon">🏠</span>
+                    <span>홈</span>
+                </a>
+                <a href="/pricing.html" class="header-link">
+                    <span class="header-link-icon">💰</span>
+                    <span>요금제</span>
+                </a>
+                <a href="/pet-register.html" class="header-link">
+                    <span class="header-link-icon">🐾</span>
+                    <span>반려동물 등록</span>
+                </a>
+                <a href="/help.html" class="header-link">
+                    <span class="header-link-icon">❓</span>
+                    <span>도움말</span>
+                </a>
+                <a href="/auth.html" class="header-link">
+                    <span class="header-link-icon">👤</span>
+                    <span>회원가입</span>
+                </a>
+                <a href="/mypage.html" class="header-link">
+                    <span class="header-link-icon">📋</span>
+                    <span>마이페이지</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>AI기반 반려동물 광고 자동화 플랫폼</h1>
+            <p>반려동물만 등록하세요. 선택하신 매체에 자동으로 광고가 노출됩니다</p>
+            <div class="media-list">
+                <span class="media-label">노출 매체</span>
+                <div class="media-items">
+                    <span class="media-item">인스타그램</span>
+                    <span class="media-item">페이스북</span>
+                    <span class="media-item">틱톡</span>
+                    <span class="media-item">네이버 블로그/포스트</span>
+                    <span class="media-item">유투브(쇼츠)</span>
+                    <span class="media-item">카카오 채널</span>
+                </div>
+            </div>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px;">
+                <a href="#" onclick="handleStartAd(); return false;" class="cta-button">🚀 분양광고 시작하기</a>
+                <a href="#" onclick="showContractBonusInfo(); return false;" class="cta-button" style="background: rgba(255,255,255,0.2); color: #fff; border: 2px solid #fff;">📄 계약서 적립 알아보기</a>
+                <a href="/frontend/how-ads-work.html" class="cta-button" style="background: rgba(255,255,255,0.2); color: #fff; border: 2px solid #fff;">💡 광고 작동 원리 알아보기</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">이렇게 쉽게 사용하세요</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-title">자동 광고 시작</div>
+                <div class="feature-desc">반려동물을 등록만 하시면 자동으로 인스타그램, 페이스북, 틱톡에 광고가 시작됩니다.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">광고 결과 확인</div>
+                <div class="feature-desc">누가 봤는지, 몇 명이 봤는지 실시간으로 확인할 수 있습니다.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <div class="feature-title">고객 문의 받기</div>
+                <div class="feature-desc">전화, 카카오톡, 문자 등으로 고객 문의를 받을 수 있습니다.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <div class="feature-title">스마트폰에서도 사용</div>
+                <div class="feature-desc">컴퓨터와 스마트폰 어디서나 사용할 수 있습니다.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏢</div>
+                <div class="feature-title">여러 매장 관리</div>
+                <div class="feature-desc">본사에서 여러 지점의 광고를 한 번에 관리할 수 있습니다.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <div class="feature-title">한 달 요금으로 끝</div>
+                <div class="feature-desc">한 달에 정해진 요금만 내면 추가 요금은 없습니다.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 계약서 적립 안내 모달 -->
+    <div class="modal-overlay" id="contractBonusModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📄 분양계약서 등록 시 광고비 적립</h2>
+                <button class="modal-close" onclick="closeContractBonusInfo()">&times;</button>
+            </div>
+            
+            <div class="info-section">
+                <div class="highlight-box">
+                    <strong>계약서 1장당 1,000원 적립!</strong>
+                    <div>분양계약서를 등록하시면 광고비로 바로 사용할 수 있는 크레딧이 적립됩니다.</div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-title">
+                    <span>💰 적립 혜택</span>
+                </div>
+                <ul class="info-list">
+                    <li>계약서 1장당 1,000원이 광고비로 적립됩니다</li>
+                    <li>계약당 최대 3장까지 적립 가능합니다</li>
+                    <li>월 최대 100장까지 적립 가능합니다</li>
+                    <li>적립된 광고비는 3개월간 유효합니다</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <div class="info-title">
+                    <span>⏰ 등록 기간</span>
+                </div>
+                <ul class="info-list">
+                    <li>계약 체결일로부터 48시간 이내에 등록해야 합니다</li>
+                    <li>계약서는 JPG, PNG, PDF 형식으로 업로드 가능합니다</li>
+                    <li>각 파일은 최대 10MB까지 업로드 가능합니다</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <div class="info-title">
+                    <span>📋 등록 방법</span>
+                </div>
+                <ul class="info-list">
+                    <li>회원가입 후 대시보드에서 "계약서 업로드" 버튼 클릭</li>
+                    <li>계약 정보 입력 (계약 ID, 계약일, 동물등록번호, 구매자 정보)</li>
+                    <li>계약서 파일 업로드</li>
+                    <li>자동 검수 후 승인되면 즉시 적립됩니다</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <div class="info-title">
+                    <span>💡 유의사항</span>
+                </div>
+                <ul class="info-list">
+                    <li>동일한 계약서는 중복 등록할 수 없습니다</li>
+                    <li>OCR 신뢰도가 낮은 경우 검수 대기 후 적립될 수 있습니다</li>
+                    <li>적립된 광고비는 광고 운영에만 사용 가능합니다</li>
+                </ul>
+            </div>
+
+            <button class="modal-button" onclick="handleContractUpload()" id="contractUploadBtn">
+                계약서 등록하러 가기
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/pricing.html" class="footer-link">요금제</a>
+                <a href="/help.html" class="footer-link">도움말</a>
+                <a href="/franchise-hq.html" class="footer-link">본사 관리</a>
+                <a href="/status.html" class="footer-link">서비스 상태</a>
+            </div>
+            <div class="footer-copyright">
+                © 2025 펫링크 파트너스. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('headerNav');
+            nav.classList.toggle('active');
+        }
+
+        // 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('headerNav');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // 분양광고 시작하기 버튼 클릭 시 회원가입 여부 확인
+        function handleStartAd() {
+            const token = localStorage.getItem('auth_token');
+            if (token) {
+                // 회원가입 되어 있으면 광고 설정하기 화면으로 이동
+                window.location.href = '/web/pages/channel_prefs.html';
+            } else {
+                // 회원가입 안 되어 있으면 회원가입 화면으로 이동
+                window.location.href = '/frontend/auth.html';
+            }
+        }
+
+        // 계약서 적립 안내 모달 표시
+        function showContractBonusInfo() {
+            const modal = document.getElementById('contractBonusModal');
+            modal.classList.add('active');
+        }
+
+        // 모달 닫기
+        function closeContractBonusInfo() {
+            const modal = document.getElementById('contractBonusModal');
+            modal.classList.remove('active');
+        }
+
+        // 모달 외부 클릭 시 닫기
+        document.getElementById('contractBonusModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeContractBonusInfo();
+            }
+        });
+
+        // 계약서 등록하러 가기 버튼 클릭
+        function handleContractUpload() {
+            const token = localStorage.getItem('auth_token');
+            if (token) {
+                // 회원가입 되어 있으면 대시보드로 이동
+                window.location.href = '/dashboard.html';
+            } else {
+                // 회원가입 안 되어 있으면 회원가입 화면으로 이동
+                alert('계약서 등록 기능을 사용하시려면 먼저 회원가입이 필요합니다.');
+                window.location.href = '/frontend/auth.html';
+            }
+        }
+    </script>
+</body>
+</html>

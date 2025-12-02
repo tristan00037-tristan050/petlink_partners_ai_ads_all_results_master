@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분양매장 정보 등록 - 펫링크 파트너스</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 2px solid #e5e7eb;
+        }
+
+        .form-card h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #111;
+            font-weight: 700;
+        }
+
+        .form-card p {
+            color: #666;
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 40px auto;
+            }
+
+            .form-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/landing.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>펫링크 파트너스</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-card">
+            <h1>분양매장 정보 등록</h1>
+            <p>회원가입이 완료되었습니다. 분양매장 정보를 입력해주세요.</p>
+
+            <div id="error-message" class="error-message"></div>
+
+            <form id="store-form" onsubmit="handleStoreRegister(event)">
+                <div class="form-group">
+                    <label for="store-name">매장명 *</label>
+                    <input type="text" id="store-name" name="store-name" required placeholder="예: 강아지 분양센터">
+                </div>
+
+                <div class="form-group">
+                    <label for="store-type">매장 유형 *</label>
+                    <select id="store-type" name="store-type" required>
+                        <option value="">선택하세요</option>
+                        <option value="franchise">프랜차이즈 지점</option>
+                        <option value="individual">개인 매장</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">연락처 *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="010-1234-5678">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">주소 *</label>
+                    <input type="text" id="address" name="address" required placeholder="서울시 강남구 테헤란로 123">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">매장 소개</label>
+                    <textarea id="description" name="description" placeholder="매장에 대한 간단한 소개를 입력하세요"></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">정보 등록 완료</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function handleStoreRegister(event) {
+            event.preventDefault();
+            
+            const storeData = {
+                store_name: document.getElementById('store-name').value,
+                store_type: document.getElementById('store-type').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                description: document.getElementById('description').value
+            };
+
+            const errorEl = document.getElementById('error-message');
+
+            try {
+                const response = await fetch('/api/stores/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                    },
+                    body: JSON.stringify(storeData)
+                });
+
+                const data = await response.json();
+
+                if (data.ok || response.ok) {
+                    // 마이페이지로 이동
+                    window.location.href = '/mypage.html';
+                } else {
+                    errorEl.textContent = data.error || '정보 등록에 실패했습니다.';
+                    errorEl.classList.add('show');
+                }
+            } catch (error) {
+                // API가 없으면 로컬 스토리지에 저장하고 바로 이동 (개발용)
+                console.warn('API 호출 실패, 로컬 모드로 진행:', error);
+                localStorage.setItem('store_info', JSON.stringify(storeData));
+                window.location.href = '/mypage.html';
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,43 @@
+# Page snapshot
+
+```yaml
+- generic [active]:
+  - alert [ref=e1]
+  - dialog [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - heading "Build Error" [level=1] [ref=e7]
+        - paragraph [ref=e8]: Failed to compile
+        - generic [ref=e9]:
+          - text: Next.js (14.2.4) is outdated
+          - link "(learn more)" [ref=e11] [cursor=pointer]:
+            - /url: https://nextjs.org/docs/messages/version-staleness
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - link "./app/plans/page.tsx" [ref=e14] [cursor=pointer]:
+            - text: ./app/plans/page.tsx
+            - img [ref=e15]
+          - generic [ref=e19]:
+            - generic [ref=e20]: "Error:"
+            - text: x
+            - generic [ref=e21]: "Unexpected token `main`. Expected jsx identifier ,-["
+            - generic [ref=e22]: /Users/atlink/Desktop/파트너스 공고플랫폼/petlink_partners_ai_ads_all_results_master/extracted/production/apps/owner/app/plans/page.tsx
+            - generic [ref=e23]: :92:1]
+            - text: "92"
+            - generic [ref=e24]: "| if (!plans.length) return <p>요금제가 없습니다.</p>;"
+            - text: "93"
+            - generic [ref=e25]: "|"
+            - text: "94"
+            - generic [ref=e26]: "| return ("
+            - text: "95"
+            - generic [ref=e27]: "| <main style={{ maxWidth: 780, margin: \"24px auto\", padding: 16 }}> :"
+            - generic [ref=e28]: ^^^^
+            - text: "96"
+            - generic [ref=e29]: "| <h2>요금제</h2>"
+            - text: "97"
+            - generic [ref=e30]: "| <div style={{ display: \"grid\", gap: 12 }}>"
+            - text: "98"
+            - generic [ref=e31]: "| {plans.map((p) => ( `---- Caused by: Syntax Error"
+        - contentinfo [ref=e32]:
+          - paragraph [ref=e33]: This error occurred during the build process and can only be dismissed by fixing the error.
+```

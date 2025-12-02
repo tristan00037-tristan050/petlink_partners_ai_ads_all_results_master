@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>펫링크 파트너스 - 반려동물 등록</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 헤더 */
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .header-link {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .header-link:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .header-link.active {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .header-link-icon {
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .page-title {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #111;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .form-label .required {
+            color: #ef4444;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            min-height: 120px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #f9fafb;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: #eff6ff;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .file-preview {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .file-size {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-remove {
+            padding: 8px 16px;
+            background: #fee2e2;
+            color: #991b1b;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-remove:hover {
+            background: #fecaca;
+        }
+
+        .btn-enhance {
+            padding: 8px 16px;
+            background: #dbeafe;
+            color: #1e40af;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-enhance:hover {
+            background: #bfdbfe;
+        }
+
+        .btn-enhance.processing {
+            background: #f3f4f6;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        .limit-info {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .limit-info.error {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+            color: #991b1b;
+        }
+
+        .submit-section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-submit {
+            padding: 16px 40px;
+            background: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #667eea;
+            transition: width 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s;
+            }
+
+            .header-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .header-link {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            .submit-section {
+                flex-direction: column;
+                gap: 20px;
+                padding: 30px 20px;
+            }
+
+            .btn-submit {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/landing.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>펫링크 파트너스</span>
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="메뉴">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="header-nav" id="headerNav">
+                <a href="/landing.html" class="header-link">
+                    <span class="header-link-icon">🏠</span>
+                    <span>홈</span>
+                </a>
+                <a href="/pricing.html" class="header-link">
+                    <span class="header-link-icon">💰</span>
+                    <span>요금제</span>
+                </a>
+                <a href="/help.html" class="header-link">
+                    <span class="header-link-icon">❓</span>
+                    <span>도움말</span>
+                </a>
+                <a href="/franchise-hq.html" class="header-link">
+                    <span class="header-link-icon">🏢</span>
+                    <span>본사 관리</span>
+                </a>
+                <a href="/status.html" class="header-link">
+                    <span class="header-link-icon">📊</span>
+                    <span>서비스 상태</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">반려동물 등록</h1>
+        <p class="page-subtitle">반려동물 정보를 등록하세요. 등록하시면 자동으로 광고가 시작됩니다.</p>
+
+        <form id="petRegisterForm">
+            <!-- 기본 정보 -->
+            <div class="form-section">
+                <h2 style="font-size: 24px; margin-bottom: 24px; color: #111;">기본 정보</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        반려동물 이름 <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input" name="pet_name" required placeholder="예: 뽀삐">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        종류 <span class="required">*</span>
+                    </label>
+                    <select class="form-input" name="pet_type" required>
+                        <option value="">선택하세요</option>
+                        <option value="dog">강아지</option>
+                        <option value="cat">고양이</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        품종
+                    </label>
+                    <input type="text" class="form-input" name="breed" placeholder="예: 골든 리트리버">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        나이
+                    </label>
+                    <input type="text" class="form-input" name="age" placeholder="예: 3개월">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        성별
+                    </label>
+                    <select class="form-input" name="gender">
+                        <option value="">선택하세요</option>
+                        <option value="male">수컷</option>
+                        <option value="female">암컷</option>
+                        <option value="unknown">모름</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        소개글 <span class="required">*</span>
+                    </label>
+                    <textarea 
+                        class="form-textarea" 
+                        name="description" 
+                        id="descriptionInput"
+                        required
+                        maxlength="2200"
+                        placeholder="반려동물에 대한 소개글을 작성하세요. 해시태그(#)를 사용할 수 있습니다.&#10;&#10;예시:&#10;사랑스러운 포메라니안 강아지 새 가족을 찾고 있습니다! 활발하고 애교 많은 성격으로 가족의 일원으로 딱이에요. #포메라니안 #강아지입양 #반려동물"
+                        rows="6"
+                    ></textarea>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                        <div style="font-size: 12px; color: #666;">
+                            <span id="charCount">0</span> / 2,200자 
+                            <span style="margin-left: 12px; color: #9ca3af;">
+                                (인스타그램/페이스북/틱톡 최대 길이)
+                            </span>
+                        </div>
+                        <div style="font-size: 11px; color: #ef4444; display: none;" id="forbiddenWarning">
+                            ⚠️ 전화번호, 카카오톡, 주소는 입력할 수 없습니다
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #667eea; margin-top: 4px;">
+                        💡 매장 상호명은 포함 가능합니다. 해시태그를 사용하면 더 많은 사람들에게 노출됩니다.
+                    </div>
+                    
+                    <!-- 금칙어 안내 섹션 -->
+                    <div style="background: #fef3c7; border: 1px solid #fbbf24; border-radius: 12px; padding: 20px; margin-top: 20px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                            <span style="font-size: 20px;">⚠️</span>
+                            <h3 style="font-size: 16px; font-weight: 700; color: #92400e; margin: 0;">금칙어 안내</h3>
+                        </div>
+                        
+                        <div style="margin-bottom: 16px;">
+                            <p style="font-size: 14px; color: #78350f; line-height: 1.6; margin-bottom: 12px;">
+                                소개글에는 다음 내용을 포함할 수 없습니다. 이는 각 광고 플랫폼의 정책을 준수하고, 안전한 거래 환경을 만들기 위함입니다.
+                            </p>
+                        </div>
+                        
+                        <div style="background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                            <div style="font-size: 14px; font-weight: 600; color: #78350f; margin-bottom: 12px;">❌ 금지 항목 예시:</div>
+                            <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #92400e; line-height: 1.8;">
+                                <li><strong>연락처 정보:</strong> 전화번호 (예: 010-1234-5678, 01012345678)</li>
+                                <li><strong>메신저 정보:</strong> 카카오톡, 카톡, 카카오톡 ID</li>
+                                <li><strong>주소 정보:</strong> 상세 주소, 도로명 주소, 지번 주소</li>
+                                <li><strong>과장된 표현:</strong> "무료", "공짜", "100% 보장", "전액환불" 등</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #ecfdf5; border-left: 4px solid #10b981; border-radius: 8px; padding: 16px;">
+                            <div style="font-size: 14px; font-weight: 600; color: #065f46; margin-bottom: 8px;">💡 왜 금지되나요?</div>
+                            <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #047857; line-height: 1.8;">
+                                <li><strong>플랫폼 정책 준수:</strong> 인스타그램, 페이스북, 틱톡 등은 직접 연락처나 주소 공개를 제한합니다.</li>
+                                <li><strong>사기 방지:</strong> 개인정보 노출을 최소화하여 안전한 거래를 보장합니다.</li>
+                                <li><strong>광고 승인률 향상:</strong> 정책 위반으로 인한 광고 거부를 방지합니다.</li>
+                                <li><strong>과장 광고 방지:</strong> 과도한 표현은 광고 플랫폼에서 제재 대상이 될 수 있습니다.</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 12px; padding: 12px; background: #dbeafe; border-radius: 8px;">
+                            <div style="font-size: 13px; color: #1e40af; line-height: 1.6;">
+                                <strong>✅ 대안:</strong> 연락이 필요하시면 매장 상호명을 포함하거나, 플랫폼의 메시지 기능을 활용하세요. 
+                                매장 정보는 별도로 등록할 수 있으며, 관심 있는 분들이 문의할 수 있는 안전한 경로를 제공합니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 사진 업로드 -->
+            <div class="form-section">
+                <h2 style="font-size: 24px; margin-bottom: 24px; color: #111;">사진 등록</h2>
+                
+                <div class="upload-area" id="photoUploadArea">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">사진을 드래그하거나 클릭하여 업로드</div>
+                    <div class="upload-hint">최대 10장, 각 파일 5MB 이하 (JPG, PNG, WEBP)</div>
+                    <input type="file" id="photoInput" multiple accept="image/jpeg,image/png,image/webp" style="display: none;">
+                </div>
+
+                <div class="limit-info" id="photoLimitInfo">
+                    📸 사진: <span id="photoCount">0</span> / 10장 | 총 용량: <span id="photoTotalSize">0</span> MB
+                </div>
+
+                <div class="file-list" id="photoList"></div>
+            </div>
+
+            <!-- 영상 업로드 -->
+            <div class="form-section">
+                <h2 style="font-size: 24px; margin-bottom: 24px; color: #111;">영상 등록 (선택)</h2>
+                
+                <div class="upload-area" id="videoUploadArea">
+                    <div class="upload-icon">🎥</div>
+                    <div class="upload-text">영상을 드래그하거나 클릭하여 업로드</div>
+                    <div class="upload-hint">최대 3개, 각 파일 100MB 이하 (MP4, MOV, AVI)</div>
+                    <input type="file" id="videoInput" multiple accept="video/mp4,video/quicktime,video/x-msvideo" style="display: none;">
+                </div>
+
+                <div class="limit-info" id="videoLimitInfo">
+                    🎥 영상: <span id="videoCount">0</span> / 3개 | 총 용량: <span id="videoTotalSize">0</span> MB
+                </div>
+
+                <div class="file-list" id="videoList"></div>
+            </div>
+
+            <!-- 채널 선택 (v2.5) -->
+            <div class="form-section" style="margin-top: 30px;">
+                <h2 style="font-size: 20px; margin-bottom: 20px; color: #111;">광고 노출 채널 선택</h2>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="animal-override-checkbox" style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; cursor: pointer;">
+                        <input type="checkbox" id="useChannelOverride" style="width: 20px; height: 20px; accent-color: #667eea;">
+                        <span style="font-size: 16px; color: #333;">매장 기본 설정 사용 (권장)</span>
+                    </label>
+                    <p style="font-size: 14px; color: #666; margin-left: 32px; line-height: 1.6;">
+                        매장에서 설정한 기본 채널에 자동으로 노출됩니다. 특정 채널만 선택하려면 체크를 해제하세요.
+                    </p>
+                </div>
+                
+                <div id="channelOverrideOptions" style="display: none;">
+                    <div class="channel-checkboxes" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
+                        <label class="channel-checkbox-label" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fff; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; transition: all 0.3s;">
+                            <input type="checkbox" id="animalIgEnabled" style="width: 20px; height: 20px; accent-color: #667eea;">
+                            <span>인스타그램/페이스북</span>
+                        </label>
+                        <label class="channel-checkbox-label" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fff; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; transition: all 0.3s;">
+                            <input type="checkbox" id="animalTtEnabled" style="width: 20px; height: 20px; accent-color: #667eea;">
+                            <span>틱톡</span>
+                        </label>
+                        <label class="channel-checkbox-label" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fff; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; transition: all 0.3s;">
+                            <input type="checkbox" id="animalYtEnabled" style="width: 20px; height: 20px; accent-color: #667eea;">
+                            <span>유튜브</span>
+                        </label>
+                        <label class="channel-checkbox-label" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fff; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; transition: all 0.3s;">
+                            <input type="checkbox" id="animalKakaoEnabled" style="width: 20px; height: 20px; accent-color: #667eea;">
+                            <span>카카오</span>
+                        </label>
+                        <label class="channel-checkbox-label" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fff; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; transition: all 0.3s;">
+                            <input type="checkbox" id="animalNaverEnabled" style="width: 20px; height: 20px; accent-color: #667eea;">
+                            <span>네이버</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 제출 버튼 -->
+            <div class="submit-section">
+                <div>
+                    <div style="font-size: 14px; color: #666; margin-bottom: 8px;">등록 후 자동으로 광고가 시작됩니다</div>
+                    <div style="font-size: 12px; color: #9ca3af;">선택한 채널에 자동으로 노출됩니다</div>
+                </div>
+                <button type="submit" class="btn-submit" id="submitBtn">등록하기</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 설정값
+        const MAX_PHOTOS = 10;
+        const MAX_PHOTO_SIZE = 5 * 1024 * 1024; // 5MB
+        const MAX_VIDEOS = 3;
+        const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
+        const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+        const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/quicktime', 'video/x-msvideo'];
+
+        let photos = [];
+        let videos = [];
+
+        // 소개글 글자수 제한 및 금지 단어 필터링
+        const MAX_DESCRIPTION_LENGTH = 2200; // 인스타그램/페이스북/틱톡 최대 길이
+        const FORBIDDEN_PATTERNS = [
+            // 전화번호 패턴 (010-1234-5678, 01012345678, 02-123-4567 등)
+            /\d{2,3}[-.\s]?\d{3,4}[-.\s]?\d{4}/g,
+            // 카카오톡 패턴 (카톡, 카카오톡, kakaotalk 등)
+            /카[톳톡]|카카오톡|kakaotalk|kakao\s*talk/gi,
+            // 주소 패턴 (시, 구, 동, 번지 등)
+            /(서울|부산|대구|인천|광주|대전|울산|세종|경기|강원|충북|충남|전북|전남|경북|경남|제주)\s*(시|도|특별시|광역시)?/g,
+            /[가-힣]{1,3}(시|도|구|군|읍|면|동|리|번지)/g,
+            // 우편번호 패턴
+            /\d{5}/g
+        ];
+
+        // 소개글 입력 이벤트
+        const descriptionInput = document.getElementById('descriptionInput');
+        const charCount = document.getElementById('charCount');
+        const forbiddenWarning = document.getElementById('forbiddenWarning');
+
+        descriptionInput.addEventListener('input', function() {
+            let text = this.value;
+            
+            // 글자수 카운트
+            const currentLength = text.length;
+            charCount.textContent = currentLength;
+            
+            // 글자수 색상 변경
+            if (currentLength > MAX_DESCRIPTION_LENGTH * 0.9) {
+                charCount.style.color = '#ef4444';
+            } else if (currentLength > MAX_DESCRIPTION_LENGTH * 0.7) {
+                charCount.style.color = '#f59e0b';
+            } else {
+                charCount.style.color = '#666';
+            }
+            
+            // 금지 단어 검사
+            let hasForbidden = false;
+            for (const pattern of FORBIDDEN_PATTERNS) {
+                if (pattern.test(text)) {
+                    hasForbidden = true;
+                    break;
+                }
+            }
+            
+            if (hasForbidden) {
+                forbiddenWarning.style.display = 'block';
+                this.style.borderColor = '#ef4444';
+            } else {
+                forbiddenWarning.style.display = 'none';
+                this.style.borderColor = '';
+            }
+        });
+
+        // 폼 제출 시 금지 단어 최종 검사
+        function validateDescription(text) {
+            for (const pattern of FORBIDDEN_PATTERNS) {
+                if (pattern.test(text)) {
+                    return {
+                        valid: false,
+                        message: '소개글에 전화번호, 카카오톡, 주소 등 연락처 정보를 입력할 수 없습니다.'
+                    };
+                }
+            }
+            return { valid: true };
+        }
+
+        // 메뉴 토글
+        function toggleMenu() {
+            const nav = document.getElementById('headerNav');
+            nav.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('headerNav');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // 파일 크기 포맷
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        // 사진 업로드
+        const photoInput = document.getElementById('photoInput');
+        const photoUploadArea = document.getElementById('photoUploadArea');
+        const photoList = document.getElementById('photoList');
+
+        photoUploadArea.addEventListener('click', () => photoInput.click());
+        photoUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            photoUploadArea.classList.add('dragover');
+        });
+        photoUploadArea.addEventListener('dragleave', () => {
+            photoUploadArea.classList.remove('dragover');
+        });
+        photoUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            photoUploadArea.classList.remove('dragover');
+            handlePhotoFiles(Array.from(e.dataTransfer.files));
+        });
+
+        photoInput.addEventListener('change', (e) => {
+            handlePhotoFiles(Array.from(e.target.files));
+        });
+
+        function handlePhotoFiles(files) {
+            files.forEach(file => {
+                if (photos.length >= MAX_PHOTOS) {
+                    alert(`사진은 최대 ${MAX_PHOTOS}장까지 등록할 수 있습니다.`);
+                    return;
+                }
+
+                if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+                    alert('JPG, PNG, WEBP 형식만 업로드 가능합니다.');
+                    return;
+                }
+
+                if (file.size > MAX_PHOTO_SIZE) {
+                    alert(`각 사진은 최대 ${formatFileSize(MAX_PHOTO_SIZE)}까지 업로드 가능합니다.`);
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    photos.push({
+                        file: file,
+                        preview: e.target.result,
+                        enhanced: false
+                    });
+                    updatePhotoList();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updatePhotoList() {
+            photoList.innerHTML = '';
+            let totalSize = 0;
+
+            photos.forEach((photo, index) => {
+                totalSize += photo.file.size;
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.innerHTML = `
+                    <img src="${photo.preview}" class="file-preview" alt="미리보기">
+                    <div class="file-info">
+                        <div class="file-name">${photo.file.name}</div>
+                        <div class="file-size">${formatFileSize(photo.file.size)}</div>
+                    </div>
+                    <div class="file-actions">
+                        <button type="button" class="btn-enhance ${photo.enhanced ? 'processing' : ''}" onclick="enhancePhoto(${index})">
+                            ${photo.enhanced ? '✓ 보정 완료' : '✨ 자동 보정'}
+                        </button>
+                        <button type="button" class="btn-remove" onclick="removePhoto(${index})">삭제</button>
+                    </div>
+                `;
+                photoList.appendChild(item);
+            });
+
+            document.getElementById('photoCount').textContent = photos.length;
+            document.getElementById('photoTotalSize').textContent = (totalSize / (1024 * 1024)).toFixed(2);
+
+            const limitInfo = document.getElementById('photoLimitInfo');
+            if (photos.length >= MAX_PHOTOS) {
+                limitInfo.classList.add('error');
+                limitInfo.textContent = `⚠️ 사진은 최대 ${MAX_PHOTOS}장까지 등록할 수 있습니다.`;
+            } else {
+                limitInfo.classList.remove('error');
+                limitInfo.innerHTML = `📸 사진: <span id="photoCount">${photos.length}</span> / ${MAX_PHOTOS}장 | 총 용량: <span id="photoTotalSize">${(totalSize / (1024 * 1024)).toFixed(2)}</span> MB`;
+            }
+        }
+
+        function removePhoto(index) {
+            photos.splice(index, 1);
+            updatePhotoList();
+        }
+
+        async function enhancePhoto(index) {
+            if (photos[index].enhanced) return;
+
+            const btn = event.target;
+            btn.classList.add('processing');
+            btn.textContent = '보정 중...';
+
+            try {
+                // 실제로는 파일을 서버에 업로드한 후 보정 요청
+                // 현재는 클라이언트에서 시뮬레이션
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                photos[index].enhanced = true;
+                updatePhotoList();
+            } catch (error) {
+                alert('이미지 보정 중 오류가 발생했습니다.');
+                btn.classList.remove('processing');
+                btn.textContent = '✨ 자동 보정';
+            }
+        }
+
+        // 영상 업로드
+        const videoInput = document.getElementById('videoInput');
+        const videoUploadArea = document.getElementById('videoUploadArea');
+        const videoList = document.getElementById('videoList');
+
+        videoUploadArea.addEventListener('click', () => videoInput.click());
+        videoUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            videoUploadArea.classList.add('dragover');
+        });
+        videoUploadArea.addEventListener('dragleave', () => {
+            videoUploadArea.classList.remove('dragover');
+        });
+        videoUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            videoUploadArea.classList.remove('dragover');
+            handleVideoFiles(Array.from(e.dataTransfer.files));
+        });
+
+        videoInput.addEventListener('change', (e) => {
+            handleVideoFiles(Array.from(e.target.files));
+        });
+
+        function handleVideoFiles(files) {
+            files.forEach(file => {
+                if (videos.length >= MAX_VIDEOS) {
+                    alert(`영상은 최대 ${MAX_VIDEOS}개까지 등록할 수 있습니다.`);
+                    return;
+                }
+
+                if (!ALLOWED_VIDEO_TYPES.includes(file.type)) {
+                    alert('MP4, MOV, AVI 형식만 업로드 가능합니다.');
+                    return;
+                }
+
+                if (file.size > MAX_VIDEO_SIZE) {
+                    alert(`각 영상은 최대 ${formatFileSize(MAX_VIDEO_SIZE)}까지 업로드 가능합니다.`);
+                    return;
+                }
+
+                videos.push({ file: file });
+                updateVideoList();
+            });
+        }
+
+        function updateVideoList() {
+            videoList.innerHTML = '';
+            let totalSize = 0;
+
+            videos.forEach((video, index) => {
+                totalSize += video.file.size;
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.innerHTML = `
+                    <div style="width: 80px; height: 80px; background: #e5e7eb; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 32px;">🎥</div>
+                    <div class="file-info">
+                        <div class="file-name">${video.file.name}</div>
+                        <div class="file-size">${formatFileSize(video.file.size)}</div>
+                    </div>
+                    <div class="file-actions">
+                        <button type="button" class="btn-remove" onclick="removeVideo(${index})">삭제</button>
+                    </div>
+                `;
+                videoList.appendChild(item);
+            });
+
+            document.getElementById('videoCount').textContent = videos.length;
+            document.getElementById('videoTotalSize').textContent = (totalSize / (1024 * 1024)).toFixed(2);
+
+            const limitInfo = document.getElementById('videoLimitInfo');
+            if (videos.length >= MAX_VIDEOS) {
+                limitInfo.classList.add('error');
+                limitInfo.textContent = `⚠️ 영상은 최대 ${MAX_VIDEOS}개까지 등록할 수 있습니다.`;
+            } else {
+                limitInfo.classList.remove('error');
+                limitInfo.innerHTML = `🎥 영상: <span id="videoCount">${videos.length}</span> / ${MAX_VIDEOS}개 | 총 용량: <span id="videoTotalSize">${(totalSize / (1024 * 1024)).toFixed(2)}</span> MB`;
+            }
+        }
+
+        function removeVideo(index) {
+            videos.splice(index, 1);
+            updateVideoList();
+        }
+
+        // 폼 제출
+        document.getElementById('petRegisterForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (photos.length === 0) {
+                alert('최소 1장의 사진을 등록해주세요.');
+                return;
+            }
+
+            // 소개글 검증
+            const description = descriptionInput.value.trim();
+            if (!description) {
+                alert('소개글을 입력해주세요.');
+                descriptionInput.focus();
+                return;
+            }
+
+            if (description.length > MAX_DESCRIPTION_LENGTH) {
+                alert(`소개글은 최대 ${MAX_DESCRIPTION_LENGTH}자까지 입력 가능합니다.`);
+                descriptionInput.focus();
+                return;
+            }
+
+            const descriptionValidation = validateDescription(description);
+            if (!descriptionValidation.valid) {
+                alert(descriptionValidation.message);
+                descriptionInput.focus();
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '등록 중...';
+
+            // FormData 생성
+            const formData = new FormData();
+            const formDataObj = new FormData(e.target);
+            
+            // 기본 정보
+            for (const [key, value] of formDataObj.entries()) {
+                if (key !== 'photo' && key !== 'video') {
+                    formData.append(key, value);
+                }
+            }
+
+            // 사진 추가
+            photos.forEach((photo, index) => {
+                formData.append(`photos`, photo.file);
+                formData.append(`photo_enhanced_${index}`, photo.enhanced);
+            });
+
+            // 영상 추가
+            videos.forEach((video) => {
+                formData.append(`videos`, video.file);
+            });
+
+            try {
+                // v2.5: /animals API 사용 (채널 라우팅 포함)
+                const storeId = 1; // 실제로는 로그인한 사용자의 store_id
+                const useOverride = !document.getElementById('useChannelOverride').checked;
+                
+                // 기본 정보 추출
+                const animalData = {
+                    store_id: storeId,
+                    name: formDataObj.get('pet_name'),
+                    type: formDataObj.get('pet_type'),
+                    breed: formDataObj.get('breed') || null,
+                    age: formDataObj.get('age') || null,
+                    gender: formDataObj.get('gender') || null,
+                    description: description
+                };
+                
+                // 동물 등록 (채널 라우팅 포함)
+                const response = await fetch('http://localhost:3002/animals', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(animalData)
+                });
+
+                const result = await response.json();
+
+                if (result.ok) {
+                    const animalId = result.data.animal_id;
+                    const scheduledChannels = result.data.scheduled_channels || [];
+                    
+                    // 동물 예외 설정이 있으면 저장
+                    if (useOverride && scheduledChannels.length > 0) {
+                        const overridePrefs = {
+                            ig_enabled: document.getElementById('animalIgEnabled').checked ? true : null,
+                            tt_enabled: document.getElementById('animalTtEnabled').checked ? true : null,
+                            yt_enabled: document.getElementById('animalYtEnabled').checked ? true : null,
+                            kakao_enabled: document.getElementById('animalKakaoEnabled').checked ? true : null,
+                            naver_enabled: document.getElementById('animalNaverEnabled').checked ? true : null
+                        };
+                        
+                        await fetch(`http://localhost:3002/animals/${animalId}/channel-overrides`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(overridePrefs)
+                        });
+                    }
+                    
+                    // 채널 정보 표시
+                    let channelMessage = '';
+                    if (scheduledChannels.length === 0) {
+                        channelMessage = '활성화된 채널이 없어 전송되지 않습니다.';
+                    } else {
+                        const channelNames = scheduledChannels.map(ch => {
+                            if (ch === 'INSTAGRAM' || ch === 'FACEBOOK') return '인스타그램/페이스북';
+                            if (ch === 'TIKTOK') return '틱톡';
+                            if (ch === 'YOUTUBE') return '유튜브';
+                            if (ch === 'KAKAO') return '카카오';
+                            if (ch === 'NAVER') return '네이버';
+                            return ch;
+                        });
+                        channelMessage = `이번 게시물은 ${channelNames.join(', ')}에 자동 노출됩니다.`;
+                    }
+                    
+                    alert(`반려동물이 성공적으로 등록되었습니다!\n\n${channelMessage}`);
+                    window.location.href = '/index.html';
+                } else {
+                    alert(result.error || '등록 중 오류가 발생했습니다.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '등록하기';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('등록 중 오류가 발생했습니다. 다시 시도해주세요.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '등록하기';
+            }
+        });
+
+        // 채널 예외 설정 토글
+        document.getElementById('useChannelOverride').addEventListener('change', (e) => {
+            document.getElementById('channelOverrideOptions').style.display = e.target.checked ? 'none' : 'block';
+        });
+
+        // 페이지 로드 시 글자수 카운터 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            if (descriptionInput && charCount) {
+                charCount.textContent = descriptionInput.value.length;
+            }
+            // 채널 예외 설정 기본값: 매장 기본 사용
+            document.getElementById('useChannelOverride').checked = true;
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info: { title: Ledger Period Close & Payout Preview, version: "r11.1" }
+paths:
+  /admin/ledger/periods/status:           { get:  { summary: List latest period statuses } }
+  /admin/ledger/periods/preview:          { post: { summary: Preview monthly aggregates (dry) } }
+  /admin/ledger/periods/close:            { post: { summary: Close period (commit when commit=true) } }
+  /admin/ledger/periods/{period}/payouts/preview: { get: { summary: Payout-style preview by advertiser } }
+  /admin/ledger/periods/{period}/export.csv: { get: { summary: Export period aggregates as CSV } }
+

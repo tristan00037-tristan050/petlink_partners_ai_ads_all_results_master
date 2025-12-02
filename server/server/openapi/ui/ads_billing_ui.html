@@ -1,0 +1,55 @@
+<!doctype html><meta charset="utf-8"><title>Billing UX</title>
+<style>
+body{font:14px system-ui,Arial;margin:16px} .row{display:flex;gap:12px;flex-wrap:wrap}
+.card{border:1px solid #ddd;border-radius:6px;padding:12px;min-width:280px}
+input,button{padding:8px} .toast{position:fixed;right:12px;bottom:12px;background:#333;color:#fff;padding:10px 14px;border-radius:6px;opacity:.94}
+</style>
+<h2>결제 UX(수단→인보이스→결제)</h2>
+<div class="row">
+  <div class="card">
+    <h3>1) 결제수단 등록</h3>
+    <input id="adv" placeholder="advertiser_id" value="101"><br/><br/>
+    <select id="pm_type"><option>CARD</option><option>NAVERPAY</option><option>KAKAOPAY</option></select><br/><br/>
+    <input id="token" placeholder="provider token (demo: tok-demo)"><br/><br/>
+    <button onclick="pmAdd()">등록</button>
+    <button onclick="pmDefault()">기본설정</button>
+  </div>
+  <div class="card">
+    <h3>2) 인보이스</h3>
+    <input id="inv" placeholder="invoice_no" value="INV-DEMO"><br/><br/>
+    <input id="amt" placeholder="amount" value="120000"><br/><br/>
+    <button onclick="invoice()">생성</button>
+  </div>
+  <div class="card">
+    <h3>3) 결제</h3>
+    <button onclick="charge()">결제(CHARGE)</button>
+  </div>
+</div>
+<div id="toast" class="toast" style="display:none"></div>
+<pre id="out"></pre>
+<script>
+const AK='${process.env.ADMIN_KEY||""}';
+function toast(m){const t=document.getElementById('toast'); t.textContent=m; t.style.display='block'; setTimeout(()=>t.style.display='none',2000);}
+async function pmAdd(){
+  const body={ advertiser_id:+document.getElementById('adv').value, pm_type:document.getElementById('pm_type').value,
+    provider:'bootpay', token:document.getElementById('token').value, set_default:true };
+  const r=await fetch('/ads/billing/payment-methods',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  toast(r.ok?'수단 등록 완료':'수단 등록 실패');
+}
+async function pmDefault(){ toast('기본 수단이 설정되었습니다.'); }
+async function invoice(){
+  const body={ invoice_no:document.getElementById('inv').value, advertiser_id:+document.getElementById('adv').value, amount:+document.getElementById('amt').value };
+  const r=await fetch('/ads/billing/invoices',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).catch(()=>({ok:false}));
+  toast(r.ok?'인보이스 생성 완료':'인보이스 생성 실패');
+}
+async function charge(){
+  const body={ invoice_no:document.getElementById('inv').value, advertiser_id:+document.getElementById('adv').value, amount:+document.getElementById('amt').value };
+  let tries=0, last; 
+  while(tries<2){ 
+    const r=await fetch('/ads/billing/charge',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).catch(()=>({ok:false}));
+    if(r.ok){ last=await r.json(); break; } tries++; toast('재시도 중('+tries+')'); await new Promise(s=>setTimeout(s,600)); 
+  }
+  document.getElementById('out').textContent=JSON.stringify(last||{error:true},null,2);
+  toast(last && last.ok?'결제 성공':'결제 실패');
+}
+</script>

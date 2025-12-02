@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info: { title: Chargebacks Period/SLA/Manifest (r11.9), version: "r11.9" }
+paths:
+  /admin/ledger/cbk/period-impact:      { get:  { summary: Compute period impact (no side effect) } }
+  /admin/ledger/cbk/period-impact/run:  { post: { summary: Upsert period impact + tag txids } }
+  /admin/ledger/cbk/evidence/manifest:  { get:  { summary: Evidence manifest JSON (with archive sha256) } }
+  /admin/ledger/cbk/sla/status:         { get:  { summary: List open CBK SLA incidents } }
+  /admin/ledger/cbk/sla/watch/run:      { post: { summary: Run SLA watcher now } }
+  /admin/ledger/cbk/incidents/ack:      { post: { summary: Ack CBK incident } }
+  /admin/ledger/cbk/export.csv:         { get:  { summary: Export CBK CSV for period } }
+

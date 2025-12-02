@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetLink Partners - 도움말</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 헤더 */
+        header {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .header-link {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .header-link:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .header-link.active {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .header-link-icon {
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #111;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #f9fafb;
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #111;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: #f3f4f6;
+        }
+
+        .faq-question.active {
+            background: #eff6ff;
+            color: #667eea;
+        }
+
+        .faq-icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: #fff;
+        }
+
+        .faq-answer.active {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        .faq-answer p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .faq-answer ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .faq-answer li {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .help-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .help-item {
+            margin-bottom: 25px;
+        }
+
+        .help-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .help-item-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .help-item-desc {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-box h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .contact-box p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #fff;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .contact-button:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s;
+            }
+
+            .header-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .header-link {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+
+            .container {
+                padding: 0 15px 30px;
+            }
+
+            .section, .help-section {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/landing.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>펫링크 파트너스</span>
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="메뉴">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="header-nav" id="headerNav">
+                <a href="/landing.html" class="header-link">
+                    <span class="header-link-icon">🏠</span>
+                    <span>홈</span>
+                </a>
+                <a href="/pricing.html" class="header-link">
+                    <span class="header-link-icon">💰</span>
+                    <span>요금제</span>
+                </a>
+                <a href="/help.html" class="header-link active">
+                    <span class="header-link-icon">❓</span>
+                    <span>도움말</span>
+                </a>
+                <a href="/franchise-hq.html" class="header-link">
+                    <span class="header-link-icon">🏢</span>
+                    <span>본사 관리</span>
+                </a>
+                <a href="/status.html" class="header-link">
+                    <span class="header-link-icon">📊</span>
+                    <span>서비스 상태</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">도움말</h1>
+        <p class="page-subtitle">PetLink Partners 사용 가이드 및 자주 묻는 질문</p>
+
+        <!-- 도움말 섹션 -->
+        <div class="help-section">
+            <h2 class="section-title">시작하기</h2>
+            
+            <div class="help-item">
+                <div class="help-item-title">1. 회원가입</div>
+                <div class="help-item-desc">
+                    개인 매장 또는 프랜차이즈 본사(HQ) 모드로 회원가입할 수 있습니다. 
+                    회원가입 후 사업자 등록증을 업로드하여 인증을 완료하세요.
+                </div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-item-title">2. 무료 체험 시작</div>
+                <div class="help-item-desc">
+                    30일 무료 체험을 시작하면 운영/기술료 0원과 함께 광고 크레딧 ₩50,000이 자동으로 지급됩니다. 
+                    체험 기간 동안 모든 기능을 무료로 사용해보실 수 있습니다.
+                </div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-item-title">3. 반려동물 등록</div>
+                <div class="help-item-desc">
+                    대시보드에서 "반려동물 등록" 메뉴를 통해 분양할 반려동물 정보를 등록하세요. 
+                    등록한 반려동물은 자동으로 AI 광고 타겟팅에 포함됩니다.
+                </div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-item-title">4. 광고 시작</div>
+                <div class="help-item-desc">
+                    반려동물 등록 후 광고를 시작하면, AI가 자동으로 타겟 고객에게 광고를 노출합니다. 
+                    광고 성과는 실시간으로 대시보드에서 확인할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ 섹션 -->
+        <div class="section">
+            <h2 class="section-title">자주 묻는 질문 (FAQ)</h2>
+
+            <div class="faq-category">
+                <h3 style="font-size: 18px; margin: 25px 0 15px; color: #667eea;">요금제 관련</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>초과 과금이 있나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>아니요. 올인원 요금제는 <strong>초과 과금 없음</strong>입니다. 포함된 광고비를 모두 사용하면 광고가 자동으로 일시정지됩니다. 추가 집행을 원하시면 Top-Up(₩100,000 단위)을 이용하세요.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>광고비는 어떻게 결제되나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>광고비는 요금제에 포함되어 있습니다. 페이스북/인스타그램과 틱톡에 직접 결제하는 것이 아니라, 우리 플랫폼이 대신 집행하고 월 정액으로 청구됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>부가세는 별도인가요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>네, 모든 금액은 <strong>부가세 별도</strong>입니다. 부가세 10%가 추가로 청구됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>무료 체험은 어떻게 되나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>30일 무료 체험을 제공합니다. 운영/기술료는 0원이며, 광고 크레딧 ₩50,000이 지급됩니다. 체험 종료 3일 전부터 알림이 발송되며, 동의 시 선택한 플랜으로 자동 전환됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>요금제는 언제 변경할 수 있나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>요금제는 언제든지 변경할 수 있습니다. 변경 시 다음 결제 주기부터 적용되며, 현재 사용 중인 플랜은 변경일까지 유지됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Top-Up은 어떻게 하나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>대시보드에서 "Top-Up" 메뉴를 통해 ₩100,000 단위로 추가 광고비를 충전할 수 있습니다. Top-Up한 금액은 전액 광고비로 투입되며, 즉시 사용 가능합니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <h3 style="font-size: 18px; margin: 25px 0 15px; color: #667eea;">ERP 관련</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>ERP 기능은 무료인가요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>네, 기본 ERP 기능은 항상 무료입니다. 매장/직원 관리, 반려동물 등록·관리, 기본 리포트 등이 포함됩니다. 광고 모듈을 사용하지 않아도 ERP는 계속 사용할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>ERP에서 어떤 기능을 사용할 수 있나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>다음 기능을 무료로 사용할 수 있습니다:</p>
+                        <ul>
+                            <li>매장 및 직원 관리</li>
+                            <li>반려동물 등록 및 관리</li>
+                            <li>기본 리포트 (일/주/월)</li>
+                            <li>계약서 및 서류 보관</li>
+                            <li>기본 권한 3명</li>
+                            <li>스토리지 20GB (초과 시 추가 과금)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <h3 style="font-size: 18px; margin: 25px 0 15px; color: #667eea;">광고 관련</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>어떤 플랫폼에 광고가 노출되나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>선택한 플랜에 따라 다릅니다:</p>
+                        <ul>
+                            <li><strong>All-in S</strong>: 페이스북/인스타그램 또는 틱톡 중 택1</li>
+                            <li><strong>All-in M/L/XL</strong>: 페이스북/인스타그램 + 틱톡 동시</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>광고 예산은 어떻게 관리되나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>일일 페이싱으로 자동 관리됩니다. 월 예산을 일수로 나눈 값의 ±20% 범위 내에서 자동 제어되며, 잔액이 20%/10% 남을 때 알림이 발송됩니다. 잔액이 0원이 되면 광고가 자동으로 일시정지됩니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>광고 성과는 어떻게 확인하나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>대시보드에서 실시간으로 광고 성과를 확인할 수 있습니다. 노출 수, 클릭 수, 성별/나이/지역별 통계, 메시지 문의 수 등을 확인할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>광고를 일시정지할 수 있나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>네, 언제든지 광고를 일시정지하거나 재개할 수 있습니다. 일시정지한 기간 동안은 광고비가 소진되지 않습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <h3 style="font-size: 18px; margin: 25px 0 15px; color: #667eea;">프랜차이즈 관련</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>프랜차이즈 본사(HQ)는 어떻게 가입하나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>회원가입 시 "프랜차이즈 본사" 모드를 선택하시면 HQ 계정이 생성됩니다. HQ 콘솔에서 지점을 초대하고 정책을 설정할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>지점별로 다른 요금제를 선택할 수 있나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>네, 각 지점은 개별적으로 요금제를 선택하고 결제할 수 있습니다. HQ가 통합 결제를 원하시면 별도로 문의해 주세요.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>HQ에서 지점의 광고를 관리할 수 있나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>네, HQ 콘솔에서 다음을 관리할 수 있습니다:</p>
+                        <ul>
+                            <li>지점 생성/승인/정지</li>
+                            <li>예산 배분 및 Top-Up (일괄 또는 개별)</li>
+                            <li>반경, 문구 템플릿, 금칙어, 운영시간 강제</li>
+                            <li>통합 리포트 (노출/클릭/메시지·리드/비용, 연령·성별·지역 브레이크다운)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <h3 style="font-size: 18px; margin: 25px 0 15px; color: #667eea;">기타</h3>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>계정을 해지하려면 어떻게 하나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>설정 메뉴에서 계정 해지를 신청할 수 있습니다. 해지 시 남은 기간에 대한 환불 정책은 이용약관을 참고해 주세요.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>모바일에서도 사용할 수 있나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>네, PetLink Partners는 반응형 웹으로 제작되어 스마트폰과 태블릿에서도 완벽하게 작동합니다. 별도의 앱 설치 없이 브라우저에서 바로 사용할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>기술 지원은 어떻게 받을 수 있나요?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>아래 문의하기 버튼을 통해 고객 지원팀에 문의하실 수 있습니다. 평일 오전 9시부터 오후 6시까지 운영됩니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 문의하기 섹션 -->
+        <div class="contact-box">
+            <h3>추가 도움이 필요하신가요?</h3>
+            <p>문의사항이 있으시면 언제든지 연락주세요.</p>
+            <a href="mailto:support@petlinkpartner.co.kr" class="contact-button">문의하기</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('headerNav');
+            nav.classList.toggle('active');
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const isActive = element.classList.contains('active');
+
+            // 모든 FAQ 닫기
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.classList.remove('active');
+                q.nextElementSibling.classList.remove('active');
+            });
+
+            // 클릭한 FAQ 열기/닫기
+            if (!isActive) {
+                element.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+
+        // 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('headerNav');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // 페이지 로드 시 첫 번째 FAQ 열기 (선택사항)
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const firstQuestion = document.querySelector('.faq-question');
+        //     if (firstQuestion) {
+        //         toggleFaq(firstQuestion);
+        //     }
+        // });
+    </script>
+</body>
+</html>
+

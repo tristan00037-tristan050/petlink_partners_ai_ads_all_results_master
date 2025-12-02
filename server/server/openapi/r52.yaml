@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info: { title: Petlink Finance API, version: "r5.2" }
+servers: [ { url: http://localhost:5902 } ]
+paths:
+  /billing/refund:
+    post:
+      summary: Create refund (full or partial)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [order_id, amount]
+              properties:
+                order_id: { type: string }
+                amount: { type: integer, minimum: 1 }
+                reason: { type: string }
+                refund_id: { type: string, description: "idempotent client-supplied id" }
+      responses:
+        '200': { description: OK }
+        '409': { description: Exceeds remaining / replay mismatch }
+  /admin/settlements/snapshot:
+    post:
+      summary: Materialize settlements for captured payments
+      responses: { '200': { description: OK } }
+  /admin/ops/compliance/sanitize:
+    post:
+      summary: Remove PII-like keys from payments.metadata
+      responses: { '200': { description: OK } }

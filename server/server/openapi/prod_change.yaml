@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info: { title: Production Change Control, version: "r10.2" }
+paths:
+  /admin/prod/change/request:     { post: { summary: Create change request (two-person rule) } }
+  /admin/prod/change/approve:     { post: { summary: Approve or reject request (must differ from creator) } }
+  /admin/prod/change/apply-dryrun:{ post: { summary: Dry-run apply (no env flip) } }
+  /admin/prod/change/requests:    { get:  { summary: List requests } }
+  /admin/prod/change/checklist:   { get:  { summary: Go-live checklist snapshot (read-only) } }
+  /admin/prod/prodgate:           { get:  { summary: Final readiness gate (proxy to preflight) } }
+

@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><title>Admin SSO Bridge</title>
+<script>
+(function(){
+  try{
+    const data = JSON.parse(decodeURIComponent((new URLSearchParams(location.search)).get("payload")||"{}"));
+    if (window.opener) window.opener.postMessage({ kind:"sso", surface:"admin", ok:true, data }, "http://localhost:8000");
+    setTimeout(()=>window.close(), 100);
+  }catch(e){ document.body.textContent="admin_bridge_error"; }
+})();
+</script>

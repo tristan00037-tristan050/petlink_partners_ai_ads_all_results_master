@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info: { title: Payout Orchestration (SBX), version: "r11.3" }
+paths:
+  /admin/ledger/payouts/run/preview:         { get:  { summary: Preview by period (snapshot→fallback) } }
+  /admin/ledger/payouts/run/build:           { post: { summary: Build payout batch (commit=false→dry) } }
+  /admin/ledger/payouts/run/approve:         { post: { summary: Approve payout batch (SoD enforced) } }
+  /admin/ledger/payouts/run/send:            { post: { summary: Send payout batch (SBX webhook log) } }
+  /admin/ledger/payouts/run/batches:         { get:  { summary: List batches } }
+  /admin/ledger/payouts/run/batch/{id}/export.csv: { get: { summary: Export remittance CSV } }
+

@@ -1,0 +1,8 @@
+openapi: 3.0.3
+info: { title: Ready & Quality, version: "r6.3" }
+paths:
+  /admin/ads/billing/preflight/network: { get: { summary: Billing network preflight(sandbox), responses: { '200': { description: OK } } } }
+  /admin/ads/billing/ready:             { get: { summary: Production readiness gate, responses: { '200': { description: OK } } } }
+  /admin/reports/daily.json:            { get: { summary: Payments/DLQ metrics, responses: { '200': { description: OK } } } }
+  /admin/reports/quality/channel.json:  { get: { summary: Channel approval/rejection metrics, responses: { '200': { description: OK } } } }
+  /admin/reports/quality/alert-check:   { post: { summary: Trigger quality alerts, responses: { '200': { description: OK } } } }

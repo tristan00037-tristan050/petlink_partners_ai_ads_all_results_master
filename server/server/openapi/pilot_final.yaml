@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info: { title: Pilot Final Report, version: "r10.0" }
+paths:
+  /admin/reports/pilot/final/preview:   { get:  { summary: Preview final report JSON } }
+  /admin/reports/pilot/final:           { get:  { summary: Final report HTML } }
+  /admin/reports/pilot/final.md:        { get:  { summary: Final report Markdown export } }
+  /admin/reports/pilot/final/generate:  { post: { summary: Store final report } }
+  /admin/reports/pilot/final/history:   { get:  { summary: List stored final reports } }
+  /admin/reports/pilot/final/{id}.json: { get:  { summary: Get stored final report } }
+  /admin/reports/pilot/final/autopush:  { post: { summary: Autopush final report to webhook } }
+

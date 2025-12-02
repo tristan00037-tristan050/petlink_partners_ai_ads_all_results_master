@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프랜차이즈 관리 - 펫링크 파트너스</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .header-link {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .header-link:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .header-link.active {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .header-link-icon {
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            margin-bottom: 8px;
+            color: #111;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .content-card {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .content-card h2 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: #111;
+            font-weight: 700;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s;
+            }
+
+            .header-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .header-link {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/landing.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>펫링크 파트너스</span>
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="메뉴">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="header-nav" id="headerNav">
+                <a href="/landing.html" class="header-link">
+                    <span class="header-link-icon">🏠</span>
+                    <span>홈</span>
+                </a>
+                <a href="/pricing.html" class="header-link">
+                    <span class="header-link-icon">💰</span>
+                    <span>요금제</span>
+                </a>
+                <a href="/pet-register.html" class="header-link">
+                    <span class="header-link-icon">🐾</span>
+                    <span>반려동물 등록</span>
+                </a>
+                <a href="/help.html" class="header-link">
+                    <span class="header-link-icon">❓</span>
+                    <span>도움말</span>
+                </a>
+                <a href="/auth.html" class="header-link">
+                    <span class="header-link-icon">👤</span>
+                    <span>회원가입</span>
+                </a>
+                <a href="/mypage.html" class="header-link">
+                    <span class="header-link-icon">📋</span>
+                    <span>마이페이지</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>프랜차이즈 관리</h1>
+            <p>프랜차이즈 지점을 관리하고 통합 광고를 설정하세요</p>
+        </div>
+
+        <div class="content-card">
+            <h2>프랜차이즈 지점 관리</h2>
+            <p class="info-text">프랜차이즈 본사 관리자만 접근할 수 있는 기능입니다. 등록된 지점들의 광고를 통합 관리할 수 있습니다.</p>
+            <p class="info-text" style="color: #667eea; font-weight: 500;">이 기능은 프랜차이즈 관리자 로그인 시 마이페이지와 내 광고관리 메뉴에서 확인할 수 있습니다.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('headerNav');
+            nav.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('headerNav');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
+

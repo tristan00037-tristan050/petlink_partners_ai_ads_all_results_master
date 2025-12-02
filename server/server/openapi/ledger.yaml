@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info: { title: Live Ledger / Refund / Reconciliation / CI Evidence (r11.0), version: "r11.0" }
+paths:
+  /admin/ledger/ingest/run:     { post: { summary: Ingest payments/journal into ledger } }
+  /admin/ledger/refund/request: { post: { summary: Create refund request } }
+  /admin/ledger/refund/approve: { post: { summary: Approve/Reject refund request } }
+  /admin/ledger/refund/exec:    { post: { summary: Execute refund (ledger entry) } }
+  /admin/ledger/recon/run:      { post: { summary: Run reconciliation job } }
+  /admin/ledger/export.csv:     { get:  { summary: Export ledger CSV } }
+  /admin/ledger/evidence/build: { get:  { summary: Build CI evidence bundle (tgz) for txid } }
+

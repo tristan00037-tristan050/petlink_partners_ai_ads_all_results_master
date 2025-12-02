@@ -1,0 +1,64 @@
+{
+  "version": "v2.4",
+  "form_id": "animal_register",
+  "title": "반려동물 등록",
+  "fields": [
+    {
+      "name": "pet_name",
+      "label": "반려동물 이름",
+      "type": "text",
+      "required": true,
+      "maxLength": 50
+    },
+    {
+      "name": "pet_type",
+      "label": "종류",
+      "type": "select",
+      "required": true,
+      "options": [
+        { "value": "dog", "label": "강아지" },
+        { "value": "cat", "label": "고양이" },
+        { "value": "other", "label": "기타" }
+      ]
+    },
+    {
+      "name": "breed",
+      "label": "품종",
+      "type": "text",
+      "required": false,
+      "maxLength": 100
+    },
+    {
+      "name": "age",
+      "label": "나이",
+      "type": "text",
+      "required": false,
+      "maxLength": 50
+    },
+    {
+      "name": "gender",
+      "label": "성별",
+      "type": "select",
+      "required": false,
+      "options": [
+        { "value": "male", "label": "수컷" },
+        { "value": "female", "label": "암컷" },
+        { "value": "unknown", "label": "모름" }
+      ]
+    },
+    {
+      "name": "description",
+      "label": "소개글",
+      "type": "textarea",
+      "required": true,
+      "maxLength": 2200,
+      "hint": "해시태그(#)를 사용할 수 있습니다. 매장 상호명은 포함 가능하지만, 전화번호, 카카오톡, 주소는 입력할 수 없습니다.",
+      "validation": {
+        "bannedKeywords": true,
+        "allowStoreName": true
+      }
+    }
+  ]
+}
+
+

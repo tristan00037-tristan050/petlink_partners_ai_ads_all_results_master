@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetLink Partners - 관리자 대시보드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Arial, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header 스타일 (landing.html과 동일) */
+        header {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #333;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .logo-icon {
+            font-size: 24px;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .header-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #666;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .header-link:hover {
+            background: #f3f4f6;
+            color: #333;
+        }
+
+        .header-link.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .header-link-icon {
+            font-size: 16px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #333;
+            transition: all 0.3s;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 16px;
+        }
+
+        .status-badge.online {
+            background: rgba(16, 185, 129, 0.3);
+        }
+
+        .status-badge.offline {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            background: #e5e7eb;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .quick-links h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.2s;
+            border: 1px solid #e5e7eb;
+        }
+
+        .quick-link:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        /* Section Title */
+        .section-title {
+            color: #333;
+            font-size: 28px;
+            margin: 40px 0 24px 0;
+            font-weight: 700;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        /* Card (landing.html 스타일 적용) */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .card h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .card .icon {
+            font-size: 24px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .card .links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card a {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .card a:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .card a.secondary {
+            background: #6b7280;
+        }
+
+        .card a.secondary:hover {
+            background: #4b5563;
+        }
+
+        /* API Test */
+        .api-test {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+
+        .api-test button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .api-test button:hover {
+            background: #5568d3;
+        }
+
+        .result {
+            margin-top: 8px;
+            padding: 8px;
+            background: #111827;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 11px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge.auth {
+            background: #fbbf24;
+            color: #78350f;
+        }
+
+        .badge.public {
+            background: #10b981;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-nav {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-links-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/admin-dashboard" class="logo">
+                <span class="logo-icon">🔧</span>
+                <span>PetLink Partners 관리자</span>
+            </a>
+            <nav class="header-nav">
+                <a href="/admin-dashboard" class="header-link active">
+                    <span class="header-link-icon">🔧</span>
+                    <span>관리자 대시보드</span>
+                </a>
+            </nav>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="메뉴">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>🔧 PetLink Partners 관리자 대시보드</h1>
+            <p>시스템 모니터링, 리포트, 설정을 한 곳에서 관리합니다</p>
+            <div id="server-status" class="status-badge offline">서버 상태 확인 중...</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('admin')">🔧 관리자 기능</button>
+            <button class="tab" onclick="showTab('api')">📡 API 테스트</button>
+        </div>
+
+        <!-- 관리자 기능 탭 -->
+        <div id="admin" class="tab-content active">
+            <h2 class="section-title">🔧 관리자 기능</h2>
+            <p style="color: #666; margin-bottom: 24px; font-size: 14px;">
+                ⚠️ 이 대시보드는 회사(관리자) 전용입니다. 분양매장은 클라이언트 대시보드(<a href="/dashboard.html" target="_blank" style="color: #667eea;">/dashboard.html</a>)를 사용하세요.
+            </p>
+            
+            <!-- 광고주 관리 -->
+            <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 20px 0; color: #333; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">👥 광고주 관리</h3>
+            <div class="grid">
+                <div class="card">
+                    <h2><span class="icon">👥</span> 광고주 관리</h2>
+                    <p>광고주 프로필 조회, 수정, 대량 수정, CSV Import/Export, 감사로그를 관리합니다.</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/advertisers?limit=10', 'advertisers-result'); return false;">목록 조회</a>
+                        <a href="/admin/advertisers/audit/ui" target="_blank" class="secondary">감사로그 UI</a>
+                    </div>
+                    <div id="advertisers-result" class="result" style="display:none;"></div>
+                </div>
+            </div>
+
+            <!-- 결제 모니터링 -->
+            <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 20px 0; color: #333; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">💵 결제 모니터링</h3>
+            <div class="grid">
+                <div class="card">
+                    <h2><span class="icon">📈</span> 모니터 대시보드</h2>
+                    <p>결제 네트워크 모니터링, 성공/실패 통계, DLQ 이동률을 실시간으로 확인합니다.</p>
+                    <div class="links">
+                        <a href="/admin/ads/billing/monitor" target="_blank">대시보드 열기</a>
+                        <a href="#" onclick="testAPI('/admin/ads/billing/monitor.json', 'monitor-result'); return false;" class="secondary">JSON API 테스트</a>
+                    </div>
+                    <div id="monitor-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">📋</span> 일일 리포트</h2>
+                    <p>일일 운영 지표: 결제 성공률, 실패율, DLQ 이동률, SLO 대비 현황을 확인합니다.</p>
+                    <div class="links">
+                        <a href="/admin/reports/daily" target="_blank">리포트 보기</a>
+                        <a href="#" onclick="testAPI('/admin/reports/daily.json', 'daily-result'); return false;" class="secondary">JSON API 테스트</a>
+                    </div>
+                    <div id="daily-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">✨</span> 품질 리포트</h2>
+                    <p>광고 품질 통계: 채널별 포맷 준수율, 금지어 사용 현황, 거절 사유를 분석합니다.</p>
+                    <div class="links">
+                        <a href="/admin/reports/quality" target="_blank">리포트 보기</a>
+                        <a href="#" onclick="testAPI('/admin/reports/quality.json', 'quality-result'); return false;" class="secondary">JSON API 테스트</a>
+                    </div>
+                    <div id="quality-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🚦</span> 신호등/자동수정 UI</h2>
+                    <p>광고 콘텐츠를 실시간으로 검증하고 자동 수정합니다. RED/YELLOW/GREEN 상태로 표시됩니다.</p>
+                    <div class="links">
+                        <a href="/admin/ads/quality/ui" target="_blank">UI 열기</a>
+                        <a href="#" onclick="testValidate(); return false;" class="secondary">검증 API 테스트</a>
+                    </div>
+                    <div id="validate-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">💵</span> 결제 UX UI</h2>
+                    <p>결제 흐름을 테스트할 수 있는 UI입니다. 결제수단 등록, 인보이스 생성, 결제 요청을 시뮬레이션합니다.</p>
+                    <div class="links">
+                        <a href="/admin/ads/billing/ui" target="_blank">UI 열기</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">⚙️</span> 품질 임계값 관리</h2>
+                    <p>채널별 품질 임계값(승인율/거절율)을 설정하고 관리합니다.</p>
+                    <div class="links">
+                        <a href="/admin/reports/quality/thresholds/ui" target="_blank">임계값 설정</a>
+                        <a href="#" onclick="testAPI('/admin/reports/quality/thresholds', 'thresholds-result'); return false;" class="secondary">JSON API 테스트</a>
+                    </div>
+                    <div id="thresholds-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🌐</span> WebApp Gate</h2>
+                    <p>WebApp 자동 승인률과 처리 시간을 확인하고 SLO 준수 여부를 점검합니다.</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/webapp/gate', 'webapp-gate-result'); return false;">Gate 상태 확인</a>
+                    </div>
+                    <div id="webapp-gate-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">✅</span> Final Gate</h2>
+                    <p>프로덕션 배포 준비 상태를 종합적으로 점검합니다 (Ready, SLO, DLQ, Network).</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/ads/billing/gate/final', 'final-gate-result'); return false;">Final Gate 확인</a>
+                    </div>
+                    <div id="final-gate-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🔧</span> Ready Gate</h2>
+                    <p>결제 시스템 준비 상태를 확인합니다 (스코프 잠금, 시크릿, 가드, DLQ 뷰, 네트워크).</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/ads/billing/ready', 'ready-result'); return false;">Ready 상태 확인</a>
+                    </div>
+                    <div id="ready-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">📋</span> 라이브 체크리스트</h2>
+                    <p>라이브 전환을 위한 체크리스트를 확인합니다.</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/ads/billing/live/checklist', 'checklist-result'); return false;">체크리스트 확인</a>
+                    </div>
+                    <div id="checklist-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🌐</span> 네트워크 프리플라이트</h2>
+                    <p>Bootpay 네트워크 연결 상태와 토큰 획득 가능 여부를 확인합니다.</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/ads/billing/preflight/network', 'network-result'); return false;">네트워크 확인</a>
+                    </div>
+                    <div id="network-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🔄</span> 루프 통계</h2>
+                    <p>WebApp 루프 통계: 첫 통과율, 자동 수정 성공률, 거절률, 자동 승인률을 확인합니다.</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/webapp/loop/stats.json', 'loop-stats-result'); return false;">통계 확인</a>
+                    </div>
+                    <div id="loop-stats-result" class="result" style="display:none;"></div>
+                </div>
+
+            </div>
+
+            <!-- 품질 관리 -->
+            <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 20px 0; color: #333; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">✨ 품질 관리</h3>
+            <div class="grid">
+                <div class="card">
+                    <h2><span class="icon">✨</span> 품질 리포트</h2>
+                    <p>광고 품질 통계: 채널별 포맷 준수율, 금지어 사용 현황, 거절 사유를 분석합니다.</p>
+                    <div class="links">
+                        <a href="/admin/reports/quality" target="_blank">리포트 보기</a>
+                        <a href="#" onclick="testAPI('/admin/reports/quality.json', 'quality-result'); return false;" class="secondary">JSON API 테스트</a>
+                    </div>
+                    <div id="quality-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🚦</span> 신호등/자동수정 UI</h2>
+                    <p>광고 콘텐츠를 실시간으로 검증하고 자동 수정합니다. RED/YELLOW/GREEN 상태로 표시됩니다.</p>
+                    <div class="links">
+                        <a href="/admin/ads/quality/ui" target="_blank">UI 열기</a>
+                        <a href="#" onclick="testValidate(); return false;" class="secondary">검증 API 테스트</a>
+                    </div>
+                    <div id="validate-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">⚙️</span> 품질 임계값 관리</h2>
+                    <p>채널별 품질 임계값(승인율/거절율)을 설정하고 관리합니다.</p>
+                    <div class="links">
+                        <a href="/admin/reports/quality/thresholds/ui" target="_blank">임계값 설정</a>
+                        <a href="#" onclick="testAPI('/admin/reports/quality/thresholds', 'thresholds-result'); return false;" class="secondary">JSON API 테스트</a>
+                    </div>
+                    <div id="thresholds-result" class="result" style="display:none;"></div>
+                </div>
+            </div>
+
+            <!-- 리포트 -->
+            <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 20px 0; color: #333; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">📋 리포트</h3>
+            <div class="grid">
+                <div class="card">
+                    <h2><span class="icon">📋</span> 일일 리포트</h2>
+                    <p>일일 운영 지표: 결제 성공률, 실패율, DLQ 이동률, SLO 대비 현황을 확인합니다.</p>
+                    <div class="links">
+                        <a href="/admin/reports/daily" target="_blank">리포트 보기</a>
+                        <a href="#" onclick="testAPI('/admin/reports/daily.json', 'daily-result'); return false;" class="secondary">JSON API 테스트</a>
+                    </div>
+                    <div id="daily-result" class="result" style="display:none;"></div>
+                </div>
+            </div>
+
+            <!-- 시스템 모니터링 -->
+            <h3 style="font-size: 20px; font-weight: 700; margin: 40px 0 20px 0; color: #333; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">🔧 시스템 모니터링</h3>
+            <div class="grid">
+                <div class="card">
+                    <h2><span class="icon">📈</span> 모니터 대시보드</h2>
+                    <p>결제 네트워크 모니터링, 성공/실패 통계, DLQ 이동률을 실시간으로 확인합니다.</p>
+                    <div class="links">
+                        <a href="/admin/ads/billing/monitor" target="_blank">대시보드 열기</a>
+                        <a href="#" onclick="testAPI('/admin/ads/billing/monitor.json', 'monitor-result'); return false;" class="secondary">JSON API 테스트</a>
+                    </div>
+                    <div id="monitor-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🌐</span> WebApp Gate</h2>
+                    <p>WebApp 자동 승인률과 처리 시간을 확인하고 SLO 준수 여부를 점검합니다.</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/webapp/gate', 'webapp-gate-result'); return false;">Gate 상태 확인</a>
+                    </div>
+                    <div id="webapp-gate-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">✅</span> Final Gate</h2>
+                    <p>프로덕션 배포 준비 상태를 종합적으로 점검합니다 (Ready, SLO, DLQ, Network).</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/ads/billing/gate/final', 'final-gate-result'); return false;">Final Gate 확인</a>
+                    </div>
+                    <div id="final-gate-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🔧</span> Ready Gate</h2>
+                    <p>결제 시스템 준비 상태를 확인합니다 (스코프 잠금, 시크릿, 가드, DLQ 뷰, 네트워크).</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/ads/billing/ready', 'ready-result'); return false;">Ready 상태 확인</a>
+                    </div>
+                    <div id="ready-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🔄</span> 루프 통계</h2>
+                    <p>WebApp 루프 통계: 첫 통과율, 자동 수정 성공률, 거절률, 자동 승인률을 확인합니다.</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/webapp/loop/stats.json', 'loop-stats-result'); return false;">통계 확인</a>
+                    </div>
+                    <div id="loop-stats-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🌐</span> 네트워크 프리플라이트</h2>
+                    <p>Bootpay 네트워크 연결 상태와 토큰 획득 가능 여부를 확인합니다.</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/ads/billing/preflight/network', 'network-result'); return false;">네트워크 확인</a>
+                    </div>
+                    <div id="network-result" class="result" style="display:none;"></div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">📋</span> 라이브 체크리스트</h2>
+                    <p>라이브 전환을 위한 체크리스트를 확인합니다.</p>
+                    <div class="links">
+                        <a href="#" onclick="testAPI('/admin/ads/billing/live/checklist', 'checklist-result'); return false;">체크리스트 확인</a>
+                    </div>
+                    <div id="checklist-result" class="result" style="display:none;"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- API 테스트 탭 -->
+        <div id="api" class="tab-content">
+            <h2 class="section-title">📡 API 테스트</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h2><span class="icon">📝</span> 광고 검증 API</h2>
+                    <p class="badge public">인증 불필요</p>
+                    <p>광고 텍스트의 길이, 금지어, 해시태그, 링크 수를 검증합니다.</p>
+                    <div class="api-test">
+                        <div>POST /ads/validate</div>
+                        <button onclick="testValidate()">테스트 실행</button>
+                        <div id="validate-api-result" class="result" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🔧</span> 자동 수정 API</h2>
+                    <p class="badge public">인증 불필요</p>
+                    <p>광고 텍스트를 자동으로 수정합니다 (금지어 제거, 길이 조정 등).</p>
+                    <div class="api-test">
+                        <div>POST /ads/autofix</div>
+                        <button onclick="testAutofix()">테스트 실행</button>
+                        <div id="autofix-result" class="result" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">👤</span> 프로필 조회</h2>
+                    <p class="badge public">인증 불필요</p>
+                    <p>광고주 프로필 정보를 조회합니다.</p>
+                    <div class="api-test">
+                        <div>GET /advertiser/profile?advertiser_id=101</div>
+                        <button onclick="testProfile()">프로필 조회</button>
+                        <div id="profile-result" class="result" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">🔍</span> 결제 검증</h2>
+                    <p class="badge auth">인증 필요</p>
+                    <p>인보이스 번호로 결제 상태를 확인하고 수동 검증을 수행합니다.</p>
+                    <div class="api-test">
+                        <div>GET /ads/billing/admin/verify/:invoice_no</div>
+                        <input type="text" id="invoice-no" placeholder="인보이스 번호" style="width:100%;padding:8px;margin:8px 0;border:1px solid #374151;border-radius:4px;background:#111827;color:#f9fafb;">
+                        <button onclick="testVerify()">검증 실행</button>
+                        <div id="verify-result" class="result" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">💳</span> 결제 요청</h2>
+                    <p class="badge public">인증 불필요</p>
+                    <p>인보이스에 대한 결제를 요청합니다.</p>
+                    <div class="api-test">
+                        <div>POST /ads/billing/charge</div>
+                        <button onclick="testCharge()">결제 요청 테스트</button>
+                        <div id="charge-result" class="result" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><span class="icon">📄</span> Gate 리포트</h2>
+                    <p class="badge auth">인증 필요</p>
+                    <p>WebApp Gate와 루프 통계를 결합한 종합 리포트를 확인합니다.</p>
+                    <div class="api-test">
+                        <div>GET /admin/webapp/gate/report</div>
+                        <button onclick="testAPI('/admin/webapp/gate/report', 'gate-report-result'); return false;">리포트 확인</button>
+                        <div id="gate-report-result" class="result" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_KEY = 'admin-dev-key-123';
+        const BASE_URL = window.location.origin;
+
+        // 메뉴 토글
+        function toggleMenu() {
+            const nav = document.querySelector('.header-nav');
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // 탭 전환
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // 서버 상태 확인
+        async function checkServerStatus() {
+            try {
+                const res = await fetch(`${BASE_URL}/health`);
+                const data = await res.json();
+                const statusEl = document.getElementById('server-status');
+                if (data.ok) {
+                    statusEl.textContent = '✅ 서버 온라인';
+                    statusEl.className = 'status-badge online';
+                } else {
+                    statusEl.textContent = '❌ 서버 오프라인';
+                    statusEl.className = 'status-badge offline';
+                }
+            } catch (err) {
+                document.getElementById('server-status').textContent = '❌ 서버 연결 실패';
+                document.getElementById('server-status').className = 'status-badge offline';
+            }
+        }
+
+        // API 테스트 함수
+        async function testAPI(endpoint, resultId) {
+            const resultEl = document.getElementById(resultId);
+            resultEl.style.display = 'block';
+            resultEl.textContent = '로딩 중...';
+            
+            try {
+                const res = await fetch(`${BASE_URL}${endpoint}`, {
+                    headers: {
+                        'X-Admin-Key': ADMIN_KEY
+                    }
+                });
+                const data = await res.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                resultEl.textContent = `오류: ${err.message}`;
+            }
+        }
+
+        // 검증 API 테스트
+        async function testValidate() {
+            const resultEl = document.getElementById('validate-result') || document.getElementById('validate-api-result');
+            if (resultEl) {
+                resultEl.style.display = 'block';
+                resultEl.textContent = '로딩 중...';
+            }
+            
+            try {
+                const res = await fetch(`${BASE_URL}/ads/validate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        text: '테스트 광고 문구입니다. #해시태그 #테스트',
+                        channel: 'NAVER'
+                    })
+                });
+                const data = await res.json();
+                if (resultEl) resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                if (resultEl) resultEl.textContent = `오류: ${err.message}`;
+            }
+        }
+
+        // 자동 수정 API 테스트
+        async function testAutofix() {
+            const resultEl = document.getElementById('autofix-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = '로딩 중...';
+            
+            try {
+                const res = await fetch(`${BASE_URL}/ads/autofix`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        text: '테스트 광고 문구입니다. #해시태그1 #해시태그2 #해시태그3',
+                        channel: 'NAVER'
+                    })
+                });
+                const data = await res.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                resultEl.textContent = `오류: ${err.message}`;
+            }
+        }
+
+        // 프로필 조회
+        async function testProfile() {
+            const resultEl = document.getElementById('profile-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = '로딩 중...';
+            
+            try {
+                const res = await fetch(`${BASE_URL}/advertiser/profile?advertiser_id=101`);
+                const data = await res.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                resultEl.textContent = `오류: ${err.message}`;
+            }
+        }
+
+        // 결제 검증
+        async function testVerify() {
+            const invoiceNo = document.getElementById('invoice-no').value;
+            if (!invoiceNo) {
+                alert('인보이스 번호를 입력하세요');
+                return;
+            }
+            
+            const resultEl = document.getElementById('verify-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = '로딩 중...';
+            
+            try {
+                const res = await fetch(`${BASE_URL}/ads/billing/admin/verify/${invoiceNo}`, {
+                    headers: {
+                        'X-Admin-Key': ADMIN_KEY
+                    }
+                });
+                const data = await res.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                resultEl.textContent = `오류: ${err.message}`;
+            }
+        }
+
+        // 결제 요청 테스트
+        async function testCharge() {
+            const resultEl = document.getElementById('charge-result');
+            resultEl.style.display = 'block';
+            resultEl.textContent = '로딩 중...';
+            
+            try {
+                const invoiceNo = `INV-TEST-${Date.now()}`;
+                const res = await fetch(`${BASE_URL}/ads/billing/charge`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        invoice_no: invoiceNo,
+                        advertiser_id: 101,
+                        amount: 120000
+                    })
+                });
+                const data = await res.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                resultEl.textContent = `오류: ${err.message}`;
+            }
+        }
+
+        // 페이지 로드 시 서버 상태 확인
+        checkServerStatus();
+        setInterval(checkServerStatus, 30000); // 30초마다 확인
+    </script>
+</body>
+</html>

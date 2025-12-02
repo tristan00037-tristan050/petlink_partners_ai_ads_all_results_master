@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>플랜 전환 - 펫링크 파트너스</title>
+    
+    <!-- 테마 CSS -->
+    <link rel="stylesheet" href="/web/shared/theme.css?v=3">
+    <!-- 공통 UI -->
+    <link rel="stylesheet" href="/web/shared/ui.css?v=3">
+    
+    <script src="/web/js/ui.js"></script>
+    
+    <style>
+        .plan-switch-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .current-plan {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid var(--ui-primary, #667eea);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .current-plan-label {
+            font-size: var(--ui-font-size-sm, 14px);
+            color: var(--ui-text-muted, #666666);
+            margin-bottom: 8px;
+        }
+        
+        .current-plan-name {
+            font-size: var(--ui-font-size-xl, 20px);
+            font-weight: 700;
+            color: var(--ui-primary, #667eea);
+        }
+        
+        .plan-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .plan-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--ui-surface, #ffffff);
+            border: 2px solid var(--ui-border, #e5e7eb);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .plan-option:hover {
+            border-color: var(--ui-primary, #667eea);
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .plan-option.selected {
+            border-color: var(--ui-primary, #667eea);
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .plan-option-info {
+            flex: 1;
+        }
+        
+        .plan-option-name {
+            font-size: var(--ui-font-size-lg, 18px);
+            font-weight: 600;
+            color: var(--ui-text, #111111);
+            margin-bottom: 4px;
+        }
+        
+        .plan-option-price {
+            font-size: var(--ui-font-size-base, 16px);
+            color: var(--ui-text-muted, #666666);
+        }
+        
+        .plan-option-radio {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--ui-primary, #667eea);
+        }
+    </style>
+</head>
+<body>
+    <div class="plan-switch-container">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">플랜 전환</h1>
+                <p class="card-subtitle">원하는 플랜을 선택하세요</p>
+            </div>
+            
+            <div class="current-plan">
+                <div class="current-plan-label">현재 플랜</div>
+                <div class="current-plan-name" id="currentPlanName">Starter</div>
+            </div>
+            
+            <div class="card-body">
+                <div class="plan-options">
+                    <label class="plan-option" onclick="selectPlan('STARTER')">
+                        <div class="plan-option-info">
+                            <div class="plan-option-name">Starter</div>
+                            <div class="plan-option-price">₩200,000 /월</div>
+                        </div>
+                        <input type="radio" name="plan" value="STARTER" class="plan-option-radio" checked>
+                    </label>
+                    
+                    <label class="plan-option" onclick="selectPlan('STANDARD')">
+                        <div class="plan-option-info">
+                            <div class="plan-option-name">Standard</div>
+                            <div class="plan-option-price">₩400,000 /월</div>
+                        </div>
+                        <input type="radio" name="plan" value="STANDARD" class="plan-option-radio">
+                    </label>
+                    
+                    <label class="plan-option" onclick="selectPlan('PRO')">
+                        <div class="plan-option-info">
+                            <div class="plan-option-name">Pro</div>
+                            <div class="plan-option-price">₩800,000 /월</div>
+                        </div>
+                        <input type="radio" name="plan" value="PRO" class="plan-option-radio">
+                    </label>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <button class="btn btn-primary" onclick="switchPlan()" style="width: 100%;">플랜 전환</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPlan = 'STARTER';
+        
+        function selectPlan(planCode) {
+            selectedPlan = planCode;
+            
+            // 라디오 버튼 업데이트
+            document.querySelectorAll('input[name="plan"]').forEach(radio => {
+                radio.checked = radio.value === planCode;
+            });
+            
+            // 선택된 옵션 스타일 업데이트
+            document.querySelectorAll('.plan-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+        
+        async function switchPlan() {
+            try {
+                const response = await fetch('http://localhost:8091/api/plan/switch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        store_id: 1, // 실제로는 로그인한 사용자의 store_id
+                        plan_code: selectedPlan
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    alert('플랜이 전환되었습니다.\n인보이스가 생성되었습니다.');
+                    // 인보이스 페이지로 이동
+                    if (result.data && result.data.invoice_id) {
+                        window.location.href = `/invoice.html?id=${result.data.invoice_id}`;
+                    } else {
+                        window.location.href = '/invoice.html';
+                    }
+                } else {
+                    alert(result.error || '플랜 전환에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('Plan switch error:', error);
+                alert('플랜 전환 중 오류가 발생했습니다.');
+            }
+        }
+    </script>
+</body>
+</html>
+

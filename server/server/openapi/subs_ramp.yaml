@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info: { title: Subscription Ramping (r10.6), version: "r10.6" }
+paths:
+  /admin/prod/live/subs/ramp/status:  { get:  { summary: Ramp status & next step } }
+  /admin/prod/live/subs/ramp/dryrun:  { post: { summary: Ramp dry‑run (no change) } }
+  /admin/prod/live/subs/ramp/apply:   { post: { summary: Apply next ramp step (gated) } }
+  /admin/reports/pilot/subs/daily:    { get:  { summary: Daily aggregation of subscription auto‑routing } }
+  /admin/prod/live/subs/ui:           { get:  { summary: Admin policy UI (HTML) } }
+

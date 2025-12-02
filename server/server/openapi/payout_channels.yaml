@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info: { title: Payout Channels/Dispatch v2 (r11.4), version: "r11.4" }
+paths:
+  /admin/ledger/payouts/channels:            { get:  { summary: List active payout channels } }
+  /admin/ledger/payouts/channels/upsert:     { post: { summary: Upsert a payout channel (MOCK/HTTPS/SFTP) } }
+  /admin/ledger/payouts/batch/build-bankfile:{ post: { summary: Build bank file for a batch (CSV) } }
+  /admin/ledger/payouts/batch/send2:         { post: { summary: Dispatch bank file via channel (idempotent) } }
+  /admin/ledger/payouts/batch/receipts/simulate: { post: { summary: Simulate receipt/ack (CONFIRMED/FAILED) } }
+  /admin/ledger/payouts/batch/dispatch/log:  { get:  { summary: View dispatch log for a batch } }
+

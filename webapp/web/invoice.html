@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인보이스 - 펫링크 파트너스</title>
+    <style>
+        @media print {
+            body { margin: 0; }
+            .no-print { display: none; }
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fff;
+            color: #333;
+            line-height: 1.7;
+        }
+        /* 헤더 - landing.html 스타일 */
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .header-content h1 {
+            font-size: 36px;
+            color: #111;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .invoice-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 12px;
+        }
+        .invoice-number {
+            font-size: 16px;
+            color: #666;
+        }
+        .company-info {
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+        .company-info h3 {
+            font-size: 22px;
+            margin-bottom: 16px;
+            color: #111;
+            font-weight: 700;
+        }
+        .company-info div {
+            line-height: 1.8;
+            color: #333;
+        }
+        .invoice-details {
+            margin-bottom: 40px;
+        }
+        .invoice-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-details th,
+        .invoice-details td {
+            padding: 16px 14px;
+            text-align: left;
+            border-bottom: 2px solid #e5e7eb;
+            line-height: 1.7;
+        }
+        .invoice-details th {
+            background: #f9fafb;
+            font-weight: 700;
+            color: #111;
+            font-size: 16px;
+        }
+        .invoice-details td {
+            color: #333;
+            font-size: 16px;
+        }
+        .invoice-details td:last-child {
+            text-align: right;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .invoice-total {
+            margin-top: 40px;
+            text-align: right;
+        }
+        .total-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 60px;
+            padding: 16px 0;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        .total-row span:first-child {
+            min-width: 140px;
+            text-align: right;
+            color: #333;
+        }
+        .total-row span:last-child {
+            min-width: 140px;
+            text-align: right;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .total-row.final {
+            font-size: 28px;
+            font-weight: 700;
+            border-top: 2px solid #e5e7eb;
+            padding-top: 24px;
+            margin-top: 24px;
+        }
+        .total-row.final span:last-child {
+            color: #667eea;
+            font-size: 28px;
+        }
+        .payment-info {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #e5e7eb;
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+        }
+        .payment-info p {
+            margin-bottom: 8px;
+        }
+        .payment-info strong {
+            color: #111;
+            font-weight: 700;
+        }
+        /* 버튼 - landing.html cta-button 스타일 */
+        .btn-print {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+        .btn-print:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .btn-print:active {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>인보이스</h1>
+        </div>
+    </header>
+
+    <div class="invoice-header">
+        <div>
+            <div class="invoice-title">인보이스</div>
+            <div class="invoice-number" id="invoiceNumber">INV-2025-11-001</div>
+        </div>
+        <div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                <img src="/assets/logo.png" alt="펫링크 파트너스" style="height: 40px; width: auto;" onerror="this.style.display='none'">
+                <div style="font-size: 22px; font-weight: 700; color: #111;">펫링크 파트너스</div>
+            </div>
+            <div style="font-size: 16px; color: #666; line-height: 1.8;" id="companyInfo">
+                사업자등록번호: 123-45-67890<br>
+                대표: 펫링크<br>
+                주소: 서울시 강남구
+            </div>
+        </div>
+    </div>
+
+    <div class="company-info">
+        <h3>청구 대상</h3>
+        <div>
+            <strong style="color: #111; font-size: 18px;">테스트 매장</strong><br>
+            사업자등록번호: 987-65-43210<br>
+            주소: 서울시 서초구
+        </div>
+    </div>
+
+    <div class="invoice-details">
+        <table>
+            <thead>
+                <tr>
+                    <th>항목</th>
+                    <th style="text-align: center;">수량</th>
+                    <th style="text-align: right;">단가</th>
+                    <th style="text-align: right;">금액</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong style="color: #111; font-size: 18px;">All-in S 플랜 (2025년 11월)</strong></td>
+                    <td style="text-align: center;">1</td>
+                    <td style="text-align: right;">₩200,000</td>
+                    <td style="text-align: right;">₩200,000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="invoice-total">
+        <div class="total-row">
+            <span>소계:</span>
+            <span>₩200,000</span>
+        </div>
+        <div class="total-row">
+            <span>부가세 (10%):</span>
+            <span>₩20,000</span>
+        </div>
+        <div class="total-row final">
+            <span>총액:</span>
+            <span>₩220,000</span>
+        </div>
+        <div style="margin-top: 24px; font-size: 14px; color: #666; text-align: right;">
+            (부가세 별도)
+        </div>
+    </div>
+
+    <div class="payment-info">
+        <p><strong>결제 정보:</strong></p>
+        <p>결제일: 2025년 11월 10일</p>
+        <p>결제 방법: 신용카드</p>
+        <p>결제 상태: 완료</p>
+    </div>
+
+    <button class="btn-print no-print" id="printBtn">PDF 저장</button>
+
+    <script>
+        // 인보이스 데이터 로드 (실제로는 API에서 가져옴)
+        async function loadInvoiceData() {
+            try {
+                const invoiceId = new URLSearchParams(window.location.search).get('id');
+                if (invoiceId) {
+                    const response = await fetch(`${window.API_BASE_URL || 'http://localhost:8081'}/invoices/${invoiceId}`, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // 'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        if (result.ok && result.data) {
+                            updateInvoiceUI(result.data);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log('인보이스 데이터 로드 실패 (기본값 사용):', error);
+            }
+        }
+        
+        function updateInvoiceUI(data) {
+            if (data.invoice_number) {
+                document.getElementById('invoiceNumber').textContent = data.invoice_number;
+            }
+            if (data.company_info) {
+                document.getElementById('companyInfo').innerHTML = `
+                    사업자등록번호: ${data.company_info.business_number || '123-45-67890'}<br>
+                    대표: ${data.company_info.ceo || '펫링크'}<br>
+                    주소: ${data.company_info.address || '서울시 강남구'}
+                `;
+            }
+            // 추가 필드 업데이트 가능
+        }
+        
+        const invoiceData = {
+            invoice_number: 'INV-2025-11-001',
+            store_name: '테스트 매장',
+            plan_name: 'All-in S',
+            total_amount: 200000,
+            tax: 20000,
+            final_amount: 220000,
+            period: '2025년 11월'
+        };
+        
+        // 페이지 로드 시 인보이스 데이터 로드
+        loadInvoiceData();
+        
+        document.getElementById('printBtn').addEventListener('click', function() {
+            window.print();
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+    </script>
+</body>
+</html>

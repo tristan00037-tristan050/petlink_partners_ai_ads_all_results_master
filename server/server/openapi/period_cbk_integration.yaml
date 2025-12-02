@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info: { title: Period Close × Chargebacks Integration (r12.0), version: "r12.0" }
+paths:
+  /admin/ledger/periods/preview2:               { get:  { summary: Preview (snapshot + CBK impact) } }
+  /admin/ledger/periods/close2:                 { post: { summary: Apply CBK columns into snapshot (update only) } }
+  /admin/ledger/periods/{period}/export2.csv:   { get:  { summary: Export extended CSV } }
+  /admin/ledger/periods/{period}/report.md:     { get:  { summary: Markdown summary (top list) } }
+  /admin/ledger/payouts/run/preview2:           { get:  { summary: Payout preview with CBK-adjusted net } }
+

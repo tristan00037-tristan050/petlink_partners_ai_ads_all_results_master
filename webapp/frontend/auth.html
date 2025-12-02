@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 - 펫링크 파트너스</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 헤더 */
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .header-link {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .header-link:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .header-link.active {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .header-link-icon {
+            font-size: 18px;
+        }
+
+        /* 컨테이너 */
+        .container {
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .auth-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 2px solid #e5e7eb;
+        }
+
+        .auth-card h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #111;
+            font-weight: 700;
+        }
+
+        .auth-card p {
+            color: #666;
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 32px 0;
+            position: relative;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-social {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #fff;
+            color: #333;
+        }
+
+        .btn-social:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .btn-social.naver {
+            background: #03c75a;
+            color: #fff;
+            border-color: #03c75a;
+        }
+
+        .btn-social.naver:hover {
+            background: #02b350;
+        }
+
+        .btn-social.kakao {
+            background: #fee500;
+            color: #000;
+            border-color: #fee500;
+        }
+
+        .btn-social.kakao:hover {
+            background: #fdd835;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* 탭 스타일 */
+        .auth-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 16px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .auth-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .auth-tab:hover {
+            color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s;
+            }
+
+            .header-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .header-link {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+
+            .container {
+                margin: 40px auto;
+            }
+
+            .auth-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/landing.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>펫링크 파트너스</span>
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="메뉴">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="header-nav" id="headerNav">
+                <a href="/landing.html" class="header-link">
+                    <span class="header-link-icon">🏠</span>
+                    <span>홈</span>
+                </a>
+                <a href="/pricing.html" class="header-link">
+                    <span class="header-link-icon">💰</span>
+                    <span>요금제</span>
+                </a>
+                <a href="/pet-register.html" class="header-link">
+                    <span class="header-link-icon">🐾</span>
+                    <span>반려동물 등록</span>
+                </a>
+                <a href="/help.html" class="header-link">
+                    <span class="header-link-icon">❓</span>
+                    <span>도움말</span>
+                </a>
+                <a href="/auth.html" class="header-link active">
+                    <span class="header-link-icon">👤</span>
+                    <span>회원가입</span>
+                </a>
+                <a href="/mypage.html" class="header-link">
+                    <span class="header-link-icon">📋</span>
+                    <span>마이페이지</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="auth-card">
+            <h1>펫링크 파트너스</h1>
+            <p>분양광고를 시작하세요</p>
+
+            <!-- 탭 메뉴 -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('signup')">회원가입</button>
+                <button class="auth-tab" onclick="switchTab('login')">로그인</button>
+            </div>
+
+            <div id="error-message" class="error-message"></div>
+
+            <!-- 회원가입 폼 -->
+            <form id="signup-form" class="auth-form active" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="signup-email">이메일 (아이디)</label>
+                    <input type="email" id="signup-email" name="email" required placeholder="example@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password">비밀번호</label>
+                    <input type="password" id="signup-password" name="password" required placeholder="8자 이상 입력하세요" minlength="8">
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password-confirm">비밀번호 확인</label>
+                    <input type="password" id="signup-password-confirm" name="password-confirm" required placeholder="비밀번호를 다시 입력하세요">
+                </div>
+
+                <button type="submit" class="btn-primary">회원가입</button>
+
+                <div class="divider">또는</div>
+
+                <div class="social-buttons">
+                    <button type="button" class="btn-social naver" onclick="handleSocialSignup('naver')">
+                        <span>N</span>
+                        <span>네이버로 회원가입</span>
+                    </button>
+                    <button type="button" class="btn-social kakao" onclick="handleSocialSignup('kakao')">
+                        <span>K</span>
+                        <span>카카오톡으로 회원가입</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- 로그인 폼 -->
+            <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="login-email">이메일 (아이디)</label>
+                    <input type="email" id="login-email" name="email" required placeholder="example@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">비밀번호</label>
+                    <input type="password" id="login-password" name="password" required placeholder="비밀번호를 입력하세요">
+                </div>
+
+                <button type="submit" class="btn-primary">로그인</button>
+
+                <div class="divider">또는</div>
+
+                <div class="social-buttons">
+                    <button type="button" class="btn-social naver" onclick="handleSocialLogin('naver')">
+                        <span>N</span>
+                        <span>네이버로 로그인</span>
+                    </button>
+                    <button type="button" class="btn-social kakao" onclick="handleSocialLogin('kakao')">
+                        <span>K</span>
+                        <span>카카오톡으로 로그인</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('headerNav');
+            nav.classList.toggle('active');
+        }
+
+        // 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('headerNav');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // 탭 전환
+        function switchTab(mode) {
+            const signupTab = document.querySelector('.auth-tab:first-child');
+            const loginTab = document.querySelector('.auth-tab:last-child');
+            const signupForm = document.getElementById('signup-form');
+            const loginForm = document.getElementById('login-form');
+            const errorEl = document.getElementById('error-message');
+            
+            // 에러 메시지 숨기기
+            errorEl.classList.remove('show');
+            errorEl.textContent = '';
+            
+            if (mode === 'signup') {
+                signupTab.classList.add('active');
+                loginTab.classList.remove('active');
+                signupForm.classList.add('active');
+                loginForm.classList.remove('active');
+            } else {
+                signupTab.classList.remove('active');
+                loginTab.classList.add('active');
+                signupForm.classList.remove('active');
+                loginForm.classList.add('active');
+            }
+        }
+
+        // URL 파라미터로 초기 탭 설정
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('mode') === 'login') {
+            switchTab('login');
+        }
+
+        // 회원가입 처리
+        async function handleSignup(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const passwordConfirm = document.getElementById('signup-password-confirm').value;
+            const errorEl = document.getElementById('error-message');
+
+            // 비밀번호 확인
+            if (password !== passwordConfirm) {
+                errorEl.textContent = '비밀번호가 일치하지 않습니다.';
+                errorEl.classList.add('show');
+                return;
+            }
+
+            if (password.length < 8) {
+                errorEl.textContent = '비밀번호는 8자 이상이어야 합니다.';
+                errorEl.classList.add('show');
+                return;
+            }
+
+            try {
+                // 회원가입 API 호출
+                const response = await fetch('/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.ok || response.ok) {
+                    // 토큰 저장
+                    if (data.token) {
+                        localStorage.setItem('auth_token', data.token);
+                    }
+                    // 분양매장 정보 등록 화면으로 이동
+                    window.location.href = '/store-register.html';
+                } else {
+                    errorEl.textContent = data.error || '회원가입에 실패했습니다.';
+                    errorEl.classList.add('show');
+                }
+            } catch (error) {
+                // API가 없으면 로컬 스토리지에 저장하고 바로 이동 (개발용)
+                console.warn('API 호출 실패, 로컬 모드로 진행:', error);
+                localStorage.setItem('auth_token', 'dev_token_' + Date.now());
+                localStorage.setItem('user_email', email);
+                window.location.href = '/store-register.html';
+            }
+        }
+
+        // 소셜 회원가입
+        function handleSocialSignup(provider) {
+            // 소셜 회원가입 처리 (향후 구현)
+            alert(`${provider === 'naver' ? '네이버' : '카카오톡'} 회원가입은 준비 중입니다.`);
+            // 실제 구현 시:
+            // window.location.href = `/auth/social/${provider}?mode=signup`;
+        }
+
+        // 소셜 로그인
+        function handleSocialLogin(provider) {
+            // 소셜 로그인 처리 (향후 구현)
+            alert(`${provider === 'naver' ? '네이버' : '카카오톡'} 로그인은 준비 중입니다.`);
+            // 실제 구현 시:
+            // window.location.href = `/auth/social/${provider}?mode=login`;
+        }
+
+        // 로그인 처리
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('error-message');
+
+            try {
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.ok || response.ok) {
+                    if (data.token) {
+                        localStorage.setItem('auth_token', data.token);
+                    }
+                    window.location.href = '/mypage.html';
+                } else {
+                    errorEl.textContent = data.error || '로그인에 실패했습니다.';
+                    errorEl.classList.add('show');
+                }
+            } catch (error) {
+                // API가 없으면 로컬 스토리지 확인 (개발용)
+                console.warn('API 호출 실패, 로컬 모드로 진행:', error);
+                const storedEmail = localStorage.getItem('user_email');
+                if (storedEmail === email) {
+                    localStorage.setItem('auth_token', 'dev_token_' + Date.now());
+                    window.location.href = '/mypage.html';
+                } else {
+                    errorEl.textContent = '이메일 또는 비밀번호가 올바르지 않습니다.';
+                    errorEl.classList.add('show');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+

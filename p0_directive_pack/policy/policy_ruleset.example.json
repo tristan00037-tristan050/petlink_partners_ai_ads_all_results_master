@@ -1,0 +1,70 @@
+{
+  "version": "1.0",
+  "last_updated": "2025-11-17",
+  "banned_keywords": [
+    "도박",
+    "불법",
+    "성인",
+    "학대",
+    "폭력",
+    "마약",
+    "음주",
+    "담배",
+    "사기",
+    "사칭"
+  ],
+  "required_keywords": [],
+  "ai_policy_thresholds": {
+    "SEXUAL_CONTENT": 0.8,
+    "VIOLENCE": 0.8,
+    "HATE_SPEECH": 0.8,
+    "SPAM": 0.7,
+    "MISINFORMATION": 0.75
+  },
+  "brand_safety": {
+    "allowed_keywords": [
+      "책임분양",
+      "방문상담",
+      "반려가족",
+      "책임있는"
+    ],
+    "blocked_keywords": [
+      "즉시분양",
+      "재고소진",
+      "마감임박",
+      "할인"
+    ]
+  },
+  "suggested_hashtags": [
+    "#책임분양",
+    "#반려가족",
+    "#방문상담",
+    "#반려동물",
+    "#분양",
+    "#반려동물분양",
+    "#책임있는분양"
+  ],
+  "validation_rules": {
+    "title": {
+      "max_length": 30,
+      "required": true
+    },
+    "body": {
+      "min_length": 50,
+      "max_length": 500,
+      "required": true
+    },
+    "hashtags": {
+      "min_count": 5,
+      "max_count": 10
+    },
+    "images": {
+      "min_count": 1,
+      "max_count": 5
+    },
+    "videos": {
+      "max_count": 3
+    }
+  }
+}
+

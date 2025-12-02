@@ -1,0 +1,137 @@
+openapi: 3.0.3
+info:
+  title: PetLink Partners - Plans API
+  version: 1.0.0
+  description: 요금제 관리 API
+
+paths:
+  /plans:
+    get:
+      summary: 요금제 목록 조회
+      tags:
+        - Plans
+      responses:
+        '200':
+          description: 요금제 목록
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  plans:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Plan'
+
+  /stores/me/plan:
+    get:
+      summary: 내 요금제 조회
+      tags:
+        - Plans
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 요금제 정보
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  subscription:
+                    $ref: '#/components/schemas/Subscription'
+        '404':
+          description: 요금제 없음
+    post:
+      summary: 요금제 선택/변경
+      tags:
+        - Plans
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - plan_id
+              properties:
+                plan_id:
+                  type: integer
+                  example: 1
+      responses:
+        '200':
+          description: 요금제 선택 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  subscription:
+                    $ref: '#/components/schemas/Subscription'
+
+components:
+  schemas:
+    Plan:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+          enum: [S, M, L]
+          example: "S"
+        name:
+          type: string
+          example: "Starter"
+        price:
+          type: integer
+          example: 200000
+        ad_budget:
+          type: integer
+          example: 120000
+        features:
+          type: array
+          items:
+            type: string
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: integer
+        store_id:
+          type: integer
+        plan_id:
+          type: integer
+        status:
+          type: string
+          enum: [ACTIVE, OVERDUE, CANCELLED]
+        cycle_start:
+          type: string
+          format: date
+        cycle_end:
+          type: string
+          format: date
+        next_billing_date:
+          type: string
+          format: date
+        last_paid_at:
+          type: string
+          format: date-time
+          nullable: true
+        grace_period_days:
+          type: integer
+          default: 1
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+

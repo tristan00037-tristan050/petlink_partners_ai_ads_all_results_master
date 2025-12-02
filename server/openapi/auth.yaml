@@ -1,0 +1,160 @@
+openapi: 3.0.3
+info:
+  title: PetLink Partners - Auth API
+  version: 1.0.0
+  description: 인증 API
+
+paths:
+  /auth/signup:
+    post:
+      summary: 회원가입
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: store@example.com
+                password:
+                  type: string
+                  minLength: 8
+                  example: password123
+                store_name:
+                  type: string
+                  example: 반려동물 분양센터
+      responses:
+        '201':
+          description: 회원가입 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  user_id:
+                    type: integer
+                  token:
+                    type: string
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: 이미 존재하는 이메일
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      summary: 로그인
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: 로그인 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  user_id:
+                    type: integer
+                  token:
+                    type: string
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/me:
+    get:
+      summary: 현재 사용자 정보
+      tags:
+        - Auth
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 사용자 정보
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: 인증 필요
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        store_id:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        ok:
+          type: boolean
+          example: false
+        code:
+          type: string
+          example: "INVALID_EMAIL"
+        message:
+          type: string
+          example: "이메일 형식이 올바르지 않습니다."
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+

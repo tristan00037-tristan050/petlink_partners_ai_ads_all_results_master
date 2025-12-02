@@ -1,0 +1,55 @@
+<!doctype html><meta charset="utf-8"><title>Ads Quality (Auto-Fix)</title>
+<style>
+  body{font:14px system-ui,Arial;margin:16px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .card{border:1px solid #ddd;border-radius:6px;padding:12px;min-width:280px}
+  .light{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:6px}
+  .green{background:#2ecc71}.yellow{background:#f1c40f}.red{background:#e74c3c}
+  textarea{width:100%;height:120px}
+  input,select,button{padding:8px}
+  .toast{position:fixed;right:12px;bottom:12px;background:#333;color:#fff;padding:10px 14px;border-radius:6px;opacity:.94}
+</style>
+<h2>광고 소재 품질(신호등) · 원클릭 자동수정</h2>
+<div class="row">
+  <div class="card">
+    <label>채널</label>
+    <select id="ch"><option>NAVER</option><option>INSTAGRAM</option></select><br/><br/>
+    <label>헤드라인</label><br/><input id="h" style="width:100%" placeholder="헤드라인"/><br/><br/>
+    <label>본문</label><br/><textarea id="b" placeholder="본문 텍스트"></textarea><br/>
+    <label>해시태그(쉼표 구분)</label><br/><input id="tags" style="width:100%" placeholder="#반려동물,#분양"/><br/>
+    <label>링크(쉼표 구분)</label><br/><input id="links" style="width:100%" placeholder="https://..."/><br/><br/>
+    <button onclick="validate()">검토</button>
+    <button onclick="autofix()">원클릭 자동수정</button>
+  </div>
+  <div class="card" style="flex:1">
+    <div><span id="lamp" class="light"></span><b id="status">-</b></div>
+    <pre id="out" style="white-space:pre-wrap"></pre>
+  </div>
+</div>
+<div id="toast" class="toast" style="display:none"></div>
+<script>
+function toast(m){const t=document.getElementById('toast'); t.textContent=m; t.style.display='block'; setTimeout(()=>t.style.display='none',2000);}
+function payload(){
+  const channel=document.getElementById('ch').value;
+  const headline=document.getElementById('h').value;
+  const body=document.getElementById('b').value;
+  const hashtags=(document.getElementById('tags').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const links=(document.getElementById('links').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  return { channel, headline, body, hashtags, links };
+}
+function setLamp(s){const l=document.getElementById('lamp'); const st=document.getElementById('status');
+  l.className='light ' + (s==='GREEN'?'green':(s==='YELLOW'?'yellow':'red')); st.textContent=s;}
+async function validate(){
+  const r=await fetch('/ads/quality/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload())});
+  const j=await r.json(); setLamp(j.status); document.getElementById('out').textContent=JSON.stringify(j,null,2); toast('검토 완료');
+}
+async function autofix(){
+  const r=await fetch('/ads/quality/autofix',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload())});
+  const j=await r.json(); setLamp(j.assessment.status); document.getElementById('out').textContent=JSON.stringify(j,null,2); toast('자동수정 완료');
+  // 적용 결과를 입력창에 반영
+  document.getElementById('h').value=j.fixed.headline||''; 
+  document.getElementById('b').value=j.fixed.body||'';
+  document.getElementById('tags').value=(j.fixed.hashtags||[]).join(',');
+  document.getElementById('links').value=(j.fixed.links||[]).join(',');
+}
+</script>

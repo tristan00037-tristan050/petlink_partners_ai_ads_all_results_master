@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info: { title: Chargebacks Timeline/SLA/Ticket/CSV2 (r12.1), version: "r12.1" }
+paths:
+  /admin/ledger/cbk/timeline:          { get:  { summary: Case timeline (HTML) } }
+  /admin/ledger/cbk/note:              { post: { summary: Add timeline note } }
+  /admin/ledger/cbk/assign:            { post: { summary: Assign case to user } }
+  /admin/ledger/cbk/sla/board.json:    { get:  { summary: SLA board (JSON) } }
+  /admin/ledger/cbk/sla/board:         { get:  { summary: SLA board (HTML) } }
+  /admin/ledger/cbk/ticket/webhook:    { post: { summary: Create external ticket via webhook } }
+  /admin/ledger/cbk/export2.csv:       { get:  { summary: Export CBK cases CSV v2 (period scoped) } }
+

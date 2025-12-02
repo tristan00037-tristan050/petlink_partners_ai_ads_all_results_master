@@ -1,0 +1,56 @@
+<!doctype html><meta charset="utf-8"><title>Subscription Live Policy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div style="font:14px system-ui,Arial;max-width:720px;margin:24px auto;padding:16px;border:1px solid #ddd;border-radius:8px">
+  <h2 style="margin:0 0 12px">Subscription Live Policy</h2>
+  <div style="display:grid;grid-template-columns:160px 1fr;gap:8px;align-items:center">
+    <label>Advertiser ID</label><input id="adv" type="number" value="101">
+    <label>Enabled</label><input id="enabled" type="checkbox">
+    <label>Percent Live</label><input id="pct" type="number" min="0" max="100" value="0">
+    <label>Cap Amount/Day</label><input id="capAmt" type="number" min="0" placeholder="null">
+    <label>Cap Attempts/Day</label><input id="capCnt" type="number" min="0" placeholder="null">
+    <label>Ramp Enabled</label><input id="ramp" type="checkbox">
+    <label>Ramp Plan</label><input id="plan" type="text" value="0,5,10,25,50">
+    <label>Ramp Interval (min)</label><input id="ival" type="number" value="1440">
+  </div>
+  <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+    <button id="btnLoad">Load</button>
+    <button id="btnSave">Save</button>
+    <button id="btnDry">Ramp Dry‑run</button>
+    <button id="btnApply">Ramp Apply</button>
+  </div>
+  <pre id="out" style="margin-top:12px;background:#f8f8f8;padding:12px;white-space:pre-wrap;border-radius:6px;max-height:300px;overflow:auto"></pre>
+</div>
+<script>
+(async function(){
+  const H = {'X-Admin-Key':'admin-dev-key-123'};
+  const Q = (sel)=>document.querySelector(sel);
+  const adv=()=>Number(Q('#adv').value||0);
+  async function load(){
+    const r=await fetch(`/admin/prod/live/subs/policy?advertiser_id=${adv()}`,{headers:H});
+    const j=await r.json(); Q('#out').textContent=JSON.stringify(j,null,2);
+    const p=j.policy||{};
+    Q('#enabled').checked=!!p.enabled; Q('#pct').value=p.percent_live||0;
+    Q('#capAmt').value=p.cap_amount_per_day??''; Q('#capCnt').value=p.cap_attempts_per_day??'';
+    Q('#ramp').checked=!!p.ramp_enabled; Q('#plan').value=p.ramp_plan||'0,5,10,25,50'; Q('#ival').value=p.ramp_min_interval_minutes||1440;
+  }
+  async function save(){
+    const body={ advertiser_id:adv(), enabled:Q('#enabled').checked, percent_live:Number(Q('#pct').value||0),
+      cap_amount_per_day: Q('#capAmt').value===''?null:Number(Q('#capAmt').value),
+      cap_attempts_per_day: Q('#capCnt').value===''?null:Number(Q('#capCnt').value),
+      ramp_enabled: Q('#ramp').checked, ramp_plan: Q('#plan').value, ramp_min_interval_minutes: Number(Q('#ival').value||1440) };
+    await fetch('/admin/prod/live/subs/policy',{method:'POST',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    Q('#out').textContent='saved';
+  }
+  async function dry(){
+    const r=await fetch('/admin/prod/live/subs/ramp/dryrun',{method:'POST',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify({advertiser_id:adv()})});
+    Q('#out').textContent=JSON.stringify(await r.json(),null,2);
+  }
+  async function apply(){
+    const r=await fetch('/admin/prod/live/subs/ramp/apply',{method:'POST',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify({advertiser_id:adv()})});
+    Q('#out').textContent=JSON.stringify(await r.json(),null,2);
+  }
+  Q('#btnLoad').onclick=load; Q('#btnSave').onclick=save; Q('#btnDry').onclick=dry; Q('#btnApply').onclick=apply;
+  load().catch(()=>{});
+})();
+</script>
+

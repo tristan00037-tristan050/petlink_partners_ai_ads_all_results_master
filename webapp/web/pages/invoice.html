@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인보이스 - 펫링크 파트너스</title>
+    
+    <!-- 테마 CSS -->
+    <link rel="stylesheet" href="/web/shared/theme.css?v=3">
+    <!-- 공통 UI -->
+    <link rel="stylesheet" href="/web/shared/ui.css?v=3">
+    
+    <script src="/web/js/ui.js"></script>
+    
+    <style>
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid var(--ui-border, #e5e7eb);
+        }
+        
+        .invoice-title {
+            font-size: var(--ui-font-size-3xl, 30px);
+            font-weight: 700;
+            color: var(--ui-text, #111111);
+            margin-bottom: 8px;
+        }
+        
+        .invoice-number {
+            font-size: var(--ui-font-size-base, 16px);
+            color: var(--ui-text-muted, #666666);
+        }
+        
+        .company-info {
+            text-align: right;
+            font-size: var(--ui-font-size-sm, 14px);
+            color: var(--ui-text-muted, #666666);
+            line-height: 1.8;
+        }
+        
+        .invoice-body {
+            margin-bottom: 32px;
+        }
+        
+        .invoice-section {
+            margin-bottom: 24px;
+        }
+        
+        .invoice-section-title {
+            font-size: var(--ui-font-size-lg, 18px);
+            font-weight: 600;
+            color: var(--ui-text, #111111);
+            margin-bottom: 12px;
+        }
+        
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+        
+        .invoice-table th,
+        .invoice-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--ui-border, #e5e7eb);
+        }
+        
+        .invoice-table th {
+            font-weight: 600;
+            color: var(--ui-text, #111111);
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .invoice-table td {
+            color: var(--ui-text-muted, #666666);
+        }
+        
+        .invoice-table .text-right {
+            text-align: right;
+        }
+        
+        .invoice-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 12px;
+            margin-top: 24px;
+        }
+        
+        .invoice-total-label {
+            font-size: var(--ui-font-size-lg, 18px);
+            font-weight: 600;
+            color: var(--ui-text, #111111);
+        }
+        
+        .invoice-total-amount {
+            font-size: var(--ui-font-size-2xl, 24px);
+            font-weight: 700;
+            color: var(--ui-primary, #667eea);
+        }
+        
+        .invoice-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+        
+        @media print {
+            .invoice-actions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="card">
+            <div class="invoice-header">
+                <div>
+                    <div class="invoice-title">인보이스</div>
+                    <div class="invoice-number" id="invoiceNumber">INV-2025-01-001</div>
+                </div>
+                <div class="company-info">
+                    <div style="font-size: 20px; font-weight: 700; color: var(--ui-text, #111111); margin-bottom: 8px;">펫링크 파트너스</div>
+                    <div>사업자등록번호: 123-45-67890</div>
+                    <div>대표: 펫링크</div>
+                    <div>주소: 서울시 강남구</div>
+                </div>
+            </div>
+            
+            <div class="invoice-body">
+                <div class="invoice-section">
+                    <div class="invoice-section-title">청구 정보</div>
+                    <div style="color: var(--ui-text-muted, #666666); line-height: 1.8;">
+                        <div>매장명: <span id="storeName">강남 펫샵</span></div>
+                        <div>청구 기간: <span id="billingPeriod">2025년 1월 1일 ~ 2025년 1월 31일</span></div>
+                        <div>청구일: <span id="billingDate">2025년 1월 1일</span></div>
+                        <div>납기일: <span id="paymentDueDate">2025년 1월 8일</span></div>
+                        <div>플랜: <span id="planName">Starter</span></div>
+                        <div>상태: <span id="invoiceStatus">대기중</span></div>
+                    </div>
+                </div>
+                
+                <div class="invoice-section">
+                    <div class="invoice-section-title">청구 내역</div>
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th>항목</th>
+                                <th class="text-right">금액</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoiceItems">
+                            <tr>
+                                <td>플랜 요금 (Starter)</td>
+                                <td class="text-right">₩200,000</td>
+                            </tr>
+                            <tr>
+                                <td>포함 광고비</td>
+                                <td class="text-right">₩120,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="margin-top: 24px; padding: 16px; background: rgba(102, 126, 234, 0.02); border-radius: 12px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--ui-text-muted, #666666);">소계</span>
+                        <span style="color: var(--ui-text, #111111); font-weight: 600;" id="subtotal">₩200,000</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--ui-text-muted, #666666);">부가세 (10%)</span>
+                        <span style="color: var(--ui-text, #111111); font-weight: 600;" id="vat">₩20,000</span>
+                    </div>
+                </div>
+                
+                <div class="invoice-total">
+                    <div class="invoice-total-label">총액 (부가세 포함)</div>
+                    <div class="invoice-total-amount" id="totalAmount">₩220,000</div>
+                </div>
+            </div>
+            
+            <div class="invoice-actions">
+                <button class="btn btn-primary" onclick="window.print()">PDF(인쇄)</button>
+                <button class="btn btn-secondary" onclick="window.location.href='/pricing.html'">돌아가기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL 파라미터에서 인보이스 ID 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const invoiceId = urlParams.get('id') || '1';
+        
+        // 인보이스 데이터 로드
+        async function loadInvoice() {
+            try {
+                const response = await fetch(`http://localhost:8091/api/invoice/${invoiceId}`);
+                const result = await response.json();
+                
+                if (result.ok && result.data) {
+                    const data = result.data;
+                    
+                    // 인보이스 정보 표시
+                    document.getElementById('invoiceNumber').textContent = data.invoice_number || `INV-${invoiceId}`;
+                    document.getElementById('storeName').textContent = data.store_name || '강남 펫샵';
+                    
+                    // 청구 기간
+                    if (data.billing_period) {
+                        document.getElementById('billingPeriod').textContent = 
+                            `${data.billing_period.start} ~ ${data.billing_period.end}`;
+                    } else {
+                        document.getElementById('billingPeriod').textContent = 
+                            new Date().toLocaleDateString('ko-KR');
+                    }
+                    
+                    document.getElementById('billingDate').textContent = data.billing_date || new Date().toLocaleDateString('ko-KR');
+                    document.getElementById('paymentDueDate').textContent = data.payment_due_date || 
+                        new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('ko-KR');
+                    document.getElementById('planName').textContent = data.plan_name || 'Starter';
+                    
+                    // 상태 표시
+                    const statusText = {
+                        'pending': '대기중',
+                        'paid': '결제완료',
+                        'overdue': '연체'
+                    };
+                    document.getElementById('invoiceStatus').textContent = 
+                        statusText[data.status] || '대기중';
+                    
+                    // 금액 표시
+                    const subtotal = data.subtotal || data.plan_amount || 200000;
+                    const vat = data.vat || Math.floor(subtotal * 0.1);
+                    const total = data.total_amount || Math.floor(subtotal * 1.1);
+                    
+                    document.getElementById('subtotal').textContent = `₩${subtotal.toLocaleString()}`;
+                    document.getElementById('vat').textContent = `₩${vat.toLocaleString()}`;
+                    document.getElementById('totalAmount').textContent = `₩${total.toLocaleString()}`;
+                    
+                    // 청구 내역 표시
+                    const itemsTable = document.getElementById('invoiceItems');
+                    itemsTable.innerHTML = '';
+                    
+                    if (data.items && data.items.length > 0) {
+                        data.items.forEach(item => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${item.description || item.name}</td>
+                                <td class="text-right">₩${(item.amount || 0).toLocaleString()}</td>
+                            `;
+                            itemsTable.appendChild(row);
+                        });
+                    } else {
+                        // 기본 항목
+                        itemsTable.innerHTML = `
+                            <tr>
+                                <td>플랜 요금 (${data.plan_name || 'Starter'})</td>
+                                <td class="text-right">₩${(data.plan_amount || 200000).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    }
+                }
+            } catch (error) {
+                console.error('Invoice load error:', error);
+            }
+        }
+        
+        // 페이지 로드 시 인보이스 데이터 로드
+        loadInvoice();
+    </script>
+</body>
+</html>
+

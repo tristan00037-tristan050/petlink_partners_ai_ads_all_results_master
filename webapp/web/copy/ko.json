@@ -1,0 +1,117 @@
+{
+  "onboarding": {
+    "title": "펫링크 파트너스 시작하기",
+    "step1": {
+      "title": "회원가입",
+      "email": "이메일",
+      "password": "비밀번호",
+      "passwordConfirm": "비밀번호 확인",
+      "next": "다음"
+    },
+    "step2": {
+      "title": "매장 정보",
+      "storeName": "매장 이름",
+      "storeAddress": "매장 주소",
+      "phone": "전화번호",
+      "next": "다음",
+      "back": "이전"
+    },
+    "step3": {
+      "title": "약관 동의",
+      "terms1": "서비스 이용약관",
+      "terms2": "개인정보 처리방침",
+      "terms3": "마케팅 활용 동의",
+      "allAgree": "모두 동의",
+      "complete": "완료",
+      "back": "이전"
+    },
+    "complete": {
+      "title": "가입 완료!",
+      "message": "30일 무료 체험과 지점당 ₩50,000 크레딧이 자동 지급되었습니다.",
+      "goDashboard": "대시보드로",
+      "startFree": "30일 무료 시작"
+    }
+  },
+  "animals": {
+    "create": {
+      "title": "반려동물 등록",
+      "subtitle": "필수 정보만 입력하면 자동으로 광고가 시작됩니다",
+      "type": "종류",
+      "breed": "품종",
+      "gender": "성별",
+      "age": "나이",
+      "personality": "성격 키워드",
+      "photo": "대표 사진",
+      "photoHint": "최소 1장, 최대 10장",
+      "register": "등록하기",
+      "warning": "가격/재고/즉시분양 문구는 차단됩니다. 상담/방문 안내만 보여집니다."
+    }
+  },
+  "channels": {
+    "title": "광고 노출 채널 선택",
+    "subtitle": "어떤 채널에 광고를 보여줄지 선택하세요",
+    "instagram": "인스타그램/페이스북",
+    "tiktok": "틱톡",
+    "youtube": "유튜브",
+    "kakao": "카카오",
+    "naver": "네이버",
+    "radius": "광고 노출 반경",
+    "radiusHint": "보통 5~7km를 권장합니다",
+    "radiusDefault": "6 km",
+    "save": "저장"
+  },
+  "pricing": {
+    "title": "요금제",
+    "subtitle": "월 한도(하드캡) · 초과 청구 없음",
+    "starter": {
+      "name": "Starter",
+      "price": "₩200,000",
+      "period": "/월",
+      "features": [
+        "광고비 ₩120,000 포함",
+        "페이스북/인스타그램 또는 틱톡 중 택1",
+        "기본 리포트"
+      ],
+      "select": "선택"
+    },
+    "standard": {
+      "name": "Standard",
+      "price": "₩400,000",
+      "period": "/월",
+      "features": [
+        "광고비 ₩300,000 포함",
+        "페이스북/인스타그램 + 틱톡",
+        "고급 리포트"
+      ],
+      "select": "선택"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "₩800,000",
+      "period": "/월",
+      "features": [
+        "광고비 ₩600,000 포함",
+        "페이스북/인스타그램 + 틱톡",
+        "프리미엄 리포트"
+      ],
+      "select": "선택"
+    },
+    "invoice": "인보이스 생성"
+  },
+  "common": {
+    "save": "저장",
+    "cancel": "취소",
+    "next": "다음",
+    "back": "이전",
+    "complete": "완료",
+    "upload": "업로드",
+    "publish": "지금 게시",
+    "stop": "멈추기",
+    "loading": "처리 중...",
+    "success": "성공",
+    "error": "오류",
+    "required": "필수"
+  }
+}
+
+

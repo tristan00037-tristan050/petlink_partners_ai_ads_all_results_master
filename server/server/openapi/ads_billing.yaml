@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info: { title: Advertiser Billing API, version: "r5.2B" }
+servers: [ { url: http://localhost:5902 } ]
+paths:
+  /ads/billing/payment-methods:
+    get:
+      summary: List payment methods for advertiser
+      parameters: [ { in: query, name: advertiser_id, required: true, schema: { type: integer } } ]
+      responses: { '200': { description: OK } }
+    post:
+      summary: Register payment method token (set default optional)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [advertiser_id, pm_type, provider, token],
+          properties: { advertiser_id:{type:integer}, pm_type:{type:string,enum:[CARD,NAVERPAY,KAKAOPAY,BANK]},
+                      provider:{type:string}, token:{type:string}, brand:{type:string}, last4:{type:string}, set_default:{type:boolean} } } } }
+      responses: { '200': { description: OK } }
+  /ads/billing/payment-methods/{id}:
+    delete: { summary: Delete method, responses: { '200': { description: OK } } }
+  /ads/billing/payment-methods/{id}/default:
+    post: { summary: Set default method, responses: { '200': { description: OK } } }
+  /ads/billing/invoices:
+    post:
+      summary: Create ad invoice (DUE)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [invoice_no, advertiser_id, amount],
+          properties: { invoice_no:{type:string}, advertiser_id:{type:integer}, amount:{type:integer}, currency:{type:string} } } } }
+      responses: { '200': { description: OK } }
+  /ads/billing/confirm:
+    post:
+      summary: Authorize advertiser billing (uses default method when method_id absent)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [invoice_no, advertiser_id],
+          properties: { invoice_no:{type:string}, advertiser_id:{type:integer}, amount:{type:integer},
+                       method_id:{type:integer,nullable:true}, status:{type:string,enum:[AUTHORIZED,CAPTURED,CANCELED]} } } } }
+      responses: { '200': { description: OK } }
+  /ads/billing/capture:
+    post:
+      summary: Capture advertiser billing
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [invoice_no], properties: { invoice_no:{type:string} } } } } }
+      responses: { '200': { description: OK } }
+  /ads/billing/webhook/pg:
+    post:
+      summary: PG webhook (HMAC 'X-Webhook-Timestamp' + '.' + raw body)
+      responses: { '200': { description: OK }, '401': { description: Invalid signature or timestamp }, '400': { description: Invalid JSON } }

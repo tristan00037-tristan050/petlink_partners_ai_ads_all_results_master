@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>Admin Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="/ui/brand.css">
+</head>
+<body>
+  <div class="card" style="max-width:420px;margin:48px auto">
+    <h2 class="brand" style="margin:0 0 12px">Sign in</h2>
+    
+    <label class="label" for="email">Email</label>
+    <input id="email" class="input" type="email" autocomplete="username">
+    
+    <label class="label" for="pw">Password</label>
+    <input id="pw" class="input" type="password" autocomplete="current-password">
+    
+    <div class="spacer"></div>
+    <button id="login" class="btn btn-primary" style="width:100%">로그인</button>
+    <button class="btn btn-secondary" data-tappable id="sso" style="width:100%;margin-top:8px">SSO 로그인</button>
+    
+    <p id="msg" class="helper" role="status" aria-live="polite"></p>
+  </div>
+
+  <script>
+    const ADMIN_ORIGIN = "http://localhost:8000";
+    
+    async function adminLogin() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('pw').value;
+      
+      if (!email || !password) {
+        document.getElementById('msg').textContent = '이메일과 비밀번호를 입력하세요';
+        return;
+      }
+      
+      try {
+        const r = await fetch('/admin/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        
+        const j = await r.json();
+        if (!j.ok) {
+          document.getElementById('msg').textContent = '로그인 실패: ' + (j.code || '알 수 없는 오류');
+          return;
+        }
+        
+        localStorage.setItem('adm_access', j.access_token);
+        localStorage.setItem('adm_refresh', j.refresh_token);
+        location.href = '/admin-ui/audit.html';
+      } catch (e) {
+        document.getElementById('msg').textContent = '로그인 오류: ' + e.message;
+      }
+    }
+    
+    function openPopup(url) {
+      const w = 520, h = 620, left = screenX + (innerWidth - w) / 2, top = screenY + (innerHeight - h) / 2;
+      window.open(url, 'sso_admin', 'popup=1,width=' + w + ',height=' + h + ',left=' + left + ',top=' + top);
+    }
+    
+    function listen() {
+      function onMsg(ev) {
+        if (ev.origin !== ADMIN_ORIGIN) return;
+        if (ev.data && ev.data.kind === 'sso' && ev.data.surface === 'admin') {
+          const tok = ev.data.data || {};
+          if (tok.access_token) sessionStorage.setItem('admin_access_token', tok.access_token);
+          window.removeEventListener('message', onMsg);
+          document.getElementById('msg').textContent = 'SSO 완료';
+          setTimeout(() => {
+            location.href = '/admin-ui/audit.html';
+          }, 500);
+        }
+      }
+      window.addEventListener('message', onMsg);
+    }
+    
+    document.getElementById('login')?.addEventListener('click', adminLogin);
+    document.getElementById('sso')?.addEventListener('click', () => {
+      listen();
+      openPopup('/admin/auth/oidc/start');
+    });
+    
+    // Enter 키로 로그인
+    document.getElementById('pw')?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') adminLogin();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info: { title: Admin Advertisers Extras, version: "r7.7" }
+paths:
+  /admin/advertisers/import:
+    post: { summary: Import profiles via CSV (superadmin), responses: { '200': { description: OK } } }
+  /admin/advertisers/audit:
+    get: { summary: List admin audit logs (recent 200), responses: { '200': { description: OK } } }
+  /admin/advertisers/audit/ui:
+    get: { summary: Admin audit HTML UI, responses: { '200': { description: OK } } }

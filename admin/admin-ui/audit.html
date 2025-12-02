@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><title>Audit Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><style>body{font:14px system-ui;margin:24px}pre{max-height:60vh;overflow:auto}.error{color:red}</style>
+<h2>Audit Dashboard</h2>
+<div><a href="/admin/ui/login">← 로그인</a> | <button onclick="load()">Load</button> | <button onclick="exportCsv()">Export CSV</button></div>
+<pre id="out"></pre>
+<script>
+async function load(){
+  const at=localStorage.getItem("adm_at")||"";
+  if(!at){ out.textContent="토큰이 없습니다. 로그인 페이지에서 로그인하세요."; return; }
+  try{
+    const r=await fetch("/admin/audit/logs?limit=50",{headers:{"Authorization":"Bearer "+at}});
+    const j=await r.json();
+    if(j.ok){
+      out.textContent=JSON.stringify(j,null,2);
+    }else{
+      out.textContent="오류: "+JSON.stringify(j,null,2);
+    }
+  }catch(e){
+    out.textContent="오류: "+e.message;
+  }
+}
+async function exportCsv(){
+  const at=localStorage.getItem("adm_at")||"";
+  if(!at){ alert("토큰이 없습니다."); return; }
+  const r=await fetch("/admin/audit/logs/export.csv",{headers:{"Authorization":"Bearer "+at}});
+  const blob=await r.blob();
+  const url=window.URL.createObjectURL(blob);
+  const a=document.createElement("a"); a.href=url; a.download="audit_logs.csv"; a.click();
+}
+</script>

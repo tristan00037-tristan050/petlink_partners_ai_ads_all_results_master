@@ -1,0 +1,281 @@
+openapi: 3.0.3
+info:
+  title: PetLink Partners - Admin API
+  version: 1.0.0
+  description: 관리자 API
+
+paths:
+  /admin/stores:
+    get:
+      summary: 매장 목록 조회
+      tags:
+        - Admin
+      security:
+        - AdminKeyAuth: []
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+          description: 검색어 (매장명/이메일/전화)
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, inactive, pending]
+      responses:
+        '200':
+          description: 매장 목록
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  stores:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminStore'
+
+  /admin/stores/{id}/status:
+    patch:
+      summary: 매장 상태 변경
+      tags:
+        - Admin
+      security:
+        - AdminKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum: [active, inactive]
+      responses:
+        '200':
+          description: 상태 변경 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  store:
+                    $ref: '#/components/schemas/AdminStore'
+
+  /admin/campaigns:
+    get:
+      summary: 광고 목록 조회
+      tags:
+        - Admin
+      security:
+        - AdminKeyAuth: []
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+          description: 검색어 (제목/매장명)
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [DRAFT, SUBMITTED, PENDING_REVIEW, APPROVED, REJECTED_BY_POLICY, RUNNING, PAUSED, PAUSED_BY_BILLING, STOPPED]
+        - name: store_id
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 광고 목록
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  campaigns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminCampaign'
+
+  /admin/campaigns/{id}:
+    get:
+      summary: 광고 상세 조회
+      tags:
+        - Admin
+      security:
+        - AdminKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 광고 상세
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  campaign:
+                    $ref: '#/components/schemas/AdminCampaign'
+        '404':
+          description: 광고 없음
+
+  /admin/campaigns/{id}/approve:
+    patch:
+      summary: 광고 승인
+      tags:
+        - Admin
+      security:
+        - AdminKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 승인 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  campaign:
+                    $ref: '#/components/schemas/AdminCampaign'
+
+  /admin/campaigns/{id}/reject:
+    patch:
+      summary: 광고 반려
+      tags:
+        - Admin
+      security:
+        - AdminKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                  description: 반려 사유
+      responses:
+        '200':
+          description: 반려 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  campaign:
+                    $ref: '#/components/schemas/AdminCampaign'
+
+components:
+  schemas:
+    AdminStore:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        plan_code:
+          type: string
+        subscription_status:
+          type: string
+        store_status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    AdminCampaign:
+      type: object
+      properties:
+        id:
+          type: integer
+        store_id:
+          type: integer
+        store_name:
+          type: string
+        title:
+          type: string
+        thumbnail:
+          type: string
+        channels:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+        policy_violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyViolation'
+        created_at:
+          type: string
+          format: date-time
+    PolicyViolation:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        field:
+          type: string
+        keyword:
+          type: string
+        code:
+          type: string
+        score:
+          type: number
+        message:
+          type: string
+        suggested_body:
+          type: string
+        suggested_hashtags:
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    AdminKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+

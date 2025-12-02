@@ -1,0 +1,6 @@
+openapi: 3.0.3
+info: { title: Billing Monitor v2, version: "r6.10" }
+paths:
+  /admin/ads/billing/monitor.json: { get: { summary: 5m buckets (24h), responses: { '200': { description: OK } } } }
+  /admin/ads/billing/monitor:     { get: { summary: HTML dashboard,     responses: { '200': { description: OK } } } }
+  /admin/ads/billing/live/evidence/export/v3: { post: { summary: Export live proof bundle v3, responses: { '200': { description: OK } } } }

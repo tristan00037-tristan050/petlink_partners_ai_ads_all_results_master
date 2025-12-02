@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: PetLink Partners - Stores API
+  version: 1.0.0
+  description: 매장 관리 API
+
+paths:
+  /stores/me:
+    get:
+      summary: 내 매장 정보 조회
+      tags:
+        - Stores
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 매장 정보
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  store:
+                    $ref: '#/components/schemas/Store'
+        '404':
+          description: 매장 정보 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: 내 매장 정보 수정
+      tags:
+        - Stores
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StoreUpdate'
+      responses:
+        '200':
+          description: 수정 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  store:
+                    $ref: '#/components/schemas/Store'
+        '400':
+          description: 필수 필드 누락
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                example:
+                  ok: false
+                  code: "STORE_PROFILE_INCOMPLETE"
+                  message: "매장 정보를 먼저 완성해 주세요."
+
+components:
+  schemas:
+    Store:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        name:
+          type: string
+          example: "반려동물 분양센터"
+        address:
+          type: string
+          example: "서울시 강남구 테헤란로 123"
+        phone:
+          type: string
+          example: "02-1234-5678"
+        business_hours:
+          type: string
+          example: "평일 10:00-20:00"
+        short_description:
+          type: string
+          example: "책임 있는 분양을 약속합니다"
+        description:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+          maxItems: 4
+        is_complete:
+          type: boolean
+          description: 필수 필드 완성 여부
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    StoreUpdate:
+      type: object
+      required:
+        - name
+        - short_description
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        business_hours:
+          type: string
+        short_description:
+          type: string
+        description:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+          maxItems: 4
+    Error:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+

@@ -1,0 +1,14 @@
+{
+  "name": "petlink-partners-admin",
+  "version": "1.0.0",
+  "description": "PetLink Partners Admin Dashboard",
+  "scripts": {
+    "start": "npx serve -s . -l 8000",
+    "build": "echo 'Static files ready for deployment'",
+    "dev": "npx serve -s . -l 8000"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

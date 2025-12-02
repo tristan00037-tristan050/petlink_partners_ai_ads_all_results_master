@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info: { title: Pilot Trends & Cache, version: "r9.4" }
+paths:
+  /admin/reports/pilot/trends.json: { get: { summary: Weekly/Monthly trends JSON, responses: { '200': { description: OK } } } }
+  /admin/reports/pilot/trends:      { get: { summary: Trends HTML with sparklines, responses: { '200': { description: OK } } } }
+  /admin/reports/home-fast:         { get: { summary: Pilot Home preloaded HTML, responses: { '200': { description: OK } } } }
+  /app/pilot/status.cached.json:    { get: { summary: App Pilot status (60s cache), responses: { '200': { description: OK } } } }

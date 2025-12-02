@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info: { title: Pilot Weekly/Monthly Snapshots, version: "r9.2" }
+paths:
+  /admin/reports/pilot/weekly.json:  { get: { summary: Pilot weekly JSON,  responses: { "200": { description: OK } } } }
+  /admin/reports/pilot/monthly.json: { get: { summary: Pilot monthly JSON, responses: { "200": { description: OK } } } }
+  /admin/reports/pilot/weekly.csv:   { get: { summary: Pilot weekly CSV,   responses: { "200": { description: OK } } } }
+  /admin/reports/pilot/monthly.csv:  { get: { summary: Pilot monthly CSV,  responses: { "200": { description: OK } } } }

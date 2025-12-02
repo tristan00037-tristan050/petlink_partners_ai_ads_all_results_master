@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info: { title: Chargebacks/Disputes Ops (r11.8), version: "r11.8" }
+paths:
+  /admin/ledger/cbk/cases:        { get:  { summary: List/read chargeback cases } }
+  /admin/ledger/cbk/open:         { post: { summary: Open a chargeback case } }
+  /admin/ledger/cbk/evidence/add: { post: { summary: Attach evidence (base64) } }
+  /admin/ledger/cbk/represent:    { post: { summary: Mark represented } }
+  /admin/ledger/cbk/close:        { post: { summary: Close with outcome (WIN|LOSE|WRITE_OFF|CANCELED) } }
+  /admin/ledger/cbk/evidence.tgz: { get:  { summary: Download evidence bundle (tgz) } }
+

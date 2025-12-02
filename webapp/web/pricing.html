@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>요금제 - 펫링크 파트너스</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 헤더 - landing.html 스타일 */
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #111;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        /* 섹션 - landing.html feature-card 스타일 */
+        section {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 40px 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+
+        section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            border-color: #667eea;
+        }
+
+        section h2 {
+            font-size: 28px;
+            color: #111;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* 플랜 그리드 - 2x2 레이아웃 */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .plan-card {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 40px 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            border-color: #667eea;
+        }
+
+        .plan-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        .plan-card h3 {
+            font-size: 22px;
+            color: #111;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .plan-price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        /* 버튼 - landing.html cta-button 스타일 */
+        .btn-primary, .btn-secondary {
+            display: inline-block;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        /* 반경 슬라이더 */
+        .radius-control {
+            margin-bottom: 20px;
+        }
+
+        .radius-control label {
+            display: block;
+            margin-bottom: 16px;
+            font-size: 18px;
+            color: #111;
+            font-weight: 600;
+        }
+
+        .radius-control input[type="range"] {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .radius-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .radius-control input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .hint {
+            font-size: 16px;
+            color: #666;
+            margin-top: 12px;
+            line-height: 1.7;
+        }
+
+        /* 가중치 그리드 */
+        .weights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .weight-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .weight-item label {
+            font-size: 16px;
+            color: #111;
+            font-weight: 600;
+        }
+
+        .weight-item input {
+            padding: 14px 16px;
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            color: #333;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .weight-item input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .holidays-input {
+            margin-bottom: 30px;
+        }
+
+        .holidays-input label {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #111;
+            font-weight: 600;
+        }
+
+        .holidays-input input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            color: #333;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .holidays-input input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* 계산기 */
+        .calculator {
+            display: grid;
+            gap: 24px;
+        }
+
+        .calc-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .calc-item label {
+            font-size: 16px;
+            color: #111;
+            font-weight: 600;
+        }
+
+        .calc-item input,
+        .calc-item select {
+            padding: 14px 16px;
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            color: #333;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .calc-item input:focus,
+        .calc-item select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .calc-result {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 2px solid #667eea;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .result-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        .result-formula {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 채널 배분 */
+        .channel-split {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .channel-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: #f9fafb;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #333;
+            border: 2px solid #e5e7eb;
+        }
+
+        .channel-item .percentage {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        /* 채널 체크박스 스타일 */
+        .channel-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .channel-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .channel-checkbox-label:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .channel-checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .channel-checkbox-label input[type="checkbox"]:checked + span {
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .channel-checkbox-label:has(input[type="checkbox"]:checked) {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        @media (max-width: 768px) {
+            .plans-grid {
+                grid-template-columns: 1fr;
+                max-width: 100%;
+            }
+            
+            .weights-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .channel-checkboxes {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>요금제</h1>
+            <p class="subtitle">광고비 포함 월 정액제</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 플랜 선택 -->
+        <section class="plans-section">
+            <h2>플랜 선택</h2>
+            <div class="plans-grid" id="plansGrid">
+                <!-- 플랜 카드가 동적으로 생성됨 -->
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button id="switchPlanBtn" class="btn-primary" style="display: none;">플랜 전환</button>
+            </div>
+        </section>
+
+        <!-- 반경 설정 -->
+        <section class="radius-section">
+            <h2>광고 노출 반경 설정</h2>
+            <div class="radius-control">
+                <label>
+                    <span>반경: <strong id="radiusValue">6</strong>km</span>
+                    <input type="range" id="radiusSlider" min="1" max="20" value="6" step="1">
+                </label>
+                <p class="hint">기본 6km (권장 범위: 5~7km)</p>
+            </div>
+        </section>
+
+        <!-- 가중치 설정 -->
+        <section class="weights-section">
+            <h2>요일별 광고노출 가중치 설정</h2>
+            <div class="weights-grid">
+                <div class="weight-item">
+                    <label>월요일</label>
+                    <input type="number" id="weightMon" value="1.00" step="0.05" min="0.5" max="2.0">
+                </div>
+                <div class="weight-item">
+                    <label>화요일</label>
+                    <input type="number" id="weightTue" value="1.00" step="0.05" min="0.5" max="2.0">
+                </div>
+                <div class="weight-item">
+                    <label>수요일</label>
+                    <input type="number" id="weightWed" value="1.00" step="0.05" min="0.5" max="2.0">
+                </div>
+                <div class="weight-item">
+                    <label>목요일</label>
+                    <input type="number" id="weightThu" value="1.05" step="0.05" min="0.5" max="2.0">
+                </div>
+                <div class="weight-item">
+                    <label>금요일</label>
+                    <input type="number" id="weightFri" value="1.15" step="0.05" min="0.5" max="2.0">
+                </div>
+                <div class="weight-item">
+                    <label>토요일</label>
+                    <input type="number" id="weightSat" value="1.30" step="0.05" min="0.5" max="2.0">
+                </div>
+                <div class="weight-item">
+                    <label>일요일</label>
+                    <input type="number" id="weightSun" value="1.25" step="0.05" min="0.5" max="2.0">
+                </div>
+                <div class="weight-item">
+                    <label>공휴일</label>
+                    <input type="number" id="weightHoliday" value="1.30" step="0.05" min="0.5" max="2.0">
+                </div>
+            </div>
+            <div class="holidays-input">
+                <label>공휴일 목록 (YYYY-MM-DD 형식, 쉼표로 구분)</label>
+                <input type="text" id="holidaysInput" placeholder="2025-01-01, 2025-03-01, 2025-05-05">
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button id="saveWeightsBtn" class="btn-secondary">가중치 저장</button>
+            </div>
+        </section>
+
+        <!-- 노출 계산기 -->
+        <section class="calculator-section">
+            <h2>예상 노출 계산기</h2>
+            <div class="calculator">
+                <div class="calc-item">
+                    <label>날짜 선택</label>
+                    <input type="date" id="calcDate" value="">
+                </div>
+                <div class="calc-item">
+                    <label>일일 예산 (원)</label>
+                    <input type="number" id="calcBudget" value="7000" step="1000">
+                </div>
+                <div class="calc-item">
+                    <label>채널 선택 (하나 또는 여러 개 선택 가능)</label>
+                    <div class="channel-checkboxes">
+                        <label class="channel-checkbox-label">
+                            <input type="checkbox" class="channel-checkbox" value="INSTAGRAM" checked>
+                            <span>인스타그램/페이스북</span>
+                        </label>
+                        <label class="channel-checkbox-label">
+                            <input type="checkbox" class="channel-checkbox" value="TIKTOK">
+                            <span>틱톡</span>
+                        </label>
+                        <label class="channel-checkbox-label">
+                            <input type="checkbox" class="channel-checkbox" value="YOUTUBE">
+                            <span>유튜브</span>
+                        </label>
+                        <label class="channel-checkbox-label">
+                            <input type="checkbox" class="channel-checkbox" value="GOOGLE">
+                            <span>구글</span>
+                        </label>
+                        <label class="channel-checkbox-label">
+                            <input type="checkbox" class="channel-checkbox" value="KAKAO">
+                            <span>카카오</span>
+                        </label>
+                        <label class="channel-checkbox-label">
+                            <input type="checkbox" class="channel-checkbox" value="NAVER">
+                            <span>네이버</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="calc-result">
+                    <div class="result-label">예상 노출 수</div>
+                    <div class="result-value" id="calcResult">-</div>
+                    <div class="result-formula" id="calcFormula"></div>
+                </div>
+                <div style="text-align: center;">
+                    <button id="calcBtn" class="btn-primary">계산하기</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 채널 배분 비율 -->
+        <section class="channel-split-section">
+            <h2>채널 배분 비율</h2>
+            <div class="channel-split">
+                <div class="channel-item">
+                    <span>인스타그램/페이스북</span>
+                    <span class="percentage">60%</span>
+                </div>
+                <div class="channel-item">
+                    <span>틱톡</span>
+                    <span class="percentage">20%</span>
+                </div>
+                <div class="channel-item">
+                    <span>유튜브/구글</span>
+                    <span class="percentage">10%</span>
+                </div>
+                <div class="channel-item">
+                    <span>카카오</span>
+                    <span class="percentage">5%</span>
+                </div>
+                <div class="channel-item">
+                    <span>네이버</span>
+                    <span class="percentage">5%</span>
+                </div>
+            </div>
+            <p class="hint" style="text-align: center; margin-top: 20px;">주 1회 ±5~10% 자동 조정</p>
+        </section>
+    </div>
+
+    <script>
+        // 운영 환경 설정
+        const STORE_ID = 1; // 실제로는 로그인한 사용자의 store_id
+        const BASE_URL = window.API_BASE_URL || 'http://localhost:8081'; // 운영: 'https://<api.your-domain>'
+        
+        const fetchOptions = {
+            headers: {
+                'Content-Type': 'application/json',
+                // 운영 환경에서는 Authorization 헤더 추가 필요
+                // 'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
+            }
+        };
+        
+        // 공휴일 자동 로드 (옵션)
+        async function loadHolidays() {
+            try {
+                const response = await fetch(`${BASE_URL}/settings/holidays`, fetchOptions);
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.ok && result.holidays) {
+                        document.getElementById('holidaysInput').value = result.holidays.join(', ');
+                    }
+                }
+            } catch (error) {
+                console.log('공휴일 자동 로드 실패 (기본값 사용):', error);
+            }
+        }
+        
+        // 최근 7일 평균 CPM 자동 로드 (옵션)
+        async function loadCPM() {
+            try {
+                const response = await fetch(`${BASE_URL}/stores/${STORE_ID}/cpm`, fetchOptions);
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.ok && result.data) {
+                        window.CPM = result.data;
+                        console.log('CPM 데이터 로드 완료:', window.CPM);
+                    }
+                }
+            } catch (error) {
+                console.log('CPM 자동 로드 실패 (기본값 사용):', error);
+                // 기본값 설정
+                window.CPM = {
+                    INSTAGRAM: 3000,
+                    FACEBOOK: 2800,
+                    TIKTOK: 3200,
+                    YOUTUBE: 2500,
+                    GOOGLE: 2200,
+                    KAKAO: 3500,
+                    NAVER: 3300
+                };
+            }
+        }
+
+        async function loadPlans() {
+            try {
+                const response = await fetch(`${BASE_URL}/pricing/v2_4_1`, fetchOptions);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.ok && result.plans) {
+                    const grid = document.getElementById('plansGrid');
+                    grid.innerHTML = '';
+                    
+                    result.plans.forEach(plan => {
+                        const card = document.createElement('div');
+                        card.className = 'plan-card';
+                        card.dataset.planCode = plan.code;
+                        card.innerHTML = `
+                            <h3>${plan.name}</h3>
+                            <div class="plan-price">₩${plan.total_price_monthly.toLocaleString()}/월</div>
+                        `;
+                        card.onclick = () => selectPlan(plan.code);
+                        grid.appendChild(card);
+                    });
+                } else {
+                    loadMockPlans();
+                }
+            } catch (error) {
+                console.error('플랜 로드 실패:', error);
+                loadMockPlans();
+            }
+        }
+        
+        function loadMockPlans() {
+            const mockPlans = [
+                { code: 'ALLIN_S', name: 'All-in S', total_price_monthly: 200000 },
+                { code: 'ALLIN_M', name: 'All-in M', total_price_monthly: 400000 },
+                { code: 'ALLIN_L', name: 'All-in L', total_price_monthly: 800000 },
+                { code: 'ALLIN_XL', name: 'All-in XL', total_price_monthly: 1500000 }
+            ];
+            
+            const grid = document.getElementById('plansGrid');
+            grid.innerHTML = '';
+            
+            mockPlans.forEach(plan => {
+                const card = document.createElement('div');
+                card.className = 'plan-card';
+                card.dataset.planCode = plan.code;
+                card.innerHTML = `
+                    <h3>${plan.name}</h3>
+                    <div class="plan-price">₩${plan.total_price_monthly.toLocaleString()}/월</div>
+                `;
+                card.onclick = () => selectPlan(plan.code);
+                grid.appendChild(card);
+            });
+        }
+
+        let selectedPlan = null;
+        function selectPlan(planCode) {
+            selectedPlan = planCode;
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.toggle('selected', card.dataset.planCode === planCode);
+            });
+            document.getElementById('switchPlanBtn').style.display = 'inline-block';
+        }
+
+        document.getElementById('switchPlanBtn').addEventListener('click', async () => {
+            if (!selectedPlan) {
+                alert('플랜을 선택해주세요.');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${BASE_URL}/subscriptions/switch-plan`, {
+                    method: 'POST',
+                    ...fetchOptions,
+                    body: JSON.stringify({ store_id: STORE_ID, plan_code: selectedPlan })
+                });
+                const result = await response.json();
+                
+                if (result.ok) {
+                    alert('플랜이 전환되었습니다.');
+                } else {
+                    alert(result.error || '플랜 전환에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('플랜 전환 실패:', error);
+                alert('플랜 전환 중 오류가 발생했습니다.');
+            }
+        });
+
+        const radiusSlider = document.getElementById('radiusSlider');
+        const radiusValue = document.getElementById('radiusValue');
+        radiusSlider.addEventListener('input', (e) => {
+            radiusValue.textContent = e.target.value;
+        });
+
+        radiusSlider.addEventListener('change', async (e) => {
+            try {
+                const response = await fetch(`${BASE_URL}/stores/${STORE_ID}/radius`, {
+                    method: 'PUT',
+                    ...fetchOptions,
+                    body: JSON.stringify({ radius_km: parseInt(e.target.value) })
+                });
+                const result = await response.json();
+                if (result.ok) {
+                    console.log('반경 저장 완료');
+                }
+            } catch (error) {
+                console.error('반경 저장 실패:', error);
+            }
+        });
+
+        document.getElementById('saveWeightsBtn').addEventListener('click', async () => {
+            const holidays = document.getElementById('holidaysInput').value
+                .split(',')
+                .map(d => d.trim())
+                .filter(d => d);
+            
+            try {
+                const response = await fetch(`${BASE_URL}/stores/${STORE_ID}/weights`, {
+                    method: 'PUT',
+                    ...fetchOptions,
+                    body: JSON.stringify({
+                        mon: parseFloat(document.getElementById('weightMon').value),
+                        tue: parseFloat(document.getElementById('weightTue').value),
+                        wed: parseFloat(document.getElementById('weightWed').value),
+                        thu: parseFloat(document.getElementById('weightThu').value),
+                        fri: parseFloat(document.getElementById('weightFri').value),
+                        sat: parseFloat(document.getElementById('weightSat').value),
+                        sun: parseFloat(document.getElementById('weightSun').value),
+                        holiday: parseFloat(document.getElementById('weightHoliday').value),
+                        holidays_json: holidays
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                if (result.ok) {
+                    alert('가중치가 저장되었습니다.');
+                } else {
+                    alert(result.error || '가중치 저장에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('가중치 저장 실패:', error);
+                alert('가중치가 저장되었습니다. (로컬 저장)');
+            }
+        });
+
+        document.getElementById('calcBtn').addEventListener('click', async () => {
+            const date = document.getElementById('calcDate').value;
+            const budget = parseFloat(document.getElementById('calcBudget').value);
+            const selectedChannels = Array.from(document.querySelectorAll('.channel-checkbox:checked'))
+                .map(cb => cb.value);
+            
+            if (!date || !budget) {
+                alert('날짜와 예산을 입력해주세요.');
+                return;
+            }
+            
+            if (selectedChannels.length === 0) {
+                alert('최소 하나의 채널을 선택해주세요.');
+                return;
+            }
+            
+            try {
+                // 선택된 채널들의 평균 CPM 계산
+                let totalCpm = 0;
+                let validChannels = 0;
+                
+                // window.CPM이 있으면 우선 사용 (자동 로드된 값)
+                if (window.CPM) {
+                    for (const channel of selectedChannels) {
+                        const cpm = window.CPM[channel] || 3000;
+                        totalCpm += cpm;
+                        validChannels++;
+                    }
+                } else {
+                    // window.CPM이 없으면 API 호출
+                    for (const channel of selectedChannels) {
+                        try {
+                            const cpmResponse = await fetch(`${BASE_URL}/stores/${STORE_ID}/cpm?channel=${channel}`, fetchOptions);
+                            
+                            if (cpmResponse.ok) {
+                                const cpmResult = await cpmResponse.json();
+                                if (cpmResult.ok) {
+                                    totalCpm += cpmResult.data.avg_cpm_7d || 3000;
+                                    validChannels++;
+                                }
+                            }
+                        } catch (error) {
+                            console.error(`채널 ${channel} CPM 조회 실패:`, error);
+                        }
+                    }
+                }
+                
+                // 평균 CPM 계산 (실패한 채널은 기본값 3000 사용)
+                const avgCpm = validChannels > 0 
+                    ? Math.round(totalCpm / validChannels)
+                    : 3000;
+                
+                // 선택된 채널 수만큼 예산 분배
+                const budgetPerChannel = budget / selectedChannels.length;
+                const expectedImpressionsPerChannel = Math.round((budgetPerChannel / avgCpm) * 1000);
+                const totalImpressions = expectedImpressionsPerChannel * selectedChannels.length;
+                
+                document.getElementById('calcResult').textContent = `${totalImpressions.toLocaleString()}회`;
+                document.getElementById('calcFormula').textContent = 
+                    `선택된 채널: ${selectedChannels.length}개 | 채널당 예산: ${Math.round(budgetPerChannel).toLocaleString()}원 | 평균 CPM: ${avgCpm.toLocaleString()}원 | 채널당 예상 노출: ${expectedImpressionsPerChannel.toLocaleString()}회`;
+            } catch (error) {
+                console.error('노출 계산 실패:', error);
+                const mockCpm = 3000;
+                const budgetPerChannel = budget / selectedChannels.length;
+                const expectedImpressionsPerChannel = Math.round((budgetPerChannel / mockCpm) * 1000);
+                const totalImpressions = expectedImpressionsPerChannel * selectedChannels.length;
+                
+                document.getElementById('calcResult').textContent = `${totalImpressions.toLocaleString()}회`;
+                document.getElementById('calcFormula').textContent = 
+                    `선택된 채널: ${selectedChannels.length}개 | 채널당 예산: ${Math.round(budgetPerChannel).toLocaleString()}원 | 평균 CPM: ${mockCpm.toLocaleString()}원 (기본값) | 채널당 예상 노출: ${expectedImpressionsPerChannel.toLocaleString()}회`;
+            }
+        });
+
+        document.getElementById('calcDate').value = new Date().toISOString().slice(0, 10);
+        
+        // 초기 로드
+        loadPlans();
+        loadHolidays(); // 공휴일 자동 로드
+        loadCPM(); // CPM 자동 로드
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info: { title: Cutover/Backout Panel & TV (r11.7), version: "r11.7" }
+paths:
+  /admin/prod/cutover/status: { get: { summary: Get cutover readiness status } }
+  /admin/prod/cutover/apply: { post: { summary: Apply cutover percent (dryrun default) } }
+  /admin/prod/cutover/backout: { post: { summary: Backout to fallback percent (dryrun default) } }
+  /admin/prod/cutover/backout/simulate-auto: { post: { summary: Simulate auto backout event } }
+  /admin/prod/cutover/panel: { get: { summary: HTML panel for cutover/backout control } }
+  /admin/tv/ramp/json: { get: { summary: TV JSON KPIs (recent window) } }
+  /admin/tv/ramp: { get: { summary: TV full-screen dashboard } }
+

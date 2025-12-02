@@ -1,0 +1,256 @@
+openapi: 3.0.3
+info:
+  title: PetLink Partners - Campaigns API
+  version: 1.0.0
+  description: 캠페인 관리 API
+
+paths:
+  /campaigns:
+    post:
+      summary: 캠페인 생성
+      tags:
+        - Campaigns
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignCreate'
+      responses:
+        '201':
+          description: 캠페인 생성 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  campaign:
+                    $ref: '#/components/schemas/Campaign'
+        '400':
+          description: 잘못된 요청 또는 매장 정보 미완성
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                example:
+                  ok: false
+                  code: "STORE_PROFILE_INCOMPLETE"
+                  message: "매장 정보를 먼저 완성해 주세요."
+    get:
+      summary: 캠페인 목록 조회
+      tags:
+        - Campaigns
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [DRAFT, SUBMITTED, PENDING_REVIEW, APPROVED, REJECTED_BY_POLICY, RUNNING, PAUSED, PAUSED_BY_BILLING, STOPPED]
+      responses:
+        '200':
+          description: 캠페인 목록
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  campaigns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Campaign'
+
+  /campaigns/{id}:
+    get:
+      summary: 캠페인 상세 조회
+      tags:
+        - Campaigns
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 캠페인 상세
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  campaign:
+                    $ref: '#/components/schemas/Campaign'
+        '404':
+          description: 캠페인 없음
+    patch:
+      summary: 캠페인 상태 변경
+      tags:
+        - Campaigns
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - action
+              properties:
+                action:
+                  type: string
+                  enum: [pause, resume, stop, change-pet]
+                pet_id:
+                  type: integer
+                  description: change-pet 액션 시 필요
+      responses:
+        '200':
+          description: 상태 변경 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  campaign:
+                    $ref: '#/components/schemas/Campaign'
+
+components:
+  schemas:
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: integer
+        store_id:
+          type: integer
+        pet_id:
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
+        hashtags:
+          type: array
+          items:
+            type: string
+        images:
+          type: array
+          items:
+            type: string
+        videos:
+          type: array
+          items:
+            type: string
+        channels:
+          type: array
+          items:
+            type: string
+          enum: [instagram, facebook, tiktok, youtube, kakao, naver]
+        status:
+          type: string
+          enum: [DRAFT, SUBMITTED, PENDING_REVIEW, APPROVED, REJECTED_BY_POLICY, RUNNING, PAUSED, PAUSED_BY_BILLING, STOPPED]
+        policy_violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyViolation'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    CampaignCreate:
+      type: object
+      required:
+        - pet_id
+        - title
+        - body
+        - channels
+      properties:
+        pet_id:
+          type: integer
+        title:
+          type: string
+          maxLength: 30
+        body:
+          type: string
+        hashtags:
+          type: array
+          items:
+            type: string
+        images:
+          type: array
+          items:
+            type: string
+          maxItems: 5
+        videos:
+          type: array
+          items:
+            type: string
+          maxItems: 3
+        channels:
+          type: array
+          items:
+            type: string
+          minItems: 1
+    PolicyViolation:
+      type: object
+      properties:
+        id:
+          type: integer
+        campaign_id:
+          type: integer
+        type:
+          type: string
+          enum: [KEYWORD, AI_POLICY]
+        field:
+          type: string
+        keyword:
+          type: string
+        code:
+          type: string
+        score:
+          type: number
+        message:
+          type: string
+        suggested_body:
+          type: string
+        suggested_hashtags:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+

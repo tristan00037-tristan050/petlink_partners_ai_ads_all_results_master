@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 32px auto;
+    padding: 16px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--edge);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+}
+
+.btn {
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--ok);
+    color: var(--ok);
+    background: transparent;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: var(--ok);
+    border-color: var(--ok);
+    color: #001014;
+}

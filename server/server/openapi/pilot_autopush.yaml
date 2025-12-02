@@ -1,0 +1,6 @@
+openapi: 3.0.3
+info: { title: Pilot Autopush, version: "r9.0" }
+paths:
+  /admin/reports/pilot/autopush/preview: { get: { summary: Preview pilot payload, responses: { "200": { description: OK } } } }
+  /admin/reports/pilot/autopush/run:     { post:{ summary: Push pilot payload to webhook, responses: { "200": { description: OK } } } }
+  /admin/reports/pilot/autopush/status:  { get: { summary: Autopush scheduler status, responses: { "200": { description: OK } } } }

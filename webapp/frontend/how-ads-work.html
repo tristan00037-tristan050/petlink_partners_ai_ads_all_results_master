@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>펫링크 파트너스 - 광고가 어떻게 작동하나요?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* 헤더 */
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .header-link {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .header-link:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .header-link.active {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .header-link-icon {
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 16px;
+            margin-bottom: 40px;
+        }
+
+        .hero-section h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 20px;
+            opacity: 0.95;
+        }
+
+        .section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            font-size: 36px;
+        }
+
+        .step-card {
+            background: #f9fafb;
+            border-left: 4px solid #667eea;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: #667eea;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .step-desc {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .highlight-box strong {
+            color: #1e40af;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .info-card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .info-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .info-card-desc {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .example-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .example-box-title {
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+
+        .example-box-content {
+            color: #78350f;
+            line-height: 1.8;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-section h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 24px;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: #fff;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s;
+            }
+
+            .header-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .header-link {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+
+            .hero-section h1 {
+                font-size: 28px;
+            }
+
+            .section {
+                padding: 30px 20px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/landing.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>펫링크 파트너스</span>
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="메뉴">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="header-nav" id="headerNav">
+                <a href="/landing.html" class="header-link">
+                    <span class="header-link-icon">🏠</span>
+                    <span>홈</span>
+                </a>
+                <a href="/pricing.html" class="header-link">
+                    <span class="header-link-icon">💰</span>
+                    <span>요금제</span>
+                </a>
+                <a href="/pet-register.html" class="header-link">
+                    <span class="header-link-icon">🐾</span>
+                    <span>반려동물 등록</span>
+                </a>
+                <a href="/help.html" class="header-link">
+                    <span class="header-link-icon">❓</span>
+                    <span>도움말</span>
+                </a>
+                <a href="/franchise-hq.html" class="header-link">
+                    <span class="header-link-icon">🏢</span>
+                    <span>본사 관리</span>
+                </a>
+                <a href="/status.html" class="header-link">
+                    <span class="header-link-icon">📊</span>
+                    <span>서비스 상태</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1>광고가 어떻게 작동하나요?</h1>
+            <p>반려동물을 등록하면 누구에게, 어떻게 광고가 보여지는지 쉽게 설명해드립니다</p>
+        </div>
+
+        <!-- 광고 노출 기준 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">👥</span>
+                <span>광고 노출 기준</span>
+            </h2>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">1</span>
+                    <span class="step-title">매장과 가까운 소비자</span>
+                </div>
+                <div class="step-desc">
+                    기본적으로 <strong>매장 반경 5~7km 이내 소비자</strong>에게 노출됩니다. 
+                    노출 거리는 매장에서 변경 가능합니다.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">2</span>
+                    <span class="step-title">노출 연령대</span>
+                </div>
+                <div class="step-desc">
+                    <strong>18세 이상 고객</strong>부터 노출됩니다.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">3</span>
+                    <span class="step-title">반려동물 입양에 관심 있는 고객</span>
+                </div>
+                <div class="step-desc">
+                    다음 어느하나라도 해당되는 예비 소비자에게 노출됩니다:
+                </div>
+                <div class="info-grid" style="margin-top: 16px;">
+                    <div class="info-card">
+                        <div class="info-card-title">📱 우리 매장 콘텐츠를 본 사람</div>
+                        <div class="info-card-desc">
+                            최근 30일 안에 우리 매장의 인스타그램, 페이스북, 틱톡 게시물, 블로그, 홈페이지등을 본 고객에게 자동 노출 됩니다
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-title">🔍 입양 관련 검색한 소비자</div>
+                        <div class="info-card-desc">
+                            "강아지 분양", "고양이 분양", "반려동물 입양" 같은 반려동물 입양 관련 검색을 자주한 소비자
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-title">📞 다른 매장 분양정보를 확인한 소비자</div>
+                        <div class="info-card-desc">
+                            최근 30일 안에 다른 분양매장 정보를 확인한 소비자
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-title">🎥 동물관련 영상을 자주 본 고객</div>
+                        <div class="info-card-desc">
+                            최근 30일 안에 반려동물 관련 영상 또는 사진 등을 자본 고객과 5초 이상 시청한 고객
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>광고 노출 제외 대상:</strong> 용품 구매, 애견카페 등을 자주 검색한 고객 및 광고를 원하지 않는 고객은 노출 대상에서 제외됩니다.
+            </div>
+        </div>
+
+        <!-- 2단계: 어떻게 찾아내나요? -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🔍</span>
+                <span>2단계: 어떻게 관심 있는 사람을 찾아내나요?</span>
+            </h2>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">1</span>
+                    <span class="step-title">우리 매장 콘텐츠를 본 고객</span>
+                </div>
+                <div class="step-desc">
+                    최근 30일 안에 우리 매장의 인스타그램, 페이스북, 틱톡 게시물, 블로그, 홈페이지 등을 본 고객의 정보를 사용합니다. 
+                    우리 매장에 전화하거나 메시지를 보낸 고객, 우리 사이트에 들어온 고객의 정보도 활용합니다.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">2</span>
+                    <span class="step-title">입양 관련 검색을 한 소비자</span>
+                </div>
+                <div class="step-desc">
+                    인스타그램, 페이스북, 틱톡, 네이버, 유튜브 등에서 "강아지 분양", "고양이 분양", "반려동물 입양" 같은 
+                    반려동물 입양 관련 검색을 자주한 소비자를 찾습니다.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">3</span>
+                    <span class="step-title">다른 매장 분양정보를 확인한 소비자</span>
+                </div>
+                <div class="step-desc">
+                    최근 30일 안에 다른 분양매장 정보를 확인한 소비자를 찾습니다. 
+                    이들은 반려동물 입양에 관심이 있는 예비 소비자로 분류됩니다.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">4</span>
+                    <span class="step-title">동물관련 영상을 자주 본 고객</span>
+                </div>
+                <div class="step-desc">
+                    인스타그램, 페이스북, 틱톡, 유튜브 등에서 최근 30일 안에 반려동물 관련 영상 또는 사진 등을 
+                    5초 이상 시청한 고객을 찾습니다.
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-box-title">예시:</div>
+                <div class="example-box-content">
+                    김철수님은 최근 30일 안에 우리 매장의 인스타그램 게시물을 본 적이 있고, 
+                    틱톡에서 반려동물 관련 영상을 5초 이상 시청했으며, "강아지 분양"을 검색했습니다. 
+                    → 김철수님은 <strong>반려동물 입양에 관심 있는 고객</strong>으로 분류되어 
+                    광고를 더 많이 보게 됩니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- 3단계: 어떻게 광고를 보여주나요? -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📢</span>
+                <span>3단계: 어떻게 광고를 보여주나요?</span>
+            </h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-card-title">1️⃣ 코어 광고 (45%)</div>
+                    <div class="info-card-desc">
+                        매장 주변에 살면서 반려동물에 관심 있는 사람들에게 보여주는 광고입니다. 
+                        "지금 바로 올 수 있어요!" 같은 메시지를 보여줍니다.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">2️⃣ 웜 광고 (35%)</div>
+                    <div class="info-card-desc">
+                        이미 우리 콘텐츠를 본 사람들에게 다시 보여주는 광고입니다. 
+                        "지난번에 보신 거 기억하세요?" 같은 메시지를 보여줍니다. 
+                        7일 안에 4번까지만 보여줍니다.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">3️⃣ 룩얼라이크 광고 (20%)</div>
+                    <div class="info-card-desc">
+                        우리 고객과 비슷한 사람들에게 보여주는 광고입니다. 
+                        "우리 매장을 처음 보시나요?" 같은 메시지를 보여줍니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 24px;">
+                <strong>AI가 자동으로 결정합니다:</strong> 
+                각 사람이 얼마나 관심이 있는지 점수를 매겨서, 
+                관심이 많은 사람에게는 광고를 더 많이 보여주고, 
+                관심이 적은 사람에게는 적게 보여줍니다.
+            </div>
+        </div>
+
+        <!-- 4단계: 어디에 보여주나요? -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📱</span>
+                <span>4단계: 어디에 광고를 보여주나요?</span>
+            </h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-card-title">📸 인스타그램</div>
+                    <div class="info-card-desc">
+                        스토리, 릴스, 피드에 광고가 나타납니다. 
+                        세로로 긴 영상(9:16) 형식으로 보여집니다.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">👥 페이스북</div>
+                    <div class="info-card-desc">
+                        스토리, 피드에 광고가 나타납니다. 
+                        세로로 긴 영상(9:16) 형식으로 보여집니다.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">🎵 틱톡</div>
+                    <div class="info-card-desc">
+                        피드에 광고가 나타납니다. 
+                        12~18초 길이의 세로 영상으로 보여집니다.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">📝 네이버 블로그/포스트</div>
+                    <div class="info-card-desc">
+                        네이버 블로그와 포스트에 광고가 노출됩니다. 
+                        텍스트와 이미지 형식으로 보여집니다.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">🎬 유튜브(쇼츠)</div>
+                    <div class="info-card-desc">
+                        유튜브 쇼츠에 광고가 나타납니다. 
+                        세로 영상 형식으로 보여집니다.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-title">💬 카카오 채널</div>
+                    <div class="info-card-desc">
+                        카카오 채널을 통해 광고가 노출됩니다. 
+                        메시지와 콘텐츠 형식으로 보여집니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5단계: 결과는 어떻게 확인하나요? -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📊</span>
+                <span>5단계: 결과는 어떻게 확인하나요?</span>
+            </h2>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">1</span>
+                    <span class="step-title">광고를 본 사람 수</span>
+                </div>
+                <div class="step-desc">
+                    인스타그램, 페이스북, 틱톡, 네이버 블로그/포스트, 유튜브(쇼츠), 카카오 채널에서 각각 몇 명이 광고를 봤는지 확인할 수 있습니다.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">2</span>
+                    <span class="step-title">관심 있는 사람 정보</span>
+                </div>
+                <div class="step-desc">
+                    광고를 본 사람 중에서 반려동물 영상을 몇 번 봤는지, 
+                    검색을 몇 번 했는지 같은 정보를 확인할 수 있습니다.
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div>
+                    <span class="step-number">3</span>
+                    <span class="step-title">문의한 사람 수</span>
+                </div>
+                <div class="step-desc">
+                    광고를 보고 메시지를 보내거나 전화를 한 사람 수를 확인할 수 있습니다.
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 24px;">
+                <strong>실시간 확인:</strong> 
+                광고 결과는 5~30분 지연으로 거의 실시간으로 확인할 수 있고, 
+                확정된 결과는 다음 날부터 확인할 수 있습니다.
+            </div>
+        </div>
+
+        <!-- 요약 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">✨</span>
+                <span>요약</span>
+            </h2>
+
+            <div class="step-card">
+                <div class="step-desc">
+                    <strong>1. 누구에게?</strong> 매장 반경 5~7km 이내에 살면서 반려동물 입양에 관심 있는 18세 이상 고객에게
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-desc">
+                    <strong>2. 어떻게 찾나요?</strong> 우리 매장 콘텐츠를 본 고객, 입양 관련 검색을 한 소비자, 동물관련 영상을 자주 본 고객을 찾습니다
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-desc">
+                    <strong>3. 어떻게 보여주나요?</strong> AI가 관심 정도를 점수로 매겨서, 관심이 많은 사람에게 더 많이 보여줍니다
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-desc">
+                    <strong>4. 어디에?</strong> 인스타그램, 페이스북, 틱톡, 네이버 블로그/포스트, 유튜브(쇼츠), 카카오 채널에 자동으로 보여집니다
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-desc">
+                    <strong>5. 결과는?</strong> 대시보드에서 누가 봤는지, 몇 명이 문의했는지 확인할 수 있습니다
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h2>지금 바로 시작해보세요!</h2>
+            <p>반려동물을 등록만 하면 자동으로 광고가 시작됩니다</p>
+            <a href="/pet-register.html" class="cta-button">반려동물 등록하기</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('headerNav');
+            nav.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('headerNav');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
+
+

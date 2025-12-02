@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info: { title: Pilot Flip RCA/Rules/ACK, version: "r9.8" }
+paths:
+  /admin/reports/pilot/flip/causes:       { get:  { summary: Latest/ID RCA, responses: { '200': { description: OK } } } }
+  /admin/reports/pilot/flip/rules:        { get:  { summary: List rules, responses: { '200': { description: OK } } } }
+  /admin/reports/pilot/flip/rules/apply:  { post: { summary: Upsert rules, responses: { '200': { description: OK } } } }
+  /admin/reports/pilot/flip/ack:          { post: { summary: ACK with meta, responses: { '200': { description: OK } } } }
+  /admin/reports/pilot/flip/simulate2:    { post: { summary: Simulate flip with suppression, responses: { '200': { description: OK } } } }
+  /admin/reports/pilot/flip/ui:           { get:  { summary: RCA/ACK HTML, responses: { '200': { description: OK } } } }
+

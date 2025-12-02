@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>펫링크 파트너스 시작하기</title>
+    
+    <!-- 테마 CSS -->
+    <link rel="stylesheet" href="/web/shared/theme.css?v=3">
+    <!-- 공통 UI -->
+    <link rel="stylesheet" href="/web/shared/ui.css?v=3">
+    
+    <script src="/web/js/ui.js"></script>
+</head>
+<body>
+    <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+        <!-- 배너 -->
+        <div class="banner">
+            지금 시작하면 지점당 ₩50,000 크레딧이 자동 지급됩니다.
+        </div>
+
+        <!-- Step 1: 회원가입 -->
+        <div id="step1" class="card">
+            <div class="card-header">
+                <h2 class="card-title">회원가입</h2>
+                <p class="card-subtitle">이메일과 비밀번호를 입력하세요</p>
+            </div>
+            <div class="card-body">
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label class="form-label">
+                            이메일 <span class="required">*</span>
+                        </label>
+                        <input type="email" class="form-input" name="email" required placeholder="example@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            비밀번호 <span class="required">*</span>
+                        </label>
+                        <input type="password" class="form-input" name="password" required placeholder="8자 이상">
+                        <div class="form-hint">8자 이상, 영문/숫자/특수문자 포함</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            비밀번호 확인 <span class="required">*</span>
+                        </label>
+                        <input type="password" class="form-input" name="passwordConfirm" required placeholder="비밀번호 재입력">
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary" onclick="goToStep2()">다음</button>
+            </div>
+        </div>
+
+        <!-- Step 2: 매장 정보 -->
+        <div id="step2" class="card" style="display: none;">
+            <div class="card-header">
+                <h2 class="card-title">매장 정보</h2>
+                <p class="card-subtitle">매장 정보를 입력하세요</p>
+            </div>
+            <div class="card-body">
+                <form id="storeForm">
+                    <div class="form-group">
+                        <label class="form-label">
+                            매장 이름 <span class="required">*</span>
+                        </label>
+                        <input type="text" class="form-input" name="storeName" required placeholder="예: 강남 펫샵">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            매장 주소 <span class="required">*</span>
+                        </label>
+                        <input type="text" class="form-input" name="storeAddress" required placeholder="예: 서울시 강남구 테헤란로 123">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            전화번호 <span class="required">*</span>
+                        </label>
+                        <input type="tel" class="form-input" name="phone" required placeholder="예: 02-1234-5678">
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer" style="display: flex; gap: 12px;">
+                <button type="button" class="btn btn-outline" onclick="goToStep1()">이전</button>
+                <button type="button" class="btn btn-primary" onclick="goToStep3()">다음</button>
+            </div>
+        </div>
+
+        <!-- Step 3: 약관 동의 -->
+        <div id="step3" class="card" style="display: none;">
+            <div class="card-header">
+                <h2 class="card-title">약관 동의</h2>
+                <p class="card-subtitle">약관에 동의해주세요</p>
+            </div>
+            <div class="card-body">
+                <form id="termsForm">
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="terms1" required>
+                            <span>서비스 이용약관 <span class="required">*</span></span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="terms2" required>
+                            <span>개인정보 처리방침 <span class="required">*</span></span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="terms3">
+                            <span>마케팅 활용 동의 (선택)</span>
+                        </label>
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="allAgree" onchange="toggleAllTerms(this.checked)">
+                            <span style="font-weight: 600;">모두 동의</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer" style="display: flex; gap: 12px;">
+                <button type="button" class="btn btn-outline" onclick="goToStep2()">이전</button>
+                <button type="button" class="btn btn-primary" onclick="completeOnboarding()">완료</button>
+            </div>
+        </div>
+
+        <!-- Step 4: 완료 -->
+        <div id="step4" class="card" style="display: none; text-align: center;">
+            <div class="card-header">
+                <h2 class="card-title">가입 완료!</h2>
+                <p class="card-subtitle">30일 무료 체험과 지점당 ₩50,000 크레딧이 자동 지급되었습니다.</p>
+            </div>
+            <div class="card-body">
+                <div style="font-size: 48px; margin-bottom: 24px;">🎉</div>
+            </div>
+            <div class="card-footer" style="display: flex; gap: 12px; justify-content: center;">
+                <a href="/index.html" class="btn btn-primary">대시보드로</a>
+                <a href="/web/pages/animals_create.html" class="btn btn-secondary">30일 무료 시작</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function goToStep2() {
+            const form = document.getElementById('signupForm');
+            if (!UI.validateForm(form)) {
+                UI.showToast('필수 항목을 모두 입력해주세요.', 'error');
+                return;
+            }
+            
+            const password = form.password.value;
+            const passwordConfirm = form.passwordConfirm.value;
+            
+            if (password !== passwordConfirm) {
+                UI.showToast('비밀번호가 일치하지 않습니다.', 'error');
+                return;
+            }
+            
+            if (password.length < 8) {
+                UI.showToast('비밀번호는 8자 이상이어야 합니다.', 'error');
+                return;
+            }
+            
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            currentStep = 2;
+        }
+
+        function goToStep1() {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
+            currentStep = 1;
+        }
+
+        function goToStep3() {
+            const form = document.getElementById('storeForm');
+            if (!UI.validateForm(form)) {
+                UI.showToast('필수 항목을 모두 입력해주세요.', 'error');
+                return;
+            }
+            
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+            currentStep = 3;
+        }
+
+        function toggleAllTerms(checked) {
+            const checkboxes = document.querySelectorAll('#termsForm input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if (cb.id !== 'allAgree') {
+                    cb.checked = checked;
+                }
+            });
+        }
+
+        async function completeOnboarding() {
+            const form = document.getElementById('termsForm');
+            const terms1 = form.terms1.checked;
+            const terms2 = form.terms2.checked;
+            
+            if (!terms1 || !terms2) {
+                UI.showToast('필수 약관에 동의해주세요.', 'error');
+                return;
+            }
+            
+            // 회원가입 API 호출
+            try {
+                const signupData = {
+                    email: document.getElementById('signupForm').email.value,
+                    password: document.getElementById('signupForm').password.value,
+                    store_name: document.getElementById('storeForm').storeName.value,
+                    store_address: document.getElementById('storeForm').storeAddress.value,
+                    phone: document.getElementById('storeForm').phone.value,
+                    terms_agreed: { terms1, terms2, terms3: form.terms3.checked }
+                };
+                
+                const response = await fetch('http://localhost:3001/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(signupData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    document.getElementById('step3').style.display = 'none';
+                    document.getElementById('step4').style.display = 'block';
+                    currentStep = 4;
+                } else {
+                    UI.showToast(result.error || '가입 중 오류가 발생했습니다.', 'error');
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                UI.showToast('가입 중 오류가 발생했습니다.', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,34 @@
+<!doctype html><meta charset="utf-8"><title>App Login</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<div style="font-family:system-ui;max-width:440px;margin:56px auto;padding:20px;border:1px solid #ddd;border-radius:8px">
+  <h2 style="margin:0 0 12px">WebApp 로그인</h2>
+  <button id="sso-login-app" style="width:100%;padding:12px">SSO로 로그인</button>
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <button id="reauth-app" style="flex:1;padding:10px">재인증(강제)</button>
+    <button id="reauth-app-quick" style="flex:1;padding:10px">재인증(만료 30초)</button>
+  </div>
+  <p id="status" style="font-size:12px;color:#666;margin-top:10px">대기 중…</p>
+</div>
+<script>
+const APP_ORIGIN="http://localhost:3000";
+function openPopup(url){
+  const w=520,h=620,left=screenX+(innerWidth-w)/2,top=screenY+(innerHeight-h)/2;
+  window.open(url,"sso_app","popup=1,width="+w+",height="+h+",left="+left+",top="+top);
+}
+function listen(){
+  function onMsg(ev){
+    if(ev.origin!==APP_ORIGIN) return;
+    if(ev.data && ev.data.kind==="sso" && ev.data.surface==="app"){
+      const tok=ev.data.data||{};
+      if(tok.access_token) localStorage.setItem("app_access_token", tok.access_token);
+      if(tok.refresh_token) localStorage.setItem("app_refresh_token", tok.refresh_token);
+      window.removeEventListener("message", onMsg);
+      document.getElementById("status").textContent="SSO 완료";
+    }
+  }
+  window.addEventListener("message", onMsg);
+}
+document.getElementById("sso-login-app").onclick = ()=>{ listen(); openPopup("/auth/oidc/start"); };
+document.getElementById("reauth-app").onclick = ()=>{ listen(); openPopup("/auth/oidc/start?force=1"); };
+document.getElementById("reauth-app-quick").onclick = ()=>{ listen(); openPopup("/auth/oidc/start?force=1&max_age=30"); };
+</script>

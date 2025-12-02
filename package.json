@@ -1,0 +1,16 @@
+{
+  "name": "petlink-owner-patch",
+  "version": "1.0.0",
+  "description": "Owner Portal & Admin Patch with E2E tests",
+  "private": true,
+  "scripts": {
+    "test:e2e": "playwright test --project=chromium --workers=1 --retries=1",
+    "test:e2e:debug": "playwright test --project=chromium --headed --debug",
+    "test:e2e:ui": "playwright test --ui",
+    "check:servers": "bash scripts/check-servers.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
+

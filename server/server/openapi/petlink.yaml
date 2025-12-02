@@ -1,0 +1,133 @@
+openapi: 3.0.0
+info:
+  title: PetLink Partners API
+  version: 2.9.0
+  description: PetLink Partners 광고 플랫폼 API
+
+servers:
+  - url: http://localhost:5902
+    description: 로컬 개발 서버
+
+paths:
+  /health:
+    get:
+      summary: 헬스체크
+      responses:
+        '200':
+          description: 서버 정상
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  ts:
+                    type: string
+
+  /auth/signup:
+    post:
+      summary: 가입 및 토큰 발급
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  store_id:
+                    type: integer
+                  token:
+                    type: string
+
+  /stores/{id}/channel-prefs:
+    get:
+      summary: 채널 설정 조회
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 성공
+    put:
+      summary: 채널 설정 저장
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ig_enabled:
+                  type: boolean
+                tt_enabled:
+                  type: boolean
+      responses:
+        '200':
+          description: 성공
+
+  /organic/drafts:
+    post:
+      summary: 초안 생성
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - store_id
+                - copy
+              properties:
+                store_id:
+                  type: integer
+                copy:
+                  type: string
+                channels:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: 생성됨
+
+  /billing/checkout:
+    post:
+      summary: 결제
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                plan:
+                  type: string
+                price:
+                  type: integer
+      responses:
+        '200':
+          description: 성공
+
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT

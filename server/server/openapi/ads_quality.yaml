@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info: { title: Ads Quality, version: "r7.3" }
+paths:
+  /ads/quality/validate:
+    post: { summary: Validate ad content, responses: { '200': { description: OK } } }
+  /ads/quality/autofix:
+    post: { summary: Autofix ad content, responses: { '200': { description: OK } } }

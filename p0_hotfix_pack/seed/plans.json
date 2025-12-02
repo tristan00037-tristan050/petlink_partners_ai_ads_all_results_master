@@ -1,0 +1,33 @@
+[
+  {
+    "code": "S",
+    "name": "Starter",
+    "price": 200000,
+    "ad_budget": 120000,
+    "features": [
+      "페이스북/인스타그램 또는 틱톡 중 택1",
+      "기본 리포트"
+    ]
+  },
+  {
+    "code": "M",
+    "name": "Standard",
+    "price": 400000,
+    "ad_budget": 300000,
+    "features": [
+      "페이스북/인스타그램 + 틱톡",
+      "고급 리포트"
+    ]
+  },
+  {
+    "code": "L",
+    "name": "Pro",
+    "price": 800000,
+    "ad_budget": 600000,
+    "features": [
+      "페이스북/인스타그램 + 틱톡",
+      "프리미엄 리포트"
+    ]
+  }
+]
+

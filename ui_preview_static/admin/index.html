@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetLink Partners - Admin 미리보기</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+    .header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 1rem 2rem;
+    }
+    .header h1 { font-size: 1.5rem; }
+    .filters {
+      background: #fff;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      gap: 1rem;
+    }
+    .filters input, .filters select {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .stores-list {
+      padding: 2rem;
+    }
+    .stores-table {
+      width: 100%;
+      background: #fff;
+      border-collapse: collapse;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .stores-table th {
+      background: #f8f9fa;
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 2px solid #dee2e6;
+    }
+    .stores-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .btn-small {
+      padding: 0.25rem 0.75rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 0.5rem;
+    }
+    .btn-small:hover { background: #0056b3; }
+    .btn-reject {
+      background: #dc3545;
+    }
+    .btn-reject:hover { background: #c82333; }
+    .campaign-detail {
+      background: #fff;
+      margin: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .policy-violation {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>PetLink Partners - Admin 미리보기</h1>
+  </div>
+
+  <!-- 매장 관리 -->
+  <div class="filters">
+    <input type="text" placeholder="매장명/이메일/전화 검색" style="flex: 1;">
+    <select>
+      <option value="">전체</option>
+      <option value="active">활성</option>
+      <option value="inactive">비활성</option>
+    </select>
+  </div>
+
+  <div class="stores-list">
+    <table class="stores-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>매장명</th>
+          <th>이메일</th>
+          <th>전화</th>
+          <th>플랜</th>
+          <th>구독 상태</th>
+          <th>작업</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>반려동물 분양센터</td>
+          <td>store@example.com</td>
+          <td>010-1234-5678</td>
+          <td>Starter</td>
+          <td>ACTIVE</td>
+          <td>
+            <button class="btn-small">승인</button>
+            <button class="btn-small btn-reject">정지</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 광고 승인/반려 UI 예시 -->
+  <div class="campaign-detail">
+    <h2>광고 상세 (승인/반려 예시)</h2>
+    <div style="margin: 1rem 0;">
+      <h3>광고 제목</h3>
+      <p>귀여운 강아지 분양합니다</p>
+    </div>
+    <div style="margin: 1rem 0;">
+      <h3>정책 위반 사항</h3>
+      <div class="policy-violation">
+        <strong>KEYWORD 위반</strong>
+        <p>금칙어: "분양" (허용되지 않는 용어)</p>
+        <p>제안 문구: "사랑스러운 강아지 입양을 기다립니다"</p>
+      </div>
+    </div>
+    <div style="margin: 1rem 0;">
+      <button class="btn-small">승인</button>
+      <button class="btn-small btn-reject">반려</button>
+    </div>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,51 @@
+{
+  "version": "v2.4",
+  "form_id": "signup",
+  "title": "회원가입",
+  "fields": [
+    {
+      "name": "email",
+      "label": "이메일",
+      "type": "email",
+      "required": true,
+      "validation": {
+        "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      }
+    },
+    {
+      "name": "password",
+      "label": "비밀번호",
+      "type": "password",
+      "required": true,
+      "validation": {
+        "minLength": 8
+      }
+    },
+    {
+      "name": "password_confirm",
+      "label": "비밀번호 확인",
+      "type": "password",
+      "required": true
+    },
+    {
+      "name": "name",
+      "label": "이름",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "store_name",
+      "label": "매장 상호명",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "business_number",
+      "label": "사업자 등록번호",
+      "type": "text",
+      "required": false
+    }
+  ]
+}
+
+

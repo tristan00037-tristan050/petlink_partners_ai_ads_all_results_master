@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info: { title: Ramp Performance & Rollback Reports (r10.8), version: "r10.8" }
+paths:
+  /admin/reports/pilot/ramp/perf.json:   { get: { summary: Ramp performance daily JSON } }
+  /admin/reports/pilot/ramp/perf:        { get: { summary: Ramp performance HTML } }
+  /admin/reports/pilot/ramp/perf.csv:    { get: { summary: Ramp performance CSV export } }
+  /admin/reports/pilot/ramp/rollback.json: { get: { summary: Backoff/rollback summary JSON } }
+  /admin/reports/pilot/ramp/autopush/run:  { post: { summary: Send ramp report via webhook } }
+

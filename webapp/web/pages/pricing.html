@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>요금제 - 펫링크 파트너스</title>
+    
+    <!-- 테마 CSS -->
+    <link rel="stylesheet" href="/web/shared/theme.css?v=3">
+    <!-- 공통 UI -->
+    <link rel="stylesheet" href="/web/shared/ui.css?v=3">
+    
+    <style>
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        
+        .pricing-card {
+            background: var(--ui-surface);
+            border: 2px solid var(--ui-border);
+            border-radius: var(--ui-radius-lg);
+            padding: var(--ui-spacing-xl);
+            text-align: center;
+            transition: var(--ui-transition);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--ui-shadow-lg);
+            border-color: var(--ui-primary);
+        }
+        
+        .pricing-name {
+            font-size: var(--ui-font-size-2xl);
+            font-weight: 700;
+            color: var(--ui-text);
+            margin-bottom: var(--ui-spacing-md);
+        }
+        
+        .pricing-price {
+            font-size: var(--ui-font-size-3xl);
+            font-weight: 700;
+            color: var(--ui-primary);
+            margin-bottom: var(--ui-spacing-sm);
+        }
+        
+        .pricing-period {
+            font-size: var(--ui-font-size-base);
+            color: var(--ui-text-muted);
+            margin-bottom: var(--ui-spacing-lg);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 var(--ui-spacing-lg) 0;
+            text-align: left;
+        }
+        
+        .pricing-features li {
+            padding: var(--ui-spacing-sm) 0;
+            color: var(--ui-text);
+            font-size: var(--ui-font-size-base);
+        }
+        
+        .pricing-features li:before {
+            content: "✓ ";
+            color: var(--ui-success);
+            font-weight: 700;
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
+        <div class="card">
+            <div class="card-header" style="text-align: center;">
+                <h1 class="card-title">요금제</h1>
+                <p class="card-subtitle">월 한도(하드캡) · 초과 청구 없음</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <!-- Starter -->
+                <div class="pricing-card">
+                    <div class="pricing-name">Starter</div>
+                    <div class="pricing-price">₩200,000</div>
+                    <div class="pricing-period">/월</div>
+                    <ul class="pricing-features">
+                        <li>광고비 ₩120,000 포함</li>
+                        <li>페이스북/인스타그램 또는 틱톡 중 택1</li>
+                        <li>기본 리포트</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPlan('starter')">시작하기</button>
+                </div>
+                
+                <!-- Standard -->
+                <div class="pricing-card">
+                    <div class="pricing-name">Standard</div>
+                    <div class="pricing-price">₩400,000</div>
+                    <div class="pricing-period">/월</div>
+                    <ul class="pricing-features">
+                        <li>광고비 ₩300,000 포함</li>
+                        <li>페이스북/인스타그램 + 틱톡</li>
+                        <li>고급 리포트</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPlan('standard')">시작하기</button>
+                </div>
+                
+                <!-- Pro -->
+                <div class="pricing-card">
+                    <div class="pricing-name">Pro</div>
+                    <div class="pricing-price">₩800,000</div>
+                    <div class="pricing-period">/월</div>
+                    <ul class="pricing-features">
+                        <li>광고비 ₩600,000 포함</li>
+                        <li>페이스북/인스타그램 + 틱톡</li>
+                        <li>프리미엄 리포트</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPlan('pro')">시작하기</button>
+                </div>
+            </div>
+            
+            <div class="card-footer" style="text-align: center; margin-top: 32px;">
+                <button class="btn btn-secondary" onclick="generateInvoice()">인보이스 생성</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 플랜 목록 로드 (v2.6 r3)
+        async function loadPlans() {
+            try {
+                const response = await fetch('http://localhost:8091/api/plans');
+                const result = await response.json();
+                
+                if (result.ok && result.data && result.data.plans) {
+                    // 동적으로 플랜 카드 업데이트 (선택사항)
+                    console.log('플랜 목록 로드 완료:', result.data.plans);
+                }
+            } catch (error) {
+                console.error('Plans load error:', error);
+            }
+        }
+        
+        // 페이지 로드 시 플랜 목록 로드
+        loadPlans();
+        
+        async function selectPlan(planCode) {
+            const planNames = {
+                'starter': 'Starter',
+                'standard': 'Standard',
+                'pro': 'Pro'
+            };
+            
+            try {
+                const response = await fetch(`http://localhost:8091/api/plan/switch`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        store_id: 1, // 실제로는 로그인한 사용자의 store_id
+                        plan_code: planCode.toUpperCase()
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    alert(`${planNames[planCode]} 플랜이 선택되었습니다.\n인보이스가 생성되었습니다.`);
+                    // 인보이스 페이지로 이동
+                    if (result.data && result.data.invoice_id) {
+                        window.location.href = `/invoice.html?id=${result.data.invoice_id}`;
+                    } else {
+                        window.location.href = '/invoice.html';
+                    }
+                } else {
+                    alert(result.error || '플랜 선택에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('Plan selection error:', error);
+                alert('플랜 선택 중 오류가 발생했습니다.');
+            }
+        }
+
+        async function generateInvoice() {
+            try {
+                // 현재 선택된 플랜으로 인보이스 생성 (기본값: STARTER)
+                const response = await fetch('http://localhost:8091/api/plan/switch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        store_id: 1, // 실제로는 로그인한 사용자의 store_id
+                        plan_code: 'STARTER' // 기본값
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    // 인보이스 페이지로 이동
+                    if (result.data && result.data.invoice_id) {
+                        window.location.href = `/invoice.html?id=${result.data.invoice_id}`;
+                    } else {
+                        window.location.href = '/invoice.html';
+                    }
+                } else {
+                    alert(result.error || '인보이스 생성에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('Invoice generation error:', error);
+                alert('인보이스 생성 중 오류가 발생했습니다.');
+            }
+        }
+    </script>
+</body>
+</html>
+

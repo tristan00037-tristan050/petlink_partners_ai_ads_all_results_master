@@ -1,0 +1,63 @@
+/* theme.css - Landing CSS 변수 상속 및 테마 토큰 */
+
+:root {
+    /* Landing CSS 변수 상속 (--landing-* 존재 시) */
+    --ui-bg: var(--landing-bg, #ffffff);
+    --ui-surface: var(--landing-surface, #ffffff);
+    --ui-primary: var(--landing-primary, #667eea);
+    --ui-primary-hover: var(--landing-primary-hover, #5568d3);
+    --ui-secondary: var(--landing-secondary, #764ba2);
+    --ui-text: var(--landing-text, #111111);
+    --ui-text-muted: var(--landing-text-muted, #666666);
+    --ui-text-light: var(--landing-text-light, #9ca3af);
+    --ui-border: var(--landing-border, #e5e7eb);
+    --ui-border-hover: var(--landing-border-hover, #d1d5db);
+    --ui-success: var(--landing-success, #10b981);
+    --ui-warning: var(--landing-warning, #f59e0b);
+    --ui-error: var(--landing-error, #ef4444);
+    --ui-info: var(--landing-info, #3b82f6);
+    
+    /* 폰트 상속 */
+    --ui-font-family: var(--landing-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
+    --ui-font-size-base: var(--landing-font-size-base, 16px);
+    --ui-font-size-sm: var(--landing-font-size-sm, 14px);
+    --ui-font-size-lg: var(--landing-font-size-lg, 18px);
+    --ui-font-size-xl: var(--landing-font-size-xl, 20px);
+    --ui-font-size-2xl: var(--landing-font-size-2xl, 24px);
+    --ui-font-size-3xl: var(--landing-font-size-3xl, 30px);
+    
+    /* 간격 */
+    --ui-spacing-xs: 4px;
+    --ui-spacing-sm: 8px;
+    --ui-spacing-md: 16px;
+    --ui-spacing-lg: 24px;
+    --ui-spacing-xl: 32px;
+    --ui-spacing-2xl: 48px;
+    
+    /* 반경 */
+    --ui-radius-sm: 8px;
+    --ui-radius-md: 12px;
+    --ui-radius-lg: 16px;
+    --ui-radius-xl: 20px;
+    
+    /* 그림자 */
+    --ui-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --ui-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --ui-shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.12);
+    
+    /* 전환 */
+    --ui-transition: all 0.3s ease;
+}
+
+/* 다크 모드 지원 (선택사항) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ui-bg: var(--landing-bg, #111111);
+        --ui-surface: var(--landing-surface, #1a1a1a);
+        --ui-text: var(--landing-text, #ffffff);
+        --ui-text-muted: var(--landing-text-muted, #9ca3af);
+        --ui-border: var(--landing-border, #374151);
+    }
+}
+
+

@@ -1,0 +1,8 @@
+openapi: 3.0.3
+info: { title: Live Billing (Probe/Exec/Limit/Journal), version: "r10.4" }
+paths:
+  /admin/prod/live/limits:      { get:  { summary: Get daily/live limits & today agg } }
+  /admin/prod/live/probe:       { post: { summary: Check eligibility + guards (no charge) } }
+  /admin/prod/live/charge-exec: { post: { summary: Execute (dryrun by default, live when dryrun=false) } }
+  /admin/prod/live/journal:     { get:  { summary: Last 200 journal rows } }
+

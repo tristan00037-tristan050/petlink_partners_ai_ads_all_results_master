@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반려동물 등록 - 펫링크 파트너스</title>
+    
+    <!-- 테마 CSS -->
+    <link rel="stylesheet" href="/web/shared/theme.css?v=3">
+    <!-- 공통 UI -->
+    <link rel="stylesheet" href="/web/shared/ui.css?v=3">
+    
+    <script src="/web/js/ui.js"></script>
+</head>
+<body>
+    <div style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">반려동물 등록</h1>
+                <p class="card-subtitle">필수 정보만 입력하면 자동으로 광고가 시작됩니다</p>
+            </div>
+            
+            <div class="banner" style="margin-bottom: 24px;">
+                가격/재고/즉시분양 문구는 차단됩니다. 상담/방문 안내만 보여집니다.
+            </div>
+            
+            <form id="animalForm" class="card-body">
+                <div class="form-group">
+                    <label class="form-label">
+                        종류 <span class="required">*</span>
+                    </label>
+                    <select class="form-select" name="type" required>
+                        <option value="">선택하세요</option>
+                        <option value="dog">강아지</option>
+                        <option value="cat">고양이</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        품종 <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input" name="breed" required placeholder="예: 포메라니안">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        성별 <span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="male" required>
+                            <span>수컷</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="female" required>
+                            <span>암컷</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="unknown" required>
+                            <span>모름</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        나이 <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input" name="age" required placeholder="예: 3개월, 1세">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        성격 키워드 <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input" name="personality" required placeholder="예: 활발한, 애교 많은, 조용한">
+                    <div class="form-hint">쉼표로 구분하여 여러 개 입력 가능</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        대표 사진 <span class="required">*</span>
+                    </label>
+                    <input type="file" class="form-input" id="photoInput" accept="image/*" multiple required>
+                    <div class="form-hint">최소 1장, 최대 10장</div>
+                    <div id="photoPreview" style="margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px;"></div>
+                </div>
+            </form>
+            
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary" onclick="registerAnimal()">등록하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const photoInput = document.getElementById('photoInput');
+        const photoPreview = document.getElementById('photoPreview');
+        let selectedPhotos = [];
+
+        photoInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            
+            if (files.length > 10) {
+                UI.showToast('사진은 최대 10장까지 선택할 수 있습니다.', 'error');
+                return;
+            }
+            
+            selectedPhotos = files;
+            updatePhotoPreview();
+        });
+
+        function updatePhotoPreview() {
+            photoPreview.innerHTML = '';
+            
+            selectedPhotos.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '100%';
+                    img.style.height = '100px';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '8px';
+                    img.style.border = '2px solid var(--ui-border)';
+                    
+                    const container = document.createElement('div');
+                    container.style.position = 'relative';
+                    container.appendChild(img);
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = '×';
+                    removeBtn.style.position = 'absolute';
+                    removeBtn.style.top = '4px';
+                    removeBtn.style.right = '4px';
+                    removeBtn.style.width = '24px';
+                    removeBtn.style.height = '24px';
+                    removeBtn.style.borderRadius = '50%';
+                    removeBtn.style.background = 'var(--ui-error)';
+                    removeBtn.style.color = '#fff';
+                    removeBtn.style.border = 'none';
+                    removeBtn.style.cursor = 'pointer';
+                    removeBtn.onclick = () => {
+                        selectedPhotos.splice(index, 1);
+                        updatePhotoPreview();
+                    };
+                    
+                    container.appendChild(removeBtn);
+                    photoPreview.appendChild(container);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function registerAnimal() {
+            const form = document.getElementById('animalForm');
+            
+            if (!UI.validateForm(form)) {
+                UI.showToast('필수 항목을 모두 입력해주세요.', 'error');
+                return;
+            }
+            
+            if (selectedPhotos.length === 0) {
+                UI.showToast('최소 1장의 사진을 선택해주세요.', 'error');
+                return;
+            }
+            
+            // 금지어 검사
+            const personality = form.personality.value;
+            const bannedCheck = UI.checkBannedWords(personality);
+            if (!bannedCheck.valid) {
+                UI.showToast(`금지어가 포함되어 있습니다: ${bannedCheck.words.join(', ')}`, 'error');
+                return;
+            }
+            
+            const submitBtn = document.querySelector('.btn-primary');
+            UI.setLoading(submitBtn, true);
+            
+            try {
+                const formData = new FormData();
+                formData.append('store_id', 1); // 실제로는 로그인한 사용자의 store_id
+                formData.append('type', form.type.value);
+                formData.append('breed', form.breed.value);
+                formData.append('gender', form.querySelector('input[name="gender"]:checked').value);
+                formData.append('age', form.age.value);
+                formData.append('personality', personality);
+                
+                selectedPhotos.forEach(photo => {
+                    formData.append('photos', photo);
+                });
+                
+                const response = await fetch('http://localhost:3002/pets', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    UI.showToast('반려동물이 등록되었습니다! 광고가 자동으로 시작됩니다.', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 2000);
+                } else {
+                    UI.showToast(result.error || '등록 중 오류가 발생했습니다.', 'error');
+                    UI.setLoading(submitBtn, false);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                UI.showToast('등록 중 오류가 발생했습니다.', 'error');
+                UI.setLoading(submitBtn, false);
+            }
+        }
+    </script>
+</body>
+</html>
+

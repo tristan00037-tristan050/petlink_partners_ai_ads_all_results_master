@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info: { title: Advertiser Profile, version: "r7.3" }
+paths:
+  /advertiser/profile:
+    get: { summary: Get advertiser profile, parameters: [{in:query,name:advertiser_id,required:true, schema:{type:integer}}], responses: {'200':{description:OK}} }
+    put:
+      summary: Upsert advertiser profile
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [advertiser_id], properties:
+        { advertiser_id: {type: integer}, name:{type:string}, biz_no:{type:string}, phone:{type:string}, address:{type:string},
+          logo_url:{type:string}, site_url:{type:string}, tags:{type: array, items:{type:string}}, meta:{type:object} } } } }
+      responses: { '200': { description: OK } }

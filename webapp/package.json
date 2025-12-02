@@ -1,0 +1,14 @@
+{
+  "name": "petlink-partners-webapp",
+  "version": "1.0.0",
+  "description": "PetLink Partners WebApp - Client Frontend",
+  "scripts": {
+    "start": "npx serve -s . -l 3000",
+    "build": "echo 'Static files ready for deployment'",
+    "dev": "npx serve -s . -l 3000"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

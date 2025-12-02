@@ -1,0 +1,5 @@
+openapi: 3.0.3
+info: { title: WebApp Gate, version: "r7.3" }
+paths:
+  /admin/webapp/gate:
+    get: { summary: WebApp Gate readiness, responses: { '200': { description: OK } } }

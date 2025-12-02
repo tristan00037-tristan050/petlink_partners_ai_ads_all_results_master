@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>펫링크 파트너스 - 요금제</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 헤더 */
+        header {
+            background: #fff;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .header-link {
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .header-link:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .header-link.active {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .header-link-icon {
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 16px;
+            color: #111;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 50px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .highlight-box h2 {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .highlight-box p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .pricing-card {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            border-color: #667eea;
+        }
+
+        .pricing-card.recommended {
+            border-color: #667eea;
+            border-width: 3px;
+        }
+
+        .pricing-card.recommended::before {
+            content: "추천";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .plan-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .plan-price-unit {
+            font-size: 18px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .plan-desc {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .plan-features {
+            text-align: left;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .plan-feature {
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+
+        .plan-feature:last-child {
+            border-bottom: none;
+        }
+
+        .plan-feature-icon {
+            font-size: 20px;
+            color: #10b981;
+        }
+
+        .plan-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #667eea;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-top: auto;
+        }
+
+        .plan-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .info-section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .info-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #111;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            padding: 12px 0;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .info-list-icon {
+            font-size: 24px;
+            color: #667eea;
+            flex-shrink: 0;
+        }
+
+        .tax-notice {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 15px;
+            color: #92400e;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s;
+            }
+
+            .header-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .header-link {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/landing.html" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>펫링크 파트너스</span>
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="메뉴">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="header-nav" id="headerNav">
+                <a href="/landing.html" class="header-link">
+                    <span class="header-link-icon">🏠</span>
+                    <span>홈</span>
+                </a>
+                <a href="/pricing.html" class="header-link active">
+                    <span class="header-link-icon">💰</span>
+                    <span>요금제</span>
+                </a>
+                <a href="/pet-register.html" class="header-link">
+                    <span class="header-link-icon">🐾</span>
+                    <span>반려동물 등록</span>
+                </a>
+                <a href="/help.html" class="header-link">
+                    <span class="header-link-icon">❓</span>
+                    <span>도움말</span>
+                </a>
+                <a href="/auth.html" class="header-link">
+                    <span class="header-link-icon">👤</span>
+                    <span>회원가입</span>
+                </a>
+                <a href="/mypage.html" class="header-link">
+                    <span class="header-link-icon">📋</span>
+                    <span>마이페이지</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">요금제 안내</h1>
+        <p class="page-subtitle">한 달 요금으로 광고비까지 모두 포함되어 있습니다</p>
+
+        <div class="highlight-box">
+            <h2>✨ 30일 무료 체험</h2>
+            <p>지금 시작하면 30일 동안 무료로 사용하고, 광고 크레딧 5만원을 받으세요!</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="plan-name">스타터</div>
+                <div class="plan-price">20만원<span class="plan-price-unit">/월</span></div>
+                <div class="plan-features">
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>노출 매체 2개 선택 (인스타그램, 페이스북, 틱톡, 네이버, 유투브, 카카오 중)</span>
+                    </div>
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>매장 관리 기능 무료</span>
+                    </div>
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>추가 요금 없음</span>
+                    </div>
+                </div>
+                <a href="/landing.html" class="plan-button">시작하기</a>
+            </div>
+
+            <div class="pricing-card recommended">
+                <div class="plan-name">미디엄</div>
+                <div class="plan-price">40만원<span class="plan-price-unit">/월</span></div>
+                <div class="plan-features">
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>노출 매체 4개 선택 (인스타그램, 페이스북, 틱톡, 네이버, 유투브, 카카오 중)</span>
+                    </div>
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>매장 관리 기능 무료</span>
+                    </div>
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>추가 요금 없음</span>
+                    </div>
+                </div>
+                <a href="/landing.html" class="plan-button">시작하기</a>
+            </div>
+
+            <div class="pricing-card">
+                <div class="plan-name">라지</div>
+                <div class="plan-price">80만원<span class="plan-price-unit">/월</span></div>
+                <div class="plan-features">
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>노출 매체 6개 전체 사용 (인스타그램, 페이스북, 틱톡, 네이버, 유투브, 카카오)</span>
+                    </div>
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>매장 관리 기능 무료</span>
+                    </div>
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>추가 요금 없음</span>
+                    </div>
+                </div>
+                <a href="/landing.html" class="plan-button">시작하기</a>
+            </div>
+
+            <div class="pricing-card">
+                <div class="plan-name">엑스트라 라지</div>
+                <div class="plan-price">150만원<span class="plan-price-unit">/월</span></div>
+                <div class="plan-features">
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>노출 매체 6개 전체 사용 (인스타그램, 페이스북, 틱톡, 네이버, 유투브, 카카오)</span>
+                    </div>
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>프리미엄 리포트 및 분석</span>
+                    </div>
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>매장 관리 기능 무료</span>
+                    </div>
+                    <div class="plan-feature">
+                        <span class="plan-feature-icon">✓</span>
+                        <span>추가 요금 없음</span>
+                    </div>
+                </div>
+                <a href="/landing.html" class="plan-button">시작하기</a>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2 class="info-title">💡 알아두면 좋은 점</h2>
+            <ul class="info-list">
+                <li>
+                    <span class="info-list-icon">✅</span>
+                    <span><strong>추가 요금 없음:</strong> 한 달에 정해진 요금만 내면 됩니다. 광고비를 다 쓰면 광고가 자동으로 멈춥니다.</span>
+                </li>
+                <li>
+                    <span class="info-list-icon">✅</span>
+                    <span><strong>더 쓰고 싶으면:</strong> 광고비를 더 쓰고 싶으면 10만원 단위로 추가로 충전할 수 있습니다.</span>
+                </li>
+                <li>
+                    <span class="info-list-icon">✅</span>
+                    <span><strong>매장 관리 기능은 무료:</strong> 반려동물 등록, 고객 관리 등 기본 기능은 요금제와 상관없이 무료입니다.</span>
+                </li>
+                <li>
+                    <span class="info-list-icon">✅</span>
+                    <span><strong>광고비 자동 관리:</strong> 한 달 동안 고르게 광고비를 사용하도록 자동으로 관리해줍니다.</span>
+                </li>
+                <li>
+                    <span class="info-list-icon">✅</span>
+                    <span><strong>잔액 알림:</strong> 광고비가 20% 남으면 알림을 보내드립니다.</span>
+                </li>
+            </ul>
+            <div class="tax-notice">
+                <strong>참고:</strong> 모든 금액은 부가세(10%)가 별도로 추가됩니다.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('headerNav');
+            nav.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('headerNav');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
+
+

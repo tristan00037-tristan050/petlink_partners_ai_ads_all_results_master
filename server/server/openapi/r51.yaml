@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info: { title: Petlink Payments API, version: "r5.1" }
+servers: [ { url: http://localhost:5902 } ]
+components:
+  securitySchemes:
+    WebhookSignature: { type: apiKey, in: header, name: X-Webhook-Signature }
+paths:
+  /billing/confirm:
+    post:
+      summary: Confirm payment after client approval (Idempotent by order_id)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [order_id]
+              properties:
+                order_id: { type: string }
+                provider_txn_id: { type: string, nullable: true }
+                amount: { type: integer, minimum: 0 }
+                store_id: { type: integer, nullable: true }
+                status: { type: string, enum: [AUTHORIZED, CAPTURED, CANCELED], default: AUTHORIZED }
+      responses: { '200': { description: OK }, '400': { description: Bad Request } }
+  /billing/webhook/pg:
+    post:
+      summary: Payment gateway webhook (HMAC + Timestamp)
+      description: Computes HMAC with: sha256(secret, "ts.body")
+      security: [ { WebhookSignature: [] } ]
+      parameters:
+        - in: header
+          name: X-Webhook-Signature
+          schema: { type: string }
+        - in: header
+          name: X-Webhook-Timestamp
+          schema: { type: string, example: "1731390000" }
+      responses:
+        '200': { description: OK }
+        '401': { description: Invalid signature or timestamp }
+        '400': { description: Invalid payload }
